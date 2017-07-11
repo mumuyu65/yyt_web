@@ -46,11 +46,11 @@
             <li class="chat-qq">换肤</li>
             <li class="chat-icon"><img src="../../static/images/qingpin.png" alt="" @click="clear()" /></li>
         </ul>
-        <ul class="list-inline">
+        <ul class="list-inline" style="position:relative;">
             <li style="width:100%;">
                 <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
             </li>
-            <li class="pull-right">
+            <li style="position:absolute; right:0;top:0;">
                 <button class="btn btn-send" @click="sendContent()">
                     <img src="../../static/images/send.png" alt="send"/>
                     <span>发送</span>
@@ -483,10 +483,6 @@ export default {
     .chat .chat-face-content img{
         padding:10px;
         cursor: pointer;
-    }
-
-    .chat .chat-content{
-        height:100px;
     }
 
     .chat .chat-qq{

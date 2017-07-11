@@ -61,7 +61,6 @@
             </li>
             <div class="divider"></div>
         </ul>
-        <div class="sidebar-divider"></div>
          <!--登录和注册部分-->
         <login></login>
     </div>

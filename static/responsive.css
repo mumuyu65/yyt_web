@@ -7,7 +7,7 @@
 
     .daozhibo .zj-list {
         width: 20px;
-        height: 907px;
+        height: 870px;
         position: absolute;
         overflow: hidden;
         z-index: 2;
@@ -20,7 +20,7 @@
 
     .daozhibo .zj-list.active {
         width: 380px;
-        height: 907px;
+        height:870px;
         position: absolute;
         overflow: hidden;
         z-index: 2;
