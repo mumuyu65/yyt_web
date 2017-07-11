@@ -20,6 +20,17 @@
                 </div>
             </div>
         </div>
+        <ul class="list-inline" style="margin:10px 0;">
+            <li class="chat-qq">申请1对1</li>
+            <li class="chat-qq">转户/开户</li>
+            <li class="chat-qq">升级权限</li>
+            <li class="chat-qq">错单解读</li>
+        </ul>
+        <ul class="list-inline" style="margin:10px 0;">
+            <li class="chat-qq"><img src="../../static/images/zhuli.gif"/></li>
+            <li class="chat-qq"><img src="../../static/images/zhuli.gif"/></li>
+            <li class="chat-qq"><img src="../../static/images/zhuli.gif"/></li>
+        </ul>
         <ul class="list-inline">
             <li class="chat-icon">
                 <img src="../../static/images/biaoqing.png" alt="" @click="toggleFace()"/>
@@ -31,13 +42,13 @@
                     </div>
                 </div>
             </li>
+            <li class="chat-icon"><img src="../../static/images/tupian.png" alt="" /></li>
+            <li class="chat-qq">换肤</li>
             <li class="chat-icon"><img src="../../static/images/qingpin.png" alt="" @click="clear()" /></li>
         </ul>
-        <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
         <ul class="list-inline">
-            <li>
-                <h5 style="color:#c48b4d;">直播间投资建议仅供参考</h5>
-                <h6 style="color:#f00;">400-872-5188</h6>
+            <li style="width:100%;">
+                <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
             </li>
             <li class="pull-right">
                 <button class="btn btn-send" @click="sendContent()">
@@ -472,5 +483,15 @@ export default {
     .chat .chat-face-content img{
         padding:10px;
         cursor: pointer;
+    }
+
+    .chat .chat-content{
+        height:100px;
+    }
+
+    .chat .chat-qq{
+        background-color:#a1ddf8;
+        padding:5px 20px;
+        font-size:18px;
     }
 </style>
