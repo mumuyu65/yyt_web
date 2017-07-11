@@ -2,24 +2,11 @@
   <div class="main">
     <div class="zj-list">
       <div class="inner-container">
-        <ul class="list-inline">
-          <li><h4>行情数据</h4></li>
-          <li class="pull-right">
-            <router-link to="/" style="color:#fff; text-decoration:none;"><h4 style="opacity:0.5;" exact>全部行情</h4></router-link></li>
-        </ul>
-
         <div class="zj-list-header">
             <ul class="list-inline">
-                <li class="active"><h4 style="color:#fff;">股票</h4></li>
-                <li><h4 style="color:#fff;">现货</h4></li>
-                <li><h4 style="color:#fff;">外汇</h4></li>
-                <li><h4 style="color:#fff;">国际期货</h4></li>
-                <li><h4 style="color:#fff;">全球指数</h4></li>
+                <li class="active">股票</li>
+                <li>果蔬</li>
             </ul>
-            <div class="search">
-                <input type="text" placeholder="名称/代码" />
-                <img src="../../static/images/search.png" style="width:20px;"/>
-            </div>
         </div>
         <div class="divider"></div>
         <div class="sub-menu">
@@ -61,33 +48,8 @@
       </div>
     </div>
     <div class="zhibo">
-        <div style="padding:0 10px;">
-            <h6>行情/k线图</h6>
-            <h3 class="text-center">{{selectedHq.sNM}}</h3>
-        </div>
-        <div class="report-divider"></div>
-        <!--新浪微博等-->
-        <ol class="list-inline" style="padding:0 10px;">
-            <li class="pull-right" style="margin-top:10px;">
-                <a href="#"><img src="../../static/images/qq.png" style="width:20px;"/></a>
-                <a href="#"><img src="../../static/images/sina.png" style="width:20px;"/></a>
-                <a href="#"><img src="../../static/images/qqzone.png" style="width:20px;"/></a>
-                <a href="#"><img src="../../static/images/wechat.png" style="width:20px;"/></a>
-            </li>
-        </ol>
-        <div id="main" style="width:858px; height:650px; margin:50px 0; padding:30px;"></div>
-        <ul class="list-inline hq-select-time text-center">
-            <li><button class="btn btn-danger">1分钟</button></li>
-            <li><button class="btn btn-default">5分钟</button></li>
-            <li><button class="btn btn-default">15分钟</button></li>
-            <li><button class="btn btn-default">30分钟</button></li>
-            <li><button class="btn btn-default">1小时</button></li>
-            <li><button class="btn btn-default">4小时</button></li>
-            <li><button class="btn btn-default">1天</button></li>
-            <li><button class="btn btn-default">1周</button></li>
-            <li><button class="btn btn-default">1个月</button></li>
-            <li><button class="btn btn-default">3个月</button></li>
-        </ul>
+        <zhibo></zhibo>
+        <activity></activity>
     </div>
   </div>
 </template>
@@ -97,9 +59,13 @@ import API from '@/api/API'
 //实例化api
 const api = new API();
 
+import Zhibo from '@/components/Zhibo'
+
+import Activity from '@/components/Activity'
+
 import axios from 'axios'
 
-const hq_endpoint='http://58.220.31.241:8006'
+const hq_endpoint='http://quotes.yddtv.cn:8006'
 
 import echarts from 'echarts'
 
@@ -142,7 +108,7 @@ export default {
 
     this.hqConn(); //长连接实时数据变化
   },
-
+  components:{ Activity, Zhibo },
   methods:{
     hqBoursesList (){
         let that = this;
@@ -229,7 +195,7 @@ export default {
         }];
 
         //    实时推送数据
-         this.hqws = new WebSocket("ws://58.220.31.241:57081/sub");
+         this.hqws = new WebSocket("ws://quotes.yddtv.cn:57081/sub");
 
          this.hqws.onopen = function() {
             console.log("conn succeed.");
@@ -294,7 +260,7 @@ export default {
             "q_list": params
         };
 
-        $.post('http://58.220.31.241:8006/quotes/quotesSubscription', JSON.stringify(body), function(result) {
+        $.post('http://quotes.yddtv.cn:8006/quotes/quotesSubscription', JSON.stringify(body), function(result) {
             if (result.code == 100) {
                 console.log("订阅成功！");
             }
@@ -662,6 +628,17 @@ export default {
 </script>
 
 <style scoped>
+    .zj-list-header>ul li{
+        padding:3px 20px;
+        margin:10px;
+        font-size:16px;
+    }
+
+    .zj-list-header>ul li.active{
+        background-color:#d1201d;
+        border-radius:5px;
+    }
+
     .hq-item{
         cursor:pointer;
         padding:0 5px;

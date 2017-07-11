@@ -1,59 +1,62 @@
 // this file is the router of ydd
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/pages/Index'
+
 import News from '@/pages/news'
-import Bbs from '@/pages/bbs'
+
 import HangQing from '@/pages/hangqing'
-import Transactions from '@/pages/transactions'
-import SmallVideo from '@/pages/smallvideo'
+
+import Hqpreview from '@/pages/hqpreview'
+
+import Smallgame from '@/pages/smallgame'
+
+
+
+import EconomicDate from '@/pages/economicDate'
+import Arragement from '@/pages/smallvideo'
 import Classes from '@/pages/classes'
 import Economics from '@/pages/economics'
-import ShopMall from '@/pages/shopmall'
-import Security from '@/pages/security'
+import HandleSuggestion from '@/pages/handlesuggestion'
+import Qcode from '@/pages/qcode'
 
 Vue.use(Router)
 
 export default new Router({
     routes: [{
         path: '/',
-        name: 'SmallGame',
-        component: Index
-    }, {
-        path: '/news',
         name: 'news',
         component: News
-    }, {
-        path: '/bbs',
-        name: 'BBS',
-        component: Bbs
     }, {
         path: '/hangqing',
         name: 'HangQing',
         component: HangQing
     }, {
-        path: '/transactions',
-        name: 'Transactions',
-        component: Transactions
+        path: '/handlesuggestion',
+        name: 'HandleSuggestion',
+        component: HandleSuggestion
     }, {
-        path: '/smallVideo',
-        name: 'SmallVideo',
-        component: SmallVideo
+        path: '/hqpreview',
+        name: 'hqpreview',
+        component: Hqpreview
     }, {
         path: '/classes',
         name: 'Classes',
         component: Classes
     }, {
-        path: '/economics',
-        name: 'Economics',
-        component: Economics
+        path: '/smallgame',
+        name: 'smallgame',
+        component: Smallgame
     }, {
-        path: '/shopmall',
-        name: 'ShopMall',
-        component: ShopMall
+        path: '/economicDate',
+        name: 'EconomicDate',
+        component: EconomicDate
     }, {
-        path: '/security',
-        name: 'Security',
-        component: Security
+        path: '/arragement',
+        name: 'Arragement',
+        component: Arragement
+    }, {
+        path: '/qcode',
+        name: 'qcode',
+        component: Qcode
     }]
 })

@@ -25,26 +25,8 @@
       </div>
     </div>
     <div class="zhibo">
-        <div class="report-content">
-            <h6>宏观/正文</h6>
-            <h3 class="text-center">{{selectedNews.title}}</h3>
-        </div>
-        <div class="report-divider"></div>
-        <!--新浪微博等-->
-        <ol class="list-inline" style="padding:0 10px;">
-            <li><h6>发布日期：{{selectedNews.unix | dateStamp}}</h6></li>
-            <li class="pull-right" style="margin-top:10px;">
-                <a href="http://wpa.qq.com/msgrd?v=3&uin=571014594&site=qq&menu=yes"><img src="../../static/images/qq.png" style="width:20px;"/></a>
-                <a href="http://weibo.com/yuyangyang0712/profile?rightmod=1&wvr=6&mod=personinfo"><img src="../../static/images/sina.png" style="width:20px;"/></a>
-                <a href="https://user.qzone.qq.com/571014594"><img src="../../static/images/qqzone.png" style="width:20px;"/></a>
-                <a style="cursor:pointer;" onclick="alert('欢迎加我微信，微信号yu18718525290!')"><img src="../../static/images/wechat.png" style="width:20px;"/></a>
-            </li>
-        </ol>
-        <div class="report-text">
-            <img v-bind:src="selectedNews.imgurl" class="pull-left"/>
-            <h5 v-html="selectedNews.content" ></h5>
-        </div>
-        <gift></gift>
+        <zhibo></zhibo>
+        <activity></activity>
     </div>
   </div>
 </template>
@@ -54,7 +36,9 @@ import API from '@/api/API'
 //实例化api
 const api = new API();
 
-import Gift from '@/components/Gift'
+import Zhibo from '@/components/Zhibo'
+
+import Activity from '@/components/Activity'
 
 export default {
   name: 'News',
@@ -88,7 +72,7 @@ export default {
   mounted (){
     this.initData();
   },
-  components:{ Gift },
+  components:{ Zhibo,Activity},
   methods:{
     initData (){
         let that = this;

@@ -5,10 +5,13 @@
             <li style="margin-right:30px;">
                 <a href="javascript:void(0)" @click="AddFavorite()">
                     <img src="../../static/images/desktop.png" alt="" />
-                    <h4>添加到收藏夹</h4>
+                    <h4>保存到桌面</h4>
                 </a>
             </li>
-            <li><a href=""><img src="../../static/images/setting.png" alt="" /><h4>帮助中心</h4></a></li>
+            <li class="login_reg">
+                <span class="active">登录</span>
+                <span>注册</span>
+            </li>
         </ul>
     </div>
 </template>
@@ -42,4 +45,15 @@ export default {
 </script>
 
 <style scoped>
+    .login_reg>span{
+        padding:5px 15px;
+        font-size:14px;
+        cursor:pointer;
+    }
+
+    .login_reg>span.active{
+       background-color:#fff;
+       border-radius:10px;
+       color:#d1201d;
+    }
 </style>

@@ -1,77 +1,62 @@
 <template>
    <div class="sidebar">
-        <div class="text-center user-logo">
-            <a href="javascript:void(0)">
-                <img src="../../static/images/course_t.png" alt="" class="img-circle"  data-toggle="modal" data-target="#loginModal"/>
-                <h6>{{user.Nick}}</h6>
-            </a>
-            <h6 class="text-center">赢豆</h6>
-            <img src="../../static/images/gold.png" alt=""/>
-                <span title="">{{user.Beans}}</span>
-        </div>
         <ul class="list-unstyled">
-            <div class="divider"></div>
             <li class="text-center">
               <router-link to="/" exact>
+                <img src="../../static/images/pencil.png" alt="">
+                <h6>新闻资讯</h6>
+                </router-link>
+            </li>
+            <div class="divider"></div>
+            <li class="text-center">
+                <router-link to="/hangqing" exact>
+                    <img src="../../static/images/hangqing.png" alt="">
+                    <h6>行情</h6></router-link>
+            </li>
+            <div class="divider"></div>
+            <li class="text-center">
+                <router-link to="/handlesuggestion" exact>
+                    <img src="../../static/images/hangqing.png" alt="">
+                    <h6>操作建议</h6></router-link>
+            </li>
+            <div class="divider"></div>
+            <li class="text-center">
+                <router-link to="/hqpreview" exact>
+                    <img src="../../static/images/zhuanjia-icon.png" alt="">
+                    <h6>老师观点</h6>
+                </router-link>
+            </li>
+            <div class="divider"></div>
+            <li class="text-center">
+                <router-link to="/classes" exact>
+                    <img src="../../static/images/kaihu.png"  alt="">
+                    <h6>学习课件</h6>
+                </router-link>
+            </li>
+            <div class="divider"></div>
+            <li class="text-center">
+              <router-link to="/smallgame" exact>
                   <img src="../../static/images/youxi-icon.png" alt="">
                   <h6>小游戏</h6>
               </router-link>
             </li>
             <div class="divider"></div>
             <li class="text-center">
-              <router-link to="/news" exact>
-                <img src="../../static/images/pencil.png" alt="">
-                <h6>新闻与文章</h6>
-                </router-link>
-            </li>
-            <div class="divider"></div>
-            <li class="text-center">
-                <router-link to="/bbs" exact>
-                    <img src="../../static/images/zhuanjia-icon.png" alt="">
-                    <h6>论坛</h6>
-                </router-link>
-            </li>
-            <div class="divider"></div>
-            <li class="text-center">
-            <router-link to="/hangqing" exact>
-                <img src="../../static/images/hangqing.png" alt="">
-                <h6>行情</h6></router-link></li>
-            <div class="divider"></div>
-            <li class="text-center">
-                <router-link to="/transactions" exact>
+                <router-link to="/economicDate" exact>
                 <img src="../../static/images/calendar-icon.png" alt="">
-                <h6>交易与开户</h6></router-link></li>
+                <h6>财经日历</h6></router-link></li>
             <div class="divider"></div>
             <li class="text-center">
-            <router-link to="/smallVideo" exact >
-                <img src="../../static/images/jinrong-icon.png" alt="">
-                <h6>小视频</h6></router-link></li>
-            <div class="divider"></div>
-            <li class="text-center">
-                <router-link to="/classes" exact>
-                    <img src="../../static/images/kaihu.png"  alt="">
-                    <h6>教学</h6>
-                </router-link>
-            </li>
-            <div class="divider"></div>
-            <li class="text-center">
-                <router-link to="/economics" exact >
+                <router-link to="/arragement" exact >
                     <img src="../../static/images/kechengzhongxin-icon.png"  alt="">
-                    <h6>快讯</h6>
+                    <h6>课程安排</h6>
                 </router-link>
             </li>
             <div class="divider"></div>
             <li class="text-center">
-                <router-link to="/shopmall" exact>
+                <router-link to="/qcode" exact>
                     <img src="../../static/images/xiazai.png"  alt="">
-                    <h6>积分商城</h6>
-                </router-link>
-            </li>
-            <div class="divider"></div>
-            <li class="text-center">
-                <router-link to="/security" exact>
-                    <img src="../../static/images/mobile.png"  alt="">
-                    <h6>保险</h6>
+                    <h6>微信二维码</h6>
                 </router-link>
             </li>
             <div class="divider"></div>
