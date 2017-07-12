@@ -2,118 +2,34 @@
   <div class="main news">
     <div class="zj-list">
       <div class="inner-container">
-         <ol class="list-unstyled">
-              <li class="report-item" >
-                  <div class="media">
-                      <a class="media-left">
-                          <img alt="中阳证券" src="../../static/images/zhongyang.png" style="width:50px; margin-left:10px;"/>
-                      </a>
-                      <div class="media-body">
-                        <h2 class="media-heading">
-                            中阳期货
-                        </h2>
-                        <h6>综合金融服务，一站式理财平台</h6>
-                        <a class="pull-right" target="_blank" style="color:#f00;font-size:20px;" href="http://www.zyzq.com.hk/index.php?m=content&c=index&a=lists&catid=90">立即开户</a>
-                      </div>
-                  </div>
-              </li>
-              <li class="report-item" >
-                  <div class="media">
-                      <a class="media-left">
-                          <img alt="新湖证券" src="../../static/images/xinhu.png" style="width:70px;"/>
-                      </a>
-                      <div class="media-body">
-                        <h2 class="media-heading">
-                            新湖期货
-                        </h2>
-                        <h6>综合金融服务，一站式理财平台</h6>
-                        <a class="pull-right" target="_blank" style="color:#f00; font-size:20px;" href="http://www.xinhu.cn/article/42354-1.html">立即开户</a>
-                      </div>
-                  </div>
-              </li>
-              <li class="report-item" >
-                  <div class="media">
-                      <a class="media-left">
-                          <img alt="九州证券" src="../../static/images/jiuzhou.png" style="width:60px;"/>
-                      </a>
-                      <div class="media-body">
-                        <h2 class="media-heading">
-                            九州期货
-                        </h2>
-                        <h6>综合金融服务，一站式理财平台</h6>
-                        <a class="pull-right" target="_blank" style="color:#f00;font-size:20px;" href="https://jzqh.cfmmc.com/">立即开户</a>
-                      </div>
-                  </div>
-              </li>
-              <li class="report-item" >
-                  <div class="media">
-                      <a class="media-left">
-                          <img alt="西海岸证券" src="../../static/images/xihaian.png" style="width:50px; margin-left:10px;"/>
-                      </a>
-                      <div class="media-body">
-                        <h2 class="media-heading">
-                            西海岸期货
-                        </h2>
-                        <h6>综合金融服务，一站式理财平台</h6>
-                        <a class="pull-right" target="_blank" style="color:#f00;font-size:20px; " href="http://www.xhajys.com/kaihu/">立即开户</a>
-                      </div>
-                  </div>
-              </li>
-        </ol>
+
       </div>
     </div>
     <div class="zhibo">
-        <div id="player" class="player">
-
-        </div>
-        <gift></gift>
-        <div class="zhibo-carousel">
-            <div id="myCarousel" class="carousel slide">
-                <!-- 轮播（Carousel）项目 -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="../../static/uploads/ads/20160725141644_285.png" alt="First slide">
-                    </div>
-                    <div class="item">
-                        <img src="../../static/uploads/ads/20160808175709_864.png" alt="Second slide">
-                    </div>
-                    <div class="item">
-                        <img src="../../static/uploads/ads/20160816171126_575.png" alt="Third slide">
-                    </div>
-                    <div class="item">
-                        <img src="../../static/uploads/ads/20160816171217_771.png" alt="Four slide">
-                    </div>
-                    <div class="item">
-                        <img src="../../static/uploads/ads/20170221121908_576.png" alt="Five slide">
-                    </div>
-                    <div class="item">
-                        <img src="../../static/uploads/ads/20170221121919_573.png" alt="Six slide">
-                    </div>
-                    <div class="item">
-                        <img src="../../static/uploads/ads/tanads001.png" alt="Seven slide">
-                    </div>
-                </div>
-            </div>
-        </div>
+      <zhibo></zhibo>
+      <activity></activity>
     </div>
   </div>
 </template>
 
 <script>
+
+import Zhibo from '@/components/Zhibo'
+
+import Activity from '@/components/Activity'
+
 import API from '@/api/API'
 //实例化api
 const api = new API();
 
 import * as Player from '@/js/aodianyun.js'
 
-import Gift from '@/components/Gift'
-
 export default {
   name: 'Transactions',
   mounted (){
     this.initData();
   },
-  components:{ Gift },
+  components:{ Activity, Zhibo },
   methods: {
     //直播
     initData (){

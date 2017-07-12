@@ -13,7 +13,7 @@ export default {
   name: 'ShopMall',
   data () {
     return {
-        msg:'this is the ShopMall页面 !'
+        msg:'this is the 操作建议页面 !'
     }
   },
 }

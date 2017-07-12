@@ -13,7 +13,7 @@ export default {
   name: 'Security',
   data () {
     return {
-        msg:'this is the Security页面 !'
+        msg:'this is the 二维码页面 !'
     }
   },
 }

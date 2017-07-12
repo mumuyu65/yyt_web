@@ -38,7 +38,7 @@ export default {
       tabs: [
          {
           view: 'Productsintro',
-          image:'../../static/images/kaihu.png',
+          image:'../../static/images/product-icon.png',
           title:'产品介绍'
          },
          {
@@ -53,7 +53,7 @@ export default {
          },
          {
           view: 'Activityzone',
-          image:'../../static/images/jinrong-icon.png',
+          image:'../../static/images/zhibo-icon.png',
           title:'活动专区'
          }
        ]

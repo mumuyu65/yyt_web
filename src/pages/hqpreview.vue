@@ -13,7 +13,7 @@ export default {
   name: 'BBS',
   data () {
     return {
-        msg:'this is the bbs页面 !'
+        msg:'this is the 行情预测 !'
     }
   },
 }

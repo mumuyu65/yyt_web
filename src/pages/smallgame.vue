@@ -29,20 +29,10 @@ const api = new API();
 export default {
   name: 'SmallGame',
   mounted (){
-    this.initData();
-
     this.zoomEle(document.getElementById("small_game"),0.47,0.47);
   },
   components:{ Activity,Zhibo },
   methods: {
-    //直播
-    initData (){
-       //轮播图
-         $('#myCarousel').carousel({
-            interval: 2000
-        });
-    },
-
     getBrowser() {
         var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
         var isOpera = userAgent.indexOf("Opera") > -1;
