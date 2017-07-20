@@ -7,7 +7,7 @@
             <li class="pull-right">
               <router-link to="/shopmall" style="color:#fff; text-decoration:none;"><h4>积分商城</h4></router-link></li>
           </ul>
-          <iframe src="http://yingdedao.com" width="760px" frameborder="0" height="1300px" scrolling="yes" id="small_game" ></iframe>
+          <iframe src="http://yingdedao.com/cypcgame" width="760px" frameborder="0" height="1300px" scrolling="yes" id="small_game" ></iframe>
         </div>
     </div>
     <div class="zhibo">
