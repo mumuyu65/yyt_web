@@ -10,7 +10,7 @@
  * baseImgPath: 图片存放地址
  *
  */
-let baseUrl = 'https://yingdedao.com:10002';
+let baseUrl = 'http://yingdedao.com:10021';
 let routerMode = 'history';
 let baseImgPath = '';
 

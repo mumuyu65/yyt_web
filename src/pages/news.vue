@@ -2,16 +2,16 @@
   <div class="main news">
     <div class="zj-list">
       <div class="inner-container">
-        <ul class="list-inline">
-          <li><h4>新闻</h4></li>
-          <li class="pull-right">
-            <router-link to="/" style="color:#fff; text-decoration:none;"><h4 style="opacity:0.5;" exact>全部文章</h4></router-link></li>
+        <ul class="list-inline news-type">
+          <li v-for="type in newsType" @click="changeType(type)" v-bind:class="{'active':type.isActive}">
+            {{ type.text}}
+          </li>
         </ul>
         <ol class="list-unstyled">
-          <li v-for="report in economicNews " class="report-item" @click="showContent(report)" v-bind:class="{ active: report.isActive }">
+          <li v-for="report in economicNews " class="report-item">
               <div class="media">
                   <a class="media-left">
-                      <img src="../../static/images/flag.png" alt="旗帜" class="flag"/>
+                      <img v-bind:src="report.imgurl" alt="旗帜"/>
                   </a>
                   <div class="media-body">
                     <h4 class="media-heading">
@@ -46,6 +46,7 @@ export default {
     return {
         economicNews:[],
         selectedNews:{},
+        newsType:[]
     }
   },
   filters: {
@@ -77,48 +78,53 @@ export default {
     initData (){
         let that = this;
 
-        let params={
-            begidx: 0,
-            counts: 10,
-            type: 2
-        };
-
-        api.getNews(params).then(function(res){
+        api.getNewsType().then(function(res){
             if(res.data.Code ==3){
-                let templateObj = res.data.Data.Detail;
+                let templateObj = res.data.Data;
 
-                for(let i= 0; i<templateObj.length; i++){
-                     templateObj[i].isActive = false ;
+                for(let i =0; i<templateObj.length;i++){
+                  templateObj[i].isActive = false;
                 }
 
-                that.economicNews = templateObj;
+                that.newsType = templateObj;
 
-                that.selectedNews = that.economicNews[0];
-
-                that.selectedNews.isActive = true;
+                that.changeType(that.newsType[0]);
             }
         }).catch(function(err){
           console.log(err);
         });
     },
 
-    showContent(item){
-        for(let i= 0; i<this.economicNews.length; i++){
-          this.economicNews[i].isActive = false ;
-        }
-        item.isActive = true ;
-        this.selectedNews= item;
+    changeType(item){
+      for(let i =0; i<this.newsType.length;i++){
+        this.newsType[i].isActive = false;
+      }
+      item.isActive = true;
+
+      let params={
+        begidx:0,
+        counts:10,
+        type:item.id
+      };
+
+      let that = this;
+
+      api.getNews(params).then(function(res){
+          //console.log(res.data);
+          if(res.data.Code ==3){
+              that.economicNews = res.data.Data.Detail;
+          }else{
+            alert(res.data.Msg);
+          }
+      }).catch(function(err){
+          console.log(err);
+        });
     },
   }
 }
 </script>
 
 <style scoped>
-    .news .flag{
-        width:33px;
-        height:33px;
-    }
-
     .news .inner-container{
         background-color:#4B4B4B;
         padding-right:20px;
@@ -184,5 +190,15 @@ export default {
 
     .news .zhibo .report-text>h5{
         opacity:0.9;
+    }
+
+    .news-type>li{
+      cursor:pointer;
+      padding:5px 10px;
+    }
+
+    .news-type>li.active{
+      background-color: #d1201d;
+      border-radius: 5px;
     }
 </style>

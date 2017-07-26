@@ -1,16 +1,16 @@
 <template>
   <div class="header">
         <router-link to="/"><img src="../../static/images/logo.png" class="logo" /></router-link>
-        <ul class="list-inline pull-right">
+        <ul class="list-inline pull-right" style="line-height:65px;">
             <li style="margin-right:30px;">
-                <a href="javascript:void(0)" @click="AddFavorite()">
+                <a href="javascript:void(0)" @click="saveToDesk()">
                     <img src="../../static/images/desktop.png" alt="" />
                     <h4>保存到桌面</h4>
                 </a>
             </li>
             <li class="login_reg">
-                <span class="active">登录</span>
-                <span>注册</span>
+                <span class="active" @click="showLogin()">登录</span>
+                <span @click="showRegister()">注册</span>
             </li>
         </ul>
     </div>
@@ -20,26 +20,13 @@
 export default {
   name: 'header',
   methods: {
-    AddFavorite (){
-        let url = window.location || 'http://www.miqilive.com';
-        let title = document.title;
-        let ua = navigator.userAgent.toLowerCase();
-        if (ua.indexOf("360se") > -1) {
-            alert("由于360浏览器功能限制，请按 Ctrl+D 手动收藏！");
-        } else if (ua.indexOf("msie 8") > -1) {
-            window.external.AddToFavoritesBar(url, title); //IE8
-        } else if (document.all) {
-            try {
-                window.external.addFavorite(url, title);
-            } catch (e) {
-                alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
-            }
-        } else if (window.sidebar) {
-            window.sidebar.addPanel(title, url, "");
-        } else {
-            alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
-        }
-    }
+    showLogin(){
+
+    },
+
+    showRegister(){
+
+    },
   }
 }
 </script>
