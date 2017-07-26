@@ -11,14 +11,14 @@
           <li v-for="report in economicNews " class="report-item">
               <div class="media">
                   <a class="media-left">
-                      <img v-bind:src="report.imgurl" alt="旗帜"/>
+                      <img v-bind:src="report.imgurl" style="height:100px;"/>
                   </a>
                   <div class="media-body">
                     <h4 class="media-heading">
                         <a>{{report.title}}</a>
                     </h4>
-                    <p v-html="report.content"></p>
                   </div>
+                  <div v-html="report.content" style="margin-top:20px;"></div>
               </div>
           </li>
         </ol>
@@ -104,7 +104,7 @@ export default {
       let params={
         begidx:0,
         counts:10,
-        type:item.id
+        type:item.type
       };
 
       let that = this;
@@ -137,7 +137,6 @@ export default {
     }
 
     .news .report-item{
-        height:147px;
         overflow:hidden;
         padding:20px 10px;
     }
@@ -149,6 +148,7 @@ export default {
     .news .report-item a{
        color:#fff;
        opacity:0.9;
+       text-decoration:none;
     }
 
     .news .report-content{

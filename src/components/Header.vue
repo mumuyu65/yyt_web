@@ -49,7 +49,7 @@
                             <input type="text" name="account" placeholder="输入用户名" required  v-model="user.account"/>
                         </div>
                         <div class="text_3">
-                            <input type="password" name="pwd"  placeholder="输入密码" v-model="user.pwd" required/>
+                            <input type="password" name="pwd" @keyup.enter="doLogin()" placeholder="输入密码" v-model="user.pwd" required/>
                         </div>
                         <div class="text_5">
                             <input type="submit" value="登   录"  @click="doLogin()" />
@@ -100,7 +100,7 @@
                         &times;
                     </button>
                     <h4 class="modal-title" >
-                        <span style="color:#f00;" id="login_title">注册</span>
+                        <span style="color:#f00;">注册</span>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -111,17 +111,20 @@
                             </div>
                         </li>
                         <li class="text_2">
-                            <input name="account" type="text" placeholder="输入手机号" />
-                            <input type="button" value="获取验证码" class="num" />
+                            <input name="account" type="text" placeholder="输入手机号" v-model="Phone" required/>
+                            <input type="button" value="获取验证码" class="num" @click="getVcode()"/>
                         </li>
                         <li class="text_2">
-                            <input name="vcode" type="text" placeholder="输入验证码" required/>
+                            <input name="vcode" type="text" placeholder="输入验证码" v-model="Vcode" required/>
                         </li>
                         <li class="text_2">
-                            <input name="pwd" type="password" placeholder="输入密码" required/>
+                            <input name="nick" type="text" placeholder="用户昵称" v-model="Nick" required/>
+                        </li>
+                        <li class="text_2">
+                            <input name="pwd" type="password" @keyup.enter="doRegister()" placeholder="输入密码" v-model="Pwd" required/>
                         </li>
                         <li class="text_5">
-                            <input type="submit" value="提 交"/>
+                            <input type="submit" value="提 交" @click="doRegister()"/>
                         </li>
                     </ul>
                 </div>
@@ -148,13 +151,17 @@ export default {
     return{
         resetTitle:'登录',
         user:{
-            account:'',
-            pwd:'',
+            account:'18516074685',
+            pwd:'123456',
         },
         loginSuc:false,
         userImg:'',
         userNick:'',
         Sid:'',
+        Phone:'',
+        Vcode:'',
+        Pwd:'',
+        Nick:'',
     }
   },
   computed: mapGetters({
@@ -200,6 +207,7 @@ export default {
                     $("#loginModal").modal("hide");
                     that.userNick = res.data.Data.Nick;
                     that.userImg = '../../static/images/course_t.png';
+                    that.Sid = res.data.Data.SessionId;
                 }else{
                     alert(res.data.Msg);
                 }
@@ -216,6 +224,50 @@ export default {
         $("#registerModal").modal("show");
     },
 
+    getVcode(){
+        let params={
+            phone:this.Phone.trim()
+        };
+
+        if(this.Phone.trim()){
+            api.getVcode(params).then(function(res){
+                console.log(res);
+            }).catch(function(error){
+                console.log(error);
+            });
+        }else{
+            alert('手机号码不能为空！');
+        }
+    },
+
+    doRegister(){
+        let params={
+            account:this.Phone.trim(),
+            pwd:this.Pwd.trim(),
+            vcode:this.Vcode.trim(),
+            nick:this.Nick.trim(),
+            phone:this.Phone.trim(),
+        };
+
+        let that = this;
+
+        if(this.Phone.trim() && this.Pwd.trim() && this.Nick.trim() && this.Phone.trim()){
+            api.register(params).then(function(res){
+                if(res.data.Code ==3){
+                    //TODO
+                    console.log(res.data);
+                }else{
+                    alert(res.data.Msg);
+                }
+                $("#registerModal").modal("hide");
+            }).catch(function(err){
+                console.log(err);
+            });
+        }else{
+            alert("存在空值!");
+        }
+    },
+
     //重置密码
     resetpwd(){
         let that = this;
@@ -230,14 +282,15 @@ export default {
             sid:this.Sid
         };
 
+        let that = this;
         api.logout(params).then(function(res){
-            console.log(res.data);
+            //console.log(res.data);
             if(res.data.Code ==3){
                 that.loginSuc = false;
                 window.localStorage.removeItem("user");
             }
         }).catch(function(err){
-            console.log(error);
+            console.log(err);
         });
     },
 
