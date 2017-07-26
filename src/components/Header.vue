@@ -67,17 +67,17 @@
                                 </div>
                             </li>
                             <li class="text_2">
-                                <input name="account" type="text" placeholder="输入手机号" id="reset_phone"/>
-                                <input type="button" value="获取验证码" class="num" />
+                                <input name="account" type="text" placeholder="输入手机号" v-model="reset.phone"/>
+                                <input type="button" value="获取验证码" class="num" @click="getResetVcode()"/>
                             </li>
                             <li class="text_2">
-                                <input name="vcode" type="text" placeholder="输入验证码" required/>
+                                <input name="vcode" type="number" placeholder="输入验证码" v-model="reset.vcode" required/>
                             </li>
                             <li class="text_2">
-                                <input name="pwd" type="password" placeholder="输入密码" required/>
+                                <input name="pwd" type="password" @keyup.enter="resetLogin()" placeholder="输入密码" v-model="reset.pwd" required/>
                             </li>
                             <li class="text_5">
-                                <input type="submit" value="提 交"/>
+                                <input type="submit" value="提 交" @click="resetLogin()"/>
                             </li>
                         </ul>
                     </div>
@@ -162,6 +162,12 @@ export default {
         Vcode:'',
         Pwd:'',
         Nick:'',
+        reset:{
+            phone:'',
+            vcode:'',
+            pwd:'',
+        },
+
     }
   },
   computed: mapGetters({
@@ -273,6 +279,40 @@ export default {
         let that = this;
         this.$store.dispatch('changeReset',true).then(()=>{
             that.resetTitle ='找回密码';
+        });
+    },
+
+    getResetVcode(){
+        let params={
+            phone:this.reset.phone.trim()
+        };
+
+        if(this.reset.phone.trim()){
+            api.getVcode(params).then(function(res){
+                console.log(res);
+            }).catch(function(error){
+                console.log(error);
+            });
+        }else{
+            alert('手机号码不能为空！');
+        }
+    },
+
+    resetLogin(){
+        let params={
+            account:this.reset.phone,
+            newpwd:this.reset.pwd,
+            vcode:this.reset.vcode
+        };
+        let that = this;
+        api.resetPwd(params).then(function(res){
+            console.log(res.data);
+            alert(res.data.Msg);
+            if(res.data.Code ==3){
+                that.loginClose();
+            }
+        }).catch(function(err){
+            console.log(err);
         });
     },
 

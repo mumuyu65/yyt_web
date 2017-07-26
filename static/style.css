@@ -148,7 +148,6 @@ a:visited,a:link,a:focus{
 
 .zhibo{
     width:858px;
-    padding:10px 0;
     display: inline-block;
     vertical-align: top;
 }
@@ -346,7 +345,6 @@ a:visited,a:link,a:focus{
     height:33px;
     background-color: #e61f1c;
     color:#fff;
-    margin-top:20px;
     line-height:17px;
 }
 

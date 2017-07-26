@@ -71,7 +71,6 @@ export default {
 
 <style scoped>
   .activity .tab-content{
-    padding:10px;
     height:450px;
   }
 

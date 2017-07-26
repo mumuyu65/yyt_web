@@ -33,7 +33,7 @@ export default {
               rtmpUrl: url, //控制台开通的APP rtmp地址，必要参数
               width: '858', //播放器宽度，可用数字、百分比等
               height: '454', //播放器高度，可用数字、百分比等
-              autostart: false, //是否自动播放，默认为false
+              autostart: true, //是否自动播放，默认为false
               bufferlength: '3', //视频缓冲时间，默认为3秒。hls不支持！手机端不支持
               maxbufferlength: '2', //最大视频缓冲时间，默认为2秒。hls不支持！手机端不支持
               stretching: '1', //设置全屏模式,1代表按比例撑满至全屏,2代表铺满全屏,3代表视频原始大小,默认值为1。hls初始设置不支持，手机端不支持

@@ -19,6 +19,12 @@ class API {
         return axios.post('/cycj/vcode/get', {}, config);
     }
 
+    //重置密码
+    resetPwd(param) {
+        config.data = param;
+        return axios.post('/cycj/pwd/reset', {}, config);
+    }
+
     //注册
     register(param) {
         config.data = param;
