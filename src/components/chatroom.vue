@@ -26,11 +26,6 @@
             <li class="chat-qq">升级权限</li>
             <li class="chat-qq">错单解读</li>
         </ul>
-        <ul class="list-inline" style="margin:10px 0;">
-            <li class="chat-qq"><img src="../../static/images/zhuli.gif"/></li>
-            <li class="chat-qq"><img src="../../static/images/zhuli.gif"/></li>
-            <li class="chat-qq"><img src="../../static/images/zhuli.gif"/></li>
-        </ul>
         <ul class="list-inline">
             <li class="chat-icon">
                 <img src="../../static/images/biaoqing.png" alt="" @click="toggleFace()"/>
@@ -43,14 +38,13 @@
                 </div>
             </li>
             <li class="chat-icon"><img src="../../static/images/tupian.png" alt="" /></li>
-            <li class="chat-qq">换肤</li>
             <li class="chat-icon"><img src="../../static/images/qingpin.png" alt="" @click="clear()" /></li>
         </ul>
         <ul class="list-inline" style="position:relative;">
             <li style="width:100%;">
                 <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
             </li>
-            <li style="position:absolute; right:0;top:0;">
+            <li>
                 <button class="btn btn-send" @click="sendContent()">
                     <img src="../../static/images/send.png" alt="send"/>
                     <span>发送</span>
@@ -486,8 +480,10 @@ export default {
     }
 
     .chat .chat-qq{
-        background-color:#a1ddf8;
+        background-color:#2D373D;
         padding:5px 20px;
         font-size:18px;
+        border-radius:5px;
+        margin-right:5px;
     }
 </style>
