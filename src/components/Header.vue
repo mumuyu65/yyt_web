@@ -15,7 +15,7 @@
             </li>
         </ul>
    </div>
-   <!-- 登录 -->
+   <!-- 登录和找回密码 -->
    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
@@ -25,11 +25,11 @@
                         &times;
                     </button>
                     <h4 class="modal-title" >
-                        <span style="color:#f00;" id="login_title">登录</span>
+                        <span style="color:#f00;">{{resetTitle}}</span>
                     </h4>
                 </div>
-                <div class="modal-body">
-                    <div class="login_border">
+                <div class="modal-body" >
+                    <div class="login_border" v-show="!resetPwd">
                         <div class="text_1">
                             <p>登 录</p>
                         </div>
@@ -43,8 +43,31 @@
                             <input type="submit" value="登   录"  id="login_submit" />
                         </div>
                         <div class="text_6">
-                            <a @click="resetPwd()" class="pull-right">忘记密码?</a>
+                            <a @click="resetpwd()" class="pull-right">忘记密码?</a>
                         </div>
+                    </div>
+                    <!-- 找回密码 -->
+                    <div v-show="resetPwd">
+                        <ul class="list-unstyled login_border">
+                            <li>
+                                <div class="text_1">
+                                    <p>找回密码</p>
+                                </div>
+                            </li>
+                            <li class="text_2">
+                                <input name="account" type="text" placeholder="输入手机号" id="reset_phone"/>
+                                <input type="button" value="获取验证码" class="num" />
+                            </li>
+                            <li class="text_2">
+                                <input name="vcode" type="text" placeholder="输入验证码" required/>
+                            </li>
+                            <li class="text_2">
+                                <input name="pwd" type="password" placeholder="输入密码" required/>
+                            </li>
+                            <li class="text_5">
+                                <input type="submit" value="提 交"/>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -101,8 +124,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'header',
+  data(){
+    return{
+        resetTitle:'登录',
+    }
+  },
+  computed: mapGetters({
+      resetPwd: 'getReset',
+  }),
   methods: {
     showLogin(){
         $("#loginModal").modal("show");
@@ -110,6 +143,13 @@ export default {
 
     showRegister(){
         $("#registerModal").modal("show");
+    },
+
+    resetpwd(){
+        let that = this;
+        this.$store.dispatch('changeReset',true).then(()=>{
+            that.resetTitle ='找回密码';
+        });
     },
   }
 }

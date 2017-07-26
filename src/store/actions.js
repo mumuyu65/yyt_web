@@ -56,3 +56,8 @@ export const changeLogin = ({
     commit('CHANGE_Login', value)
 }
 
+export const changeReset = ({
+    commit
+}, value) => {
+    commit('CHANGE_RESET', value)
+}

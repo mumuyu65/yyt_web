@@ -38,4 +38,8 @@ export default {
             state.isLogin = value;
         },
 
+        CHANGE_RESET(state, value) {
+            state.resetPwd = value;
+        }
+
 }
