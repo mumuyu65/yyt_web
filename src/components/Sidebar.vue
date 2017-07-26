@@ -65,21 +65,15 @@
                     <h6>微信二维码</h6>
                 </router-link>
             </li>
-            <div class="divider"></div>
         </ul>
-         <!--登录和注册部分-->
-        <login></login>
     </div>
 </template>
 
 <script>
-import Login from '@/pages/login'
-
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'sidebar',
-  components: { Login },
   mounted (){
     this.init();
   },
