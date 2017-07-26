@@ -553,13 +553,10 @@ a:visited,a:link,a:focus{
 /* login */
 .login_border {
     background-color: #fff;
-    width: 450px;
+    width: 360px;
     height: 450px;
     margin:0 auto;
     margin-top: 50px;
-    padding: 0 10%;
-
-
 }
 
 .text_1 {

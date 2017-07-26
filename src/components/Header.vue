@@ -1,5 +1,6 @@
 <template>
-  <div class="header">
+<div>
+   <div class="header">
         <router-link to="/"><img src="../../static/images/logo.png" class="logo" /></router-link>
         <ul class="list-inline pull-right" style="line-height:65px;">
             <li style="margin-right:30px;">
@@ -13,7 +14,90 @@
                 <span @click="showRegister()">注册</span>
             </li>
         </ul>
-    </div>
+   </div>
+   <!-- 登录 -->
+   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                        <span style="color:#f00;" id="login_title">登录</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="login_border">
+                        <div class="text_1">
+                            <p>登 录</p>
+                        </div>
+                        <div class="text_2">
+                            <input type="text" name="account" placeholder="输入用户名" id="login_username" />
+                        </div>
+                        <div class="text_3">
+                            <input type="password" name="pwd" placeholder="输入密码" id="login_pwd" />
+                        </div>
+                        <div class="text_5">
+                            <input type="submit" value="登   录"  id="login_submit" />
+                        </div>
+                        <div class="text_6">
+                            <a @click="resetPwd()" class="pull-right">忘记密码?</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+   </div>
+
+   <!-- 注册 -->
+   <div class="modal fade" id="registerModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                        <span style="color:#f00;" id="login_title">注册</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled login_border">
+                        <li>
+                            <div class="text_1">
+                                <p>注 册</p>
+                            </div>
+                        </li>
+                        <li class="text_2">
+                            <input name="account" type="text" placeholder="输入手机号" />
+                            <input type="button" value="获取验证码" class="num" />
+                        </li>
+                        <li class="text_2">
+                            <input name="vcode" type="text" placeholder="输入验证码" required/>
+                        </li>
+                        <li class="text_2">
+                            <input name="pwd" type="password" placeholder="输入密码" required/>
+                        </li>
+                        <li class="text_5">
+                            <input type="submit" value="提 交"/>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+   </div>
+</div>
 </template>
 
 <script>
@@ -21,11 +105,11 @@ export default {
   name: 'header',
   methods: {
     showLogin(){
-
+        $("#loginModal").modal("show");
     },
 
     showRegister(){
-
+        $("#registerModal").modal("show");
     },
   }
 }
