@@ -25,6 +25,12 @@ class API {
         return axios.post('/cycj/register', {}, config);
     }
 
+    //退出
+    logout(param) {
+        config.data = param;
+        return axios.post('/cycj/logout', {}, config);
+    }
+
     //用户等级
     userLevel(param) {
         config.data = param;

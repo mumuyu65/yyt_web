@@ -9,9 +9,21 @@
                     <h4>保存到桌面</h4>
                 </a>
             </li>
-            <li class="login_reg">
+            <li class="login_reg" v-show="!loginSuc">
                 <span class="active" @click="showLogin()">登录</span>
                 <span @click="showRegister()">注册</span>
+            </li>
+            <li class="login_reg dropdown" v-show="loginSuc">
+                <img v-bind:src="userImg" class="img-circle" style="height:30px;"/>
+                <span class="dropdown-toggle" data-toggle="dropdown">{{userNick}}<span class="caret"></span></span>
+                <ol class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="min-width:0; top:92%; left:30px;">
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" style="cursor:pointer" @click="showPerson()">设置</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" style="cursor:pointer" @click="logout()">退出</a>
+                    </li>
+                </ol>
             </li>
         </ul>
    </div>
@@ -34,13 +46,13 @@
                             <p>登 录</p>
                         </div>
                         <div class="text_2">
-                            <input type="text" name="account" placeholder="输入用户名" id="login_username" />
+                            <input type="text" name="account" placeholder="输入用户名" required  v-model="user.account"/>
                         </div>
                         <div class="text_3">
-                            <input type="password" name="pwd" placeholder="输入密码" id="login_pwd" />
+                            <input type="password" name="pwd"  placeholder="输入密码" v-model="user.pwd" required/>
                         </div>
                         <div class="text_5">
-                            <input type="submit" value="登   录"  id="login_submit" />
+                            <input type="submit" value="登   录"  @click="doLogin()" />
                         </div>
                         <div class="text_6">
                             <a @click="resetpwd()" class="pull-right">忘记密码?</a>
@@ -71,7 +83,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    <button type="button" class="btn btn-default" @click="loginClose()">关闭
                     </button>
                 </div>
             </div>
@@ -126,31 +138,109 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import API from '@/api/API'
+//实例化api
+const api = new API();
+
 export default {
   name: 'header',
   data(){
     return{
         resetTitle:'登录',
+        user:{
+            account:'',
+            pwd:'',
+        },
+        loginSuc:false,
+        userImg:'',
+        userNick:'',
+        Sid:'',
     }
   },
   computed: mapGetters({
       resetPwd: 'getReset',
   }),
+  mounted(){
+    if(window.localStorage.getItem("user")){
+        this.loginSuc = true;
+        let user = JSON.parse(window.localStorage.getItem("user"));
+        this.userNick = user.Nick;
+        this.userImg = '../../static/images/course_t.png';
+        this.Sid = user.SessionId;
+    }
+  },
   methods: {
+    //登录
     showLogin(){
         $("#loginModal").modal("show");
     },
 
+    //登录关闭
+    loginClose(){
+        let that = this;
+        $("#loginModal").modal("hide");
+        this.$store.dispatch('changeReset',false).then(()=>{
+            that.resetTitle ='登录';
+        });
+    },
+
+    doLogin(){
+        let params={
+            account:this.user.account.trim(),
+            pwd:this.user.pwd.trim(),
+        };
+
+        let that = this;
+
+        if(this.user.account && this.user.pwd){
+            api.login(params).then(function(res){
+                if(res.data.Code ==3){
+                    window.localStorage.setItem('user',JSON.stringify(res.data.Data));
+                    that.loginSuc = true;
+                    $("#loginModal").modal("hide");
+                    that.userNick = res.data.Data.Nick;
+                    that.userImg = '../../static/images/course_t.png';
+                }else{
+                    alert(res.data.Msg);
+                }
+            }).catch(function(error){
+                console.log(error);
+            });
+        }else{
+            alert('用户名或密码不能为空!');
+        }
+    },
+
+    //注册
     showRegister(){
         $("#registerModal").modal("show");
     },
 
+    //重置密码
     resetpwd(){
         let that = this;
         this.$store.dispatch('changeReset',true).then(()=>{
             that.resetTitle ='找回密码';
         });
     },
+
+    //退出
+    logout(){
+        let params ={
+            sid:this.Sid
+        };
+
+        api.logout(params).then(function(res){
+            console.log(res.data);
+            if(res.data.Code ==3){
+                that.loginSuc = false;
+                window.localStorage.removeItem("user");
+            }
+        }).catch(function(err){
+            console.log(error);
+        });
+    },
+
   }
 }
 </script>

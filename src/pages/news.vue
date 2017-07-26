@@ -192,6 +192,10 @@ export default {
         opacity:0.9;
     }
 
+    .news-type{
+      margin-bottom:10px;
+    }
+
     .news-type>li{
       cursor:pointer;
       padding:5px 10px;
