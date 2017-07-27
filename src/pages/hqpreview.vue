@@ -2,7 +2,7 @@
   <div class="main">
     <div class="zj-list">
       <div class="inner-container">
-        <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">行情预测</span></h4>
+        <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">老师观点</span></h4>
         <div class="zj-list-header">
             <ul class="list-inline">
                 <li v-for="item in mainTitle" v-bind:class="{active:item.isActive}" @click="changePreview(item)">

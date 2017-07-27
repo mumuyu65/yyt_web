@@ -23,12 +23,6 @@
             <div class="divider"></div>
             <li class="text-center">
                 <router-link to="/hqpreview" exact>
-                    <img src="../../static/images/preview-icon.png" alt="">
-                    <h6>行情预测</h6></router-link>
-            </li>
-            <div class="divider"></div>
-            <li class="text-center">
-                <router-link to="/teacherrecommand" exact>
                     <img src="../../static/images/zhuanjia-icon.png" alt="">
                     <h6>老师观点</h6>
                 </router-link>
