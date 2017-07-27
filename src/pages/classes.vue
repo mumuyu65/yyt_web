@@ -9,7 +9,7 @@
           </li>
         </ul>
         <!-- 展示 -->
-        <ol class="list-unstyled">
+        <ol class="list-unstyled" v-if="showTeacher">
           <li v-for="report in classes " class="report-item">
               <div class="media">
                   <a class="media-left">
@@ -28,6 +28,21 @@
           </li>
         </ol>
 
+        <ol class="list-unstyled" v-if="!showTeacher">
+          <li v-for="report in all_teachers " class="report-item">
+              <div class="media">
+                  <a class="media-left">
+                      <img v-bind:src="report.headurl" style="height:100px; width:130px;"/>
+                  </a>
+                  <div class="media-body">
+                    <h4 class="media-heading">
+                        昵称:{{report.nick}}
+                    </h4>
+                  </div>
+                  <div v-html="report.intro" style="margin-top:20px;"></div>
+              </div>
+          </li>
+        </ol>
       </div>
     </div>
     <div class="zhibo">
@@ -55,8 +70,9 @@ export default {
           { id:2,title:'高级课件',isActive:false},
           { id:3,title:'讲师风采',isActive:false}
         ],
-
         classes:[],
+        showTeacher:true,
+        all_teachers:[],
     }
   },
   filters: {
@@ -100,6 +116,7 @@ export default {
 
         if(item.id == 3){
             this.showTeachers();
+            this.showTeacher = false;
         }else{
            let that= this;
 
@@ -118,8 +135,22 @@ export default {
     },
 
     showTeachers(){
-        this.classes = [];
-        alert("开发中.....");
+        let params={
+          flag:1,
+          counts:100
+        };
+
+        let that = this;
+
+        api.teachers(params).then(function(res){
+            if(res.data.Code ==3){
+                that.all_teachers = res.data.Data.Detail;
+            }else{
+              alert(res.data.Data.Msg);
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
     },
   },
 }

@@ -1,4 +1,5 @@
 <template>
+<div>
    <div class="sidebar">
         <ul class="list-unstyled">
             <div class="divider"></div>
@@ -61,11 +62,169 @@
                 </a>
             </li>
         </ul>
-    </div>
+   </div>
+
+   <!-- 课程安排 -->
+   <div class="modal fade" id="classesModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                        <span style="color:#f00;">课程表安排</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="schedule" style="margin:50px; height:99%;" v-show="!addSchedules">
+                      <ul>
+                          <li>时间</li>
+                          <li>星期一</li>
+                          <li>星期二</li>
+                          <li>星期三</li>
+                          <li>星期四</li>
+                          <li>星期五</li>
+                          <li>星期六</li>
+                          <li>星期日</li>
+                          <li class="border-r">操作</li>
+                      </ul>
+                      <div style="clear:both; float:none;"></div>
+                      <ul name="point1">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                       <div style="clear:both; float:none;"></div>
+                      <ul name="point2">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                      <div style="clear:both; float:none;"></div>
+                      <ul name="point3">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                      <div style="clear:both; float:none;"></div>
+                      <ul name="point4">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                      <div style="clear:both; float:none;"></div>
+                      <ul name="point5">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                       <div style="clear:both; float:none;"></div>
+                      <ul name="point6">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                       <div style="clear:both; float:none;"></div>
+                      <ul name="point7">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                       <div style="clear:both; float:none;"></div>
+                      <ul name="point8">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                      <div style="clear:both; float:none;"></div>
+                      <ul name="point9">
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li></li>
+                          <li class="border-r"></li>
+                      </ul>
+                      <div style="clear:both; float:none;"></div>
+                      <ul name="point10">
+                          <li class="border-b"></li>
+                          <li class="border-b"></li>
+                          <li class="border-b"></li>
+                          <li class="border-b"></li>
+                          <li class="border-b"></li>
+                          <li class="border-b"></li>
+                          <li class="border-b"></li>
+                          <li class="border-b"></li>
+                          <li class="border-l"></li>
+                      </ul>
+                      <div style="clear:both; float:none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+</div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+
+import API from '@/api/API'
+//实例化api
+const api = new API();
 
 export default {
   name: 'sidebar',
@@ -86,7 +245,17 @@ export default {
     },
 
     ClassesArrage(){
-      alert("课程表的安排......");
+      $("#classesModal").modal('show');
+      api.schedule().then(function(res){
+          console.log(res.data);
+          if(res.data.Code ==3){
+
+          }else{
+            alert(res.data.Msg);
+          }
+      }).catch(function(err){
+        console.log(err);
+      });
     },
   }
 }
@@ -96,5 +265,40 @@ export default {
 .router-link-active{
    background-color:#d1201d;
    text-decoration:none;
+}
+
+.schedule ul{
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      height:100%;
+      display: block;
+      clear: both;
+      text-align: center;
+      min-width:800px;
+  }
+
+.schedule ul li{
+        float: left;
+        list-style-type: none;
+        border-top: #ececec solid 1px;
+        border-left: #ececec solid 1px;
+        width: 10%;
+        vertical-align:middle;
+        height:35px;
+        padding-top:10px;
+    }
+
+.schedule .border-r{
+    border-right: #ececec solid 1px;
+  }
+
+.schedule  .border-b{
+    border-bottom: #ececec solid 1px;
+}
+
+.schedule .border-l{
+    border-right: #ececec solid 1px;
+    border-bottom: #ececec solid 1px;
 }
 </style>

@@ -103,6 +103,13 @@ class API {
         return axios.post('/cycj/courware/cliquery', {}, config);
     }
 
+    //讲师风采
+    teachers(param) {
+        config.data = param;
+        return axios.post('/cycj/lecturer/query', {}, config);
+    }
+
+
     //课程表管理
     schedule(param) {
         config.data = param;
