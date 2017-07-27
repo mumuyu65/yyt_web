@@ -80,7 +80,7 @@ export default {
 
         api.getNewsType().then(function(res){
             if(res.data.Code ==3){
-                let templateObj = res.data.Data;
+                let templateObj = res.data.Data.Detail;
 
                 for(let i =0; i<templateObj.length;i++){
                   templateObj[i].isActive = false;
