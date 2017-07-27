@@ -328,6 +328,7 @@ export default {
             if(res.data.Code ==3){
                 that.loginSuc = false;
                 window.localStorage.removeItem("user");
+                that.$router.push('/');
             }
         }).catch(function(err){
             console.log(err);

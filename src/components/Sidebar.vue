@@ -17,9 +17,9 @@
             </li>
             <div class="divider"></div>
             <li class="text-center">
-                <router-link to="/handlesuggestion" exact>
+                <a href="javascript:void(0)" @click="handlesuggestion()">
                     <img src="../../static/images/handle-icon.png" alt="">
-                    <h6>操作建议</h6></router-link>
+                    <h6>操作建议</h6></a>
             </li>
             <div class="divider"></div>
             <li class="text-center">
@@ -257,6 +257,14 @@ export default {
         console.log(err);
       });
     },
+
+    handlesuggestion(){
+      if(window.localStorage.getItem("user")){
+        this.$router.push('/handlesuggestion');
+      }else{
+        alert("亲爱的用户，登录后才可查看此部分内容！");
+      }
+    }
   }
 }
 </script>
