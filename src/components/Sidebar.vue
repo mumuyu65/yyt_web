@@ -99,10 +99,8 @@ export default {
 </script>
 
 <style scoped>
-
 .router-link-active{
    background-color:#d1201d;
    text-decoration:none;
 }
-
 </style>
