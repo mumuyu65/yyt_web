@@ -19,7 +19,7 @@
         </div>
         <div class="divider"></div>
         <ol class="list-inline date-select">
-            <li v-bind:class="{active:item.isActive}" @click="changeAGEchartDistance(item.id)" v-for="item in AGEchartDistance">{{item.title}}</li>
+            <li v-bind:class="{active:item.isActive}" @click="changeAGEchartDistance(item)" v-for="item in AGEchartDistance">{{item.title}}</li>
         </ol>
         <div id="main_AG" style="width:100%; margin:20px 0; height:400px;"></div>
       </div>
@@ -106,6 +106,8 @@ export default {
 
     this.hqConn(); //长连接实时数据变化
 
+    this.hqConnAG();
+
     this.hqDetail();  //行情的历史数据显示
 
     this.initData();
@@ -144,7 +146,7 @@ export default {
     },
 
     //行情订阅情况
-    hqSubscribe(item){
+    hqSubscribe(item,hqSid){
         let tempArr = [];
         tempArr.push({
                 "excd": item.exCode,
@@ -153,7 +155,7 @@ export default {
 
         //根据点击的交易所不同，来进行订阅
         let body = {
-            "sid": this.hqSid,
+            "sid": hqSid,
             "q_list": tempArr
         };
 
@@ -195,21 +197,62 @@ export default {
                     break;
                 case 1:
                     var rcvbody = data.body;
-                    that.hqSid = rcvbody.data;
-                    that.hqSubscribe(that.hqStatic[0]); //订阅伦敦金数据行情
-                    //that.hqSubscribe(that.hqStatic[1]); //订阅伦敦银数据行情
+                    that.hqSubscribe(that.hqStatic[0],rcvbody.data); //订阅伦敦金数据行情
                     break;
                 case 6:
                     var hqUpdate = data.body;
                     //console.log(hqUpdate);
                     that.showEcharts(that.AUarr,hqUpdate,'main'); //更新echarts里面的数据
-                    //that.updateAGData(hqUpdate); //更新不固定数据
                     break;
             }
         };
         that.hqws.onclose = that.hqClose;
         that.hqws.onerror = that.hqError;
     },
+
+    hqConnAG(){
+        let that = this;
+
+        //实时推送数据
+        let hqws = new WebSocket("ws://quotes.yddtv.cn:57081/sub");
+
+        hqws.onopen = function() {
+            console.log("conn succeed.");
+            //定时发送心跳请求，保持连接状态
+            setInterval(function() {
+                that.hqws.send(JSON.stringify({
+                    'pklen': 32,
+                    'klen': 16,
+                    'ver': 2,
+                    'op': 2,
+                    'id': 4,
+                    'body': ''
+                }))
+            }, 8000);
+        };
+
+        hqws.onmessage = function(evt) {
+            let receives = JSON.parse(evt.data); //从字符窜中解析出json对象
+            let data = receives[0];
+            switch (data.op) {
+                case 3:
+                    //console.log("收到心跳回复");
+                    break;
+                case 1:
+                    var rcvbody = data.body;
+                    that.hqSubscribe(that.hqStatic[1],rcvbody.data); //订阅伦敦银数据行情
+                    break;
+                case 6:
+                    var hqUpdate = data.body;
+                    //console.log(hqUpdate);
+                    that.showEcharts(that.AGarr,hqUpdate,'main_AG'); //更新不固定数据
+                    break;
+            }
+        };
+        hqws.onclose = that.hqClose;
+        hqws.onerror = that.hqError;
+    },
+
     //断开行情
     hqClose() {
         console.log("WebSocket Closed.");
@@ -379,6 +422,16 @@ export default {
         item.isActive = true;
 
         this.hqhistoryData(this.hqStatic[0],'main',item.id);
+    },
+
+    changeAGEchartDistance(item){
+        for(let i=0; i<6;i++){
+            this.AGEchartDistance[i].isActive = false;
+        }
+
+        item.isActive = true;
+
+        this.hqhistoryData(this.hqStatic[1],'main_AG',item.id);
     },
 
     //数组排序
