@@ -151,8 +151,8 @@ export default {
     return{
         resetTitle:'登录',
         user:{
-            account:'18516074685',
-            pwd:'123456',
+            account:'',
+            pwd:'',
         },
         loginSuc:false,
         userImg:'',

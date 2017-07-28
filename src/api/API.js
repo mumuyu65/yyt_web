@@ -140,6 +140,12 @@ class API {
         return axios.post('/cycj/app/query', {}, config);
     }
 
+    //活动专区
+    activityZone(param) {
+        config.data = param;
+        return axios.post('/cycj/activity/query', {}, config);
+    }
+
     //高级助理管理
     qqManage(param) {
         config.data = param;

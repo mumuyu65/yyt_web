@@ -14,6 +14,8 @@ import Hqpreview from '@/pages/hqpreview'
 import TeacherRecommand from '@/pages/teacherrecommand'
 //学习课件
 import Classes from '@/pages/classes'
+//小游戏
+import Smallgame from '@/pages/smallgame'
 
 Vue.use(Router)
 
@@ -30,6 +32,10 @@ export default new Router({
         path: '/handlesuggestion',
         name: 'HandleSuggestion',
         component: HandleSuggestion
+    }, {
+        path: '/smallgame',
+        name: 'smallgame',
+        component: Smallgame
     }, {
         path: '/hqpreview',
         name: 'hqpreview',

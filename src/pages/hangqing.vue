@@ -25,9 +25,7 @@
       </div>
     </div>
     <div class="zhibo">
-        <!--
         <zhibo></zhibo>
-        -->
         <activity></activity>
     </div>
   </div>
