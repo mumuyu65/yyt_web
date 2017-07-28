@@ -9,7 +9,7 @@
         </div>
         <div class="divider"></div>
         <ol class="list-inline date-select">
-            <li v-bind:class="{active:item.isActive}" @click="changeAUEchartDistance(item.id)" v-for="item in EchartDistance">{{item.title}}</li>
+            <li v-bind:class="{active:item.isActive}" @click="changeAUEchartDistance(item)" v-for="item in EchartDistance">{{item.title}}</li>
         </ol>
         <div id="main" style="width:100%; margin:20px 0; height:400px;"></div>
         <div class="zj-list-header" >
@@ -19,7 +19,7 @@
         </div>
         <div class="divider"></div>
         <ol class="list-inline date-select">
-            <li v-bind:class="{active:item.isActive}" @click="changeAGEchartDistance(item.id)" v-for="item in EchartDistance">{{item.title}}</li>
+            <li v-bind:class="{active:item.isActive}" @click="changeAGEchartDistance(item.id)" v-for="item in AGEchartDistance">{{item.title}}</li>
         </ol>
         <div id="main_AG" style="width:100%; margin:20px 0; height:400px;"></div>
       </div>
@@ -84,6 +84,18 @@ export default {
         {id:4,title:'1小时',isActive:false},
         {id:5,title:'4小时',isActive:false},
         {id:6,title:'1天',isActive:false}],
+
+        AGEchartDistance:[
+        {id:0,title:'1分钟',isActive:true},
+        {id:1,title:'5分钟',isActive:false},
+        {id:2,title:'15分钟',isActive:false},
+        {id:4,title:'1小时',isActive:false},
+        {id:5,title:'4小时',isActive:false},
+        {id:6,title:'1天',isActive:false}],
+
+        AUarr:[],
+
+        AGarr:[]
     }
   },
 
@@ -126,9 +138,9 @@ export default {
 
     //行情详情
     hqDetail(){
-        this.hqhistoryData(this.hqStatic[0],'main');
+        this.hqhistoryData(this.hqStatic[0],'main',0);
 
-        this.hqhistoryData(this.hqStatic[1],'main_AG');
+        this.hqhistoryData(this.hqStatic[1],'main_AG',0);
     },
 
     //行情订阅情况
@@ -189,8 +201,8 @@ export default {
                     break;
                 case 6:
                     var hqUpdate = data.body;
-                    console.log(hqUpdate);
-                    //that.updateAUEchartsData(hqUpdate); //更新echarts里面的数据
+                    //console.log(hqUpdate);
+                    that.showEcharts(that.AUarr,hqUpdate,'main'); //更新echarts里面的数据
                     //that.updateAGData(hqUpdate); //更新不固定数据
                     break;
             }
@@ -198,11 +210,6 @@ export default {
         that.hqws.onclose = that.hqClose;
         that.hqws.onerror = that.hqError;
     },
-
-    updateAUEchartsData(){
-
-    },
-
     //断开行情
     hqClose() {
         console.log("WebSocket Closed.");
@@ -216,19 +223,23 @@ export default {
     },
 
     //行情的历史数据
-    hqhistoryData(obj,ID) {
+    hqhistoryData(obj,ID,Unix) {
         let params = {
                 "excd": obj.exCode,
                 "smcd": obj.sCD,
                 "unixtm": 0,
-                "unit": 0,
+                "unit": Unix,
                 "count": 20
             };
-
         let that = this;
         axios.post(hq_endpoint+'/quotes/queryKLine', JSON.stringify(params)).then(function(res) {
             if (res.data.code == 100) {
                 that.showEcharts(res.data.data,'',ID);
+                if(ID =='main'){
+                    that.AUarr = res.data.data;
+                }else{
+                    that.AGarr = res.data.data;
+                }
             }
         }).catch(function (error) {
                 console.log(error);
@@ -357,6 +368,17 @@ export default {
         }else{
             this.myEchart_ag.setOption(option);
         }
+    },
+
+    //更新行情数据的时间间隔
+    changeAUEchartDistance(item){
+        for(let i=0; i<6;i++){
+            this.EchartDistance[i].isActive = false;
+        }
+
+        item.isActive = true;
+
+        this.hqhistoryData(this.hqStatic[0],'main',item.id);
     },
 
     //数组排序
