@@ -17,9 +17,14 @@
             </li>
             <div class="divider"></div>
             <li class="text-center">
-                <a href="javascript:void(0)" @click="handlesuggestion()">
+                <a href="javascript:void(0)" @click="handlesuggestion()" v-if="!isLogin">
                     <img src="../../static/images/handle-icon.png" alt="">
-                    <h6>操作建议</h6></a>
+                    <h6>操作建议</h6>
+                </a>
+                <router-link to="/handlesuggestion" v-if="isLogin" exact>
+                    <img src="../../static/images/handle-icon.png" alt="">
+                    <h6>操作建议</h6>
+                </router-link>
             </li>
             <div class="divider"></div>
             <li class="text-center">
@@ -55,11 +60,15 @@
                 </a>
             </li>
             <div class="divider"></div>
-            <li class="text-center">
+            <li class="text-center qrcode">
                 <a href="javascript:void(0)">
                     <img src="../../static/images/wechat.png"  alt="">
                     <h6>微信二维码</h6>
                 </a>
+                <div class="qrcode-item">
+                    <span></span>
+                    <img src="../../static/images/qrcode.jpg"  alt="" />
+                </div>
             </li>
         </ul>
    </div>
@@ -228,6 +237,11 @@ const api = new API();
 
 export default {
   name: 'sidebar',
+  data(){
+    return{
+      isLogin:false,
+    }
+  },
   mounted (){
     this.init();
   },
@@ -260,7 +274,7 @@ export default {
 
     handlesuggestion(){
       if(window.localStorage.getItem("user")){
-        this.$router.push('/handlesuggestion');
+        this.isLogin=true ;
       }else{
         alert("亲爱的用户，登录后才可查看此部分内容！");
       }
@@ -308,5 +322,44 @@ export default {
 .schedule .border-l{
     border-right: #ececec solid 1px;
     border-bottom: #ececec solid 1px;
+}
+
+.qrcode{
+  position:relative;
+
+}
+
+.qrcode .qrcode-item{
+    position:absolute;
+    left:104%;
+    top:-50%;
+    z-index:100;
+    display:none;
+    width:170px;
+}
+
+.qrcode .qrcode-item span{
+    display:inline-block;
+    width:0;
+    height:0;
+    border-top: 10px solid transparent;
+    border-right: 20px solid #fff;
+    border-bottom: 10px solid transparent;
+    vertical-align:middle;
+    margin:0;
+}
+
+.qrcode .qrcode-item img{
+    width:150px;
+    margin-left:-5px;
+}
+
+.qrcode:hover .qrcode-item{
+    position:absolute;
+    left:104%;
+    top:-50%;
+    z-index:100;
+    display:block;
+    width:170px;
 }
 </style>
