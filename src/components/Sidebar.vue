@@ -54,7 +54,7 @@
                 <h6>财经日历</h6></router-link></li>
             <div class="divider"></div>
             <li class="text-center">
-                <a href="javascript:void(0)" @click="ClassesArrage()">
+                <a href="javascript:void(0)" @click="ClassesArrage()" v-bind:class="classArrange">
                     <img src="../../static/images/kechengzhongxin-icon.png"  alt="">
                     <h6>课程安排</h6>
                 </a>
@@ -79,7 +79,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <button type="button" class="close" @click="closeArrange()" aria-hidden="true">
                         &times;
                     </button>
                     <h4 class="modal-title" >
@@ -87,7 +87,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <div class="schedule" style="margin:50px; height:99%;" v-show="!addSchedules">
+                    <div class="schedule" style="margin:50px; height:99%;">
                       <ul>
                           <li>时间</li>
                           <li>星期一</li>
@@ -96,12 +96,10 @@
                           <li>星期四</li>
                           <li>星期五</li>
                           <li>星期六</li>
-                          <li>星期日</li>
-                          <li class="border-r">操作</li>
+                          <li class="border-r">星期日</li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
                       <ul name="point1">
-                          <li></li>
                           <li></li>
                           <li></li>
                           <li></li>
@@ -120,12 +118,10 @@
                           <li></li>
                           <li></li>
                           <li></li>
-                          <li></li>
                           <li class="border-r"></li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
                       <ul name="point3">
-                          <li></li>
                           <li></li>
                           <li></li>
                           <li></li>
@@ -144,12 +140,10 @@
                           <li></li>
                           <li></li>
                           <li></li>
-                          <li></li>
                           <li class="border-r"></li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
                       <ul name="point5">
-                          <li></li>
                           <li></li>
                           <li></li>
                           <li></li>
@@ -168,12 +162,10 @@
                           <li></li>
                           <li></li>
                           <li></li>
-                          <li></li>
                           <li class="border-r"></li>
                       </ul>
                        <div style="clear:both; float:none;"></div>
                       <ul name="point7">
-                          <li></li>
                           <li></li>
                           <li></li>
                           <li></li>
@@ -192,12 +184,10 @@
                           <li></li>
                           <li></li>
                           <li></li>
-                          <li></li>
                           <li class="border-r"></li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
                       <ul name="point9">
-                          <li></li>
                           <li></li>
                           <li></li>
                           <li></li>
@@ -216,10 +206,9 @@
                           <li class="border-b"></li>
                           <li class="border-b"></li>
                           <li class="border-b"></li>
-                          <li class="border-b"></li>
                           <li class="border-l"></li>
                       </ul>
-                      <div style="clear:both; float:none;"></div>
+                      <div style="clear:both;"></div>
                     </div>
                 </div>
             </div>
@@ -240,6 +229,7 @@ export default {
   data(){
     return{
       isLogin:false,
+      classArrange:'',
     }
   },
   mounted (){
@@ -260,10 +250,268 @@ export default {
 
     ClassesArrage(){
       $("#classesModal").modal('show');
+      this.classArrange = 'router-link-active';
       api.schedule().then(function(res){
           console.log(res.data);
           if(res.data.Code ==3){
+              let DataSource = [
+                  {weekday:1,course:[]},
+                  {weekday:2,course:[]},
+                  {weekday:3,course:[]},
+                  {weekday:4,course:[]},
+                  {weekday:5,course:[]},
+                  {weekday:6,course:[]},
+                  {weekday:7,course:[]},
+              ];
 
+            let that = this;
+
+            let items= res.data.Data;
+
+            for(let i =0; i<items.length;i++){
+                switch(items[i].dayofweek){
+                    case '周一':
+                        var pointName;
+                        if(items[i].period == '9:00--10:00'){
+                             pointName = 1;
+                        }
+                        else if(items[i].period =='10:00--11:30'){
+                             pointName = 2;
+                        }
+                        else if(items[i].period =='11:30--13:00'){
+                             pointName = 3;
+                        }
+                        else if(items[i].period =='13:00--14:30'){
+                             pointName = 4;
+                        }
+                        else if(items[i].period =='14:30--16:00'){
+                             pointName = 5;
+                        }
+                        else if(items[i].period =='16:00--17:30'){
+                             pointName = 6;
+                        }
+                        else if(items[i].period =='17:30--19:00'){
+                             pointName = 7;
+                        }
+                        else if(items[i].period =='19:00--20:30'){
+                             pointName = 8;
+                        }
+                        else if(items[i].period =='20:30--22:00'){
+                             pointName = 9;
+                        }
+                        else {
+                             pointName = 10;
+                        }
+                        //console.log(pointName,i);
+                        DataSource[0].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
+                    case '周二':
+                        var pointName;
+                        if(items[i].period == '9:00--10:00'){
+                             pointName = 1;
+                        }
+                        else if(items[i].period =='10:00--11:30'){
+                             pointName = 2;
+                        }
+                        else if(items[i].period =='11:30--13:00'){
+                             pointName = 3;
+                        }
+                        else if(items[i].period =='13:00--14:30'){
+                             pointName = 4;
+                        }
+                        else if(items[i].period =='14:30--16:00'){
+                             pointName = 5;
+                        }
+                        else if(items[i].period =='16:00--17:30'){
+                             pointName = 6;
+                        }
+                        else if(items[i].period =='17:30--19:00'){
+                             pointName = 7;
+                        }
+                        else if(items[i].period =='19:00--20:30'){
+                             pointName = 8;
+                        }
+                        else if(items[i].period =='20:30--22:00'){
+                             pointName = 9;
+                        }
+                        else {
+                             pointName = 10;
+                        }
+                        console.log(pointName);
+                        DataSource[1].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
+                    case '周三':
+                        var pointName;
+                        if(items[i].period == '9:00--10:00'){
+                             pointName = 1;
+                        }
+                        else if(items[i].period =='10:00--11:30'){
+                             pointName = 2;
+                        }
+                        else if(items[i].period =='11:30--13:00'){
+                             pointName = 3;
+                        }
+                        else if(items[i].period =='13:00--14:30'){
+                             pointName = 4;
+                        }
+                        else if(items[i].period =='14:30--16:00'){
+                             pointName = 5;
+                        }
+                        else if(items[i].period =='16:00--17:30'){
+                             pointName = 6;
+                        }
+                        else if(items[i].period =='17:30--19:00'){
+                             pointName = 7;
+                        }
+                        else if(items[i].period =='19:00--20:30'){
+                             pointName = 8;
+                        }
+                        else if(items[i].period =='20:30--22:00'){
+                             pointName = 9;
+                        }
+                        else {
+                             pointName = 10;
+                        }
+                        DataSource[2].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
+                    case '周四':
+                        var pointName;
+                        if(items[i].period == '9:00--10:00'){
+                             pointName = 1;
+                        }
+                        else if(items[i].period =='10:00--11:30'){
+                             pointName = 2;
+                        }
+                        else if(items[i].period =='11:30--13:00'){
+                             pointName = 3;
+                        }
+                        else if(items[i].period =='13:00--14:30'){
+                             pointName = 4;
+                        }
+                        else if(items[i].period =='14:30--16:00'){
+                             pointName = 5;
+                        }
+                        else if(items[i].period =='16:00--17:30'){
+                             pointName = 6;
+                        }
+                        else if(items[i].period =='17:30--19:00'){
+                             pointName = 7;
+                        }
+                        else if(items[i].period =='19:00--20:30'){
+                             pointName = 8;
+                        }
+                        else if(items[i].period =='20:30--22:00'){
+                             pointName = 9;
+                        }
+                        else {
+                             pointName = 10;
+                        }
+                        DataSource[3].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
+                        case '周五':
+                        var pointName;
+                        if(items[i].period == '9:00--10:00'){
+                             pointName = 1;
+                        }
+                        else if(items[i].period =='10:00--11:30'){
+                             pointName = 2;
+                        }
+                        else if(items[i].period =='11:30--13:00'){
+                             pointName = 3;
+                        }
+                        else if(items[i].period =='13:00--14:30'){
+                             pointName = 4;
+                        }
+                        else if(items[i].period =='14:30--16:00'){
+                             pointName = 5;
+                        }
+                        else if(items[i].period =='16:00--17:30'){
+                             pointName = 6;
+                        }
+                        else if(items[i].period =='17:30--19:00'){
+                             pointName = 7;
+                        }
+                        else if(items[i].period =='19:00--20:30'){
+                             pointName = 8;
+                        }
+                        else if(items[i].period =='20:30--22:00'){
+                             pointName = 9;
+                        }
+                        else {
+                             pointName = 10;
+                        }
+                        DataSource[4].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
+                        case '周六':
+                        var pointName;
+                        if(items[i].period == '9:00--10:00'){
+                             pointName = 1;
+                        }
+                        else if(items[i].period =='10:00--11:30'){
+                             pointName = 2;
+                        }
+                        else if(items[i].period =='11:30--13:00'){
+                             pointName = 3;
+                        }
+                        else if(items[i].period =='13:00--14:30'){
+                             pointName = 4;
+                        }
+                        else if(items[i].period =='14:30--16:00'){
+                             pointName = 5;
+                        }
+                        else if(items[i].period =='16:00--17:30'){
+                             pointName = 6;
+                        }
+                        else if(items[i].period =='17:30--19:00'){
+                             pointName = 7;
+                        }
+                        else if(items[i].period =='19:00--20:30'){
+                             pointName = 8;
+                        }
+                        else if(items[i].period =='20:30--22:00'){
+                             pointName = 9;
+                        }
+                        else {
+                             pointName = 10;
+                        }
+                        DataSource[5].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
+                        case '周日':
+                        var pointName;
+                        if(items[i].period == '9:00--10:00'){
+                             pointName = 1;
+                        }
+                        else if(items[i].period =='10:00--11:30'){
+                             pointName = 2;
+                        }
+                        else if(items[i].period =='11:30--13:00'){
+                             pointName = 3;
+                        }
+                        else if(items[i].period =='13:00--14:30'){
+                             pointName = 4;
+                        }
+                        else if(items[i].period =='14:30--16:00'){
+                             pointName = 5;
+                        }
+                        else if(items[i].period =='16:00--17:30'){
+                             pointName = 6;
+                        }
+                        else if(items[i].period =='17:30--19:00'){
+                             pointName = 7;
+                        }
+                        else if(items[i].period =='19:00--20:30'){
+                             pointName = 8;
+                        }
+                        else if(items[i].period =='20:30--22:00'){
+                             pointName = 9;
+                        }
+                        else {
+                             pointName = 10;
+                        }
+                        DataSource[6].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
+                }
+
+            }
+            $.each(DataSource,function(i,n){//遍历数据源 填充课程表信息
+                    $.each(n.course,function(j,k){
+                        $(".schedule ul[name='point"+k.pointName+"'] li").eq(0).html("<span>"+k.pointTime+"</span>");
+                        $(".schedule ul[name='point"+k.pointName+"'] li").eq(n.weekday).html("<input type='text' style='display:none; width:80px; vertical-align:top;'/><span class='text' style='cursor:pointer;'>"+k.teacherName+"</span>");
+                    });
+            });
           }else{
             alert(res.data.Msg);
           }
@@ -278,7 +526,12 @@ export default {
       }else{
         alert("亲爱的用户，登录后才可查看此部分内容！");
       }
-    }
+    },
+
+    closeArrange(){
+      $("#classesModal").modal('hide');
+      this.classArrange = '';
+    },
   }
 }
 </script>
@@ -301,15 +554,17 @@ export default {
   }
 
 .schedule ul li{
-        float: left;
-        list-style-type: none;
-        border-top: #ececec solid 1px;
-        border-left: #ececec solid 1px;
-        width: 10%;
-        vertical-align:middle;
-        height:35px;
-        padding-top:10px;
-    }
+      float: left;
+      list-style-type: none;
+      border-top: #ececec solid 1px;
+      border-left: #ececec solid 1px;
+      width: 12%;
+      height:50px;
+      padding-top:10px;
+      color:#000;
+      line-height:30px;
+      text-align:center;
+  }
 
 .schedule .border-r{
     border-right: #ececec solid 1px;
