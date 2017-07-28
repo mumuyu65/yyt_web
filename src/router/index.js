@@ -14,14 +14,6 @@ import Hqpreview from '@/pages/hqpreview'
 import TeacherRecommand from '@/pages/teacherrecommand'
 //学习课件
 import Classes from '@/pages/classes'
-//小游戏
-import Smallgame from '@/pages/smallgame'
-//财经日历
-import EconomicDate from '@/pages/economicDate'
-//课程安排
-import Arragement from '@/pages/smallvideo'
-//微信二维码
-import Qcode from '@/pages/qcode'
 
 Vue.use(Router)
 
@@ -50,21 +42,5 @@ export default new Router({
         path: '/classes',
         name: 'Classes',
         component: Classes
-    }, {
-        path: '/smallgame',
-        name: 'smallgame',
-        component: Smallgame
-    }, {
-        path: '/economicDate',
-        name: 'EconomicDate',
-        component: EconomicDate
-    }, {
-        path: '/arragement',
-        name: 'Arragement',
-        component: Arragement
-    }, {
-        path: '/qcode',
-        name: 'qcode',
-        component: Qcode
     }]
 })

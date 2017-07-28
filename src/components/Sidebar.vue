@@ -230,7 +230,9 @@
                     </h4>
                 </div>
                 <div class="modal-body">
+                    <!--
                     <iframe src="http://www.caijingriliba.com/" frameborder="0" scrolling="yes" class="calendar-date" style="width:100%; min-height:800px;"></iframe>
+                    -->
                 </div>
             </div>
         </div>

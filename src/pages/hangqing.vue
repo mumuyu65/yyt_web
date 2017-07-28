@@ -1,54 +1,33 @@
 <template>
   <div class="main">
     <div class="zj-list">
-      <div class="inner-container">
-        <div class="zj-list-header">
+      <div class="inner-container" style="padding:0 10px;">
+        <div class="zj-list-header" >
             <ul class="list-inline">
-                <li class="active">股票</li>
-                <li>果蔬</li>
+                <li class="active">伦敦金</li>
             </ul>
         </div>
         <div class="divider"></div>
-        <div class="sub-menu">
-            <ul class="list-inline sub-menu-inner">
-               <li v-for="bourse in BoursesList" v-bind:class="{ active:bourse.isActive}" @click="hqBoursesDetails(bourse)">
-                    <h5>{{bourse.cn}}</h5>
-                </li>
-            </ul>
-        </div>
-        <ol class="list-inline hq-static">
-            <li v-for="hqstatic in hqStatics" v-bind:class="hqstatic.flag">
-                <h4>{{hqstatic.sNM}}</h4>
-                <h5>{{hqstatic.quo.last_price}}</h5>
-                <h6>
-                    <span class="pull-left">{{hqstatic.signal}}</span>
-                    <span class="pull-right">{{hqstatic.increase}} </span>
-                </h6>
-            </li>
+        <ol class="list-inline date-select">
+            <li v-bind:class="{active:item.isActive}" @click="changeAUEchartDistance(item.id)" v-for="item in EchartDistance">{{item.title}}</li>
         </ol>
-        <ul class="list-inline hq-list">
-            <li><h5>名称/代码</h5></li>
-            <li><h5>最新</h5></li>
-            <li><h5>涨幅%</h5></li>
-            <li><h5>成交量</h5></li>
-        </ul>
-        <div class="divider"></div>
-        <div class="hq-list-detail">
-            <div class="hq-item" v-for="(bourseDetail,index) in BoursesDetails" @click="hqhistoryData(bourseDetail,index)"
-                 v-bind:class="{active:bourseDetail.isActive}">
-                <ul class="list-inline hq-list">
-                    <li><h4>{{bourseDetail.sNM}}</h4><h5>{{bourseDetail.sCD}}</h5></li>
-                    <li><h4>{{bourseDetail.quo.last_price }}</h4></li>
-                    <li><h4 v-bind:class="{active:bourseDetail.flag}">{{bourseDetail.increase}}</h4></li>
-                    <li><h4>{{bourseDetail.quo.deal }}</h4>
-                    </li>
-                </ul>
-            </div>
+        <div id="main" style="width:100%; margin:20px 0; height:400px;"></div>
+        <div class="zj-list-header" >
+            <ul class="list-inline">
+                <li class="active">伦敦银</li>
+            </ul>
         </div>
+        <div class="divider"></div>
+        <ol class="list-inline date-select">
+            <li v-bind:class="{active:item.isActive}" @click="changeAGEchartDistance(item.id)" v-for="item in EchartDistance">{{item.title}}</li>
+        </ol>
+        <div id="main_AG" style="width:100%; margin:20px 0; height:400px;"></div>
       </div>
     </div>
     <div class="zhibo">
+        <!--
         <zhibo></zhibo>
+        -->
         <activity></activity>
     </div>
   </div>
@@ -73,131 +52,114 @@ export default {
   name: 'HangQing',
   data () {
     return {
-        BoursesList:[],
-
-        hqStatics:[],
-
-        BoursesDetails:[],
-
         myEchart:{},
+
+        myEchart_ag:{},
 
         echartLastTime:'',
 
-        selectedHq:{},
+        hqStatic:[{
+            exCode:'IPM',
+            sCD:'AU',
+            title:'伦敦金',
+            quo:'',
+            isActive:false,
+        },
+        {
+            exCode:'IPM',
+            sCD:'AG',
+            title:'伦敦银',
+            quo:'',
+            isActive:false
+        }],
 
         hqws:'',
 
-        ClickedArr: [],
+        hqSid:'',
 
-        hqSid: '',
-
-        echartLastTime: '',
-
-        echartHistoryData: [],
-
-        echartHistoryKey: '',
+        EchartDistance:[
+        {id:0,title:'1分钟',isActive:true},
+        {id:1,title:'5分钟',isActive:false},
+        {id:2,title:'15分钟',isActive:false},
+        {id:4,title:'1小时',isActive:false},
+        {id:5,title:'4小时',isActive:false},
+        {id:6,title:'1天',isActive:false}],
     }
   },
 
   mounted (){
-    this.hqBoursesList();
-
-    this.hqVirtualData();
-
     this.myEchart = echarts.init(document.getElementById('main'));
 
+    this.myEchart_ag = echarts.init(document.getElementById('main_AG'));
+
     this.hqConn(); //长连接实时数据变化
+
+    this.hqDetail();  //行情的历史数据显示
+
+    this.initData();
   },
   components:{ Activity, Zhibo },
   methods:{
-    hqBoursesList (){
+    initData(){
+        //各股市的股票详情
+        let params = {
+            "excd": 'IPM',
+        };
+
         let that = this;
-        axios.post(hq_endpoint+'/quotes/exchanges','').then(function (res) {
-                if(res.data.code == 100){
-                    let TempObj= res.data.data;
-                    for(let i =0 ; i<TempObj.length; i++){
-                        TempObj[i].isActive = false;
+
+        axios.post(hq_endpoint+'/quotes/getInitSymboles',JSON.stringify(params)).then(function(res){
+            if(res.data.code == 100){
+                let templateObj = res.data.data;
+                for(let i=0; i<templateObj.length;i++){
+                    if(templateObj[i].sCD =='AG'){
+                        that.hqStatic[1].quo = templateObj[i].quo;
+                    }else if(templateObj[i].sCD =='AU'){
+                        that.hqStatic[0].quo = templateObj[i].quo;
                     }
-                    that.BoursesList =TempObj;
-                    that.BoursesList[0].isActive= true;
-                    that.hqBoursesDetails(that.BoursesList[0]);
                 }
-            }).catch(function (error) {
-                console.log(error);
+            }
+            }).catch(function(err){
+                console.log(err);
             });
     },
 
-    hqVirtualData() {
-        //上证指数、美原油连、伦敦金数据初始化
-        let params = [{
-            "excd": "XSHGZS",
-            "smcd": "000001"
-        }, {
-            "excd": "NYEFUT",
-            "smcd": "CONC"
-        }, {
-            "excd": "IPM",
-            "smcd": "AU"
-        }];
+    //行情详情
+    hqDetail(){
+        this.hqhistoryData(this.hqStatic[0],'main');
 
-        let that =this;
-
-        axios.post(hq_endpoint+'/quotes/getSymbolesInit', JSON.stringify(params)).then(function(result) {
-            if(result.data.code == 100){
-                let templateObj = result.data.data;
-                var len = templateObj.length;
-                for (let i = 0; i < len; i++) {
-                    let plus, increase;
-                    let signal = (parseFloat(templateObj[i].quo.last_price) - parseFloat(templateObj[i].quo.prev_close_price)).toFixed(3);
-                        increase = (signal / parseFloat(templateObj[i].quo.prev_close_price)).toFixed(3);
-                    if (parseFloat(templateObj[i].quo.last_price) !== 0 && parseFloat(templateObj[i].quo.prev_close_price) !== 0) {
-                        if (signal >= 0) {
-                            signal = '+' + signal;
-                            plus = '';
-                            increase = '+' + increase;
-                        } else {
-                            plus = "active";
-                        }
-                    } else if (parseFloat(templateObj[i].quo.last_price) == 0) { //最新价
-                        signal = '+' + 0;
-                        increase = '+' + 0;
-                    } else if (parseFloat(templateObj[i].quo.prev_close_price) == 0) { //昨日开盘价
-                        signal = '--';
-                        increase = '--';
-                        templateObj[i].quo.last_price = '--';
-                    }
-
-                    templateObj[i].signal= signal;
-
-                    templateObj[i].increase= increase;
-
-                    templateObj[i].flag= plus;
-                }
-                that.hqStatics = templateObj;
-             }
-        }).catch(function (error) {
-                console.log(error);
-            });
+        this.hqhistoryData(this.hqStatic[1],'main_AG');
     },
 
+    //行情订阅情况
+    hqSubscribe(item){
+        let tempArr = [];
+        tempArr.push({
+                "excd": item.exCode,
+                "smcd": item.sCD
+            });
+
+        //根据点击的交易所不同，来进行订阅
+        let body = {
+            "sid": this.hqSid,
+            "q_list": tempArr
+        };
+
+        $.post(hq_endpoint+'/quotes/quotesSubscription', JSON.stringify(body), function(result) {
+            if (result.code == 100) {
+                console.log("订阅成功！");
+            }
+        })
+    },
+
+    //实时推送行情数据
     hqConn(){
-         var  that = this;
+        let that = this;
 
-         let params = [{
-                "excd": "XSHGZS",
-                "smcd": "000001"
-            }, {
-                "excd": "NYEFUT",
-                "smcd": "CONC"
-            }, {
-                "excd": "IPM",
-                "smcd": "AU"
-        }];
+        //实时推送数据
+        this.hqws = new WebSocket("ws://quotes.yddtv.cn:57081/sub");
 
-        //    实时推送数据
-         this.hqws = new WebSocket("ws://quotes.yddtv.cn:57081/sub");
-
-         this.hqws.onopen = function() {
+        this.hqws.onopen = function() {
             console.log("conn succeed.");
             //定时发送心跳请求，保持连接状态
             setInterval(function() {
@@ -212,29 +174,24 @@ export default {
             }, 8000);
         };
 
-
-
         this.hqws.onmessage = function(evt) {
-            var receives = JSON.parse(evt.data); //从字符窜中解析出json对象
-            var data = receives[0];
+            let receives = JSON.parse(evt.data); //从字符窜中解析出json对象
+            let data = receives[0];
             switch (data.op) {
                 case 3:
-                    console.log("收到心跳回复");
+                    //console.log("收到心跳回复");
                     break;
                 case 1:
                     var rcvbody = data.body;
                     that.hqSid = rcvbody.data;
-                    that.hqVirtualDataSubscribe(); //订阅固定数据行情
+                    that.hqSubscribe(that.hqStatic[0]); //订阅伦敦金数据行情
+                    //that.hqSubscribe(that.hqStatic[1]); //订阅伦敦银数据行情
                     break;
                 case 6:
                     var hqUpdate = data.body;
-                    that.updateVirtualData(hqUpdate); //更新固定数据
-                    that.updateEchartsData(hqUpdate); //更新echarts里面的数据
-                    for (var i = 0; i < params.length; i++) {
-                        if (hqUpdate.excd !== params[i].excd) {
-                            that.updateWholeData(hqUpdate); //更新不固定数据
-                        }
-                    }
+                    console.log(hqUpdate);
+                    //that.updateAUEchartsData(hqUpdate); //更新echarts里面的数据
+                    //that.updateAGData(hqUpdate); //更新不固定数据
                     break;
             }
         };
@@ -242,203 +199,43 @@ export default {
         that.hqws.onerror = that.hqError;
     },
 
-    //订阅固有数据的行情
+    updateAUEchartsData(){
 
-    hqVirtualDataSubscribe() {
-        var params = [{
-            "excd": "XSHGZS",
-            "smcd": "000001"
-        }, {
-            "excd": "NYEFUT",
-            "smcd": "CONC"
-        }, {
-            "excd": "IPM",
-            "smcd": "AU"
-        }];
-        var body = {
-            "sid": this.hqSid,
-            "q_list": params
-        };
-
-        $.post('http://quotes.yddtv.cn:8006/quotes/quotesSubscription', JSON.stringify(body), function(result) {
-            if (result.code == 100) {
-                console.log("订阅成功！");
-            }
-        })
     },
 
-    //更新固有数据
-     updateVirtualData(hqUpdate) {
-        //上证指数、美原油连、伦敦金数据实时更新
-        var params = [{
-            "excd": "XSHGZS",
-            "smcd": "000001"
-        }, {
-            "excd": "NYEFUT",
-            "smcd": "CONC"
-        }, {
-            "excd": "IPM",
-            "smcd": "AU"
-        }];
-        for (var i = 0; i < 3; i++) {
-            if (hqUpdate.excd == params[i].excd) {
-                switch (hqUpdate.type) {
-                    case '0':
-                        var newValue = hqUpdate.value;
-                        var signal, increase;
-                        var prev_close_price =this.hqStatics[i].quo.prev_close_price;
-                        if (prev_close_price !== 0 && newValue !== 0)  {
-                            signal = (parseFloat(newValue) - parseFloat(prev_close_price)).toFixed(3);
-                            increase = (signal / parseFloat(prev_close_price)).toFixed(3);
-                            if (signal >= 0) {
-                                this.hqStatics[i].signal = '+' + signal;
-                                this.hqStatics[i].increase = '+' + increase;
-                                this.hqStatics[i].flag ='';
-                            } else {
-                                this.hqStatics[i].signal = signal;
-                                this.hqStatics[i].increase = increase;
-                                this.hqStatics[i].flag ='active';
-                            }
-                        } else {
-                            this.hqStatics[i].signal = 0;
-                            this.hqStatics[i].increase = 0;
-                            this.hqStatics[i].flag ='';
-                        }
-                        break;
-                }
-            }
-        }
+    //断开行情
+    hqClose() {
+        console.log("WebSocket Closed.");
+        //2秒后启动重连
+        setTimeout("this.hqConn()", 2000);
     },
 
-    //订阅echarts数据的行情
-    echartSubscribe(arr) {
-        var body = {
-            "sid": this.hqSid,
-            "q_list": arr
-        };
-
-        $.post(hq_endpoint+'/quotes/quotesSubscription', JSON.stringify(body), function(result) {
-            if (result.code == 100) {
-                console.log("echarts订阅成功！");
-            }
-        })
+    //长连接出错
+    hqError(evt) {
+        console.log("WebSocket Error." + evt);
     },
 
-    updateEchartsData(eData) {
-        if (this.ClickedArr[0].exCD == eData.excd && this.ClickedArr[0].sCD == eData.smcd &&
-            parseInt(this.echartLastTime) < parseInt(eData.time)) {
-            console.log('eData', eData);
-            this.echarts(this.echartHistoryData, this.echartHistoryKey, eData);
-        }
-    },
-
-    updateWholeData: function(data) {
-        var len = this.ClickedArr.length;
-        for (var i = 0; i < len; i++) {
-            if (data.smcd == this.ClickedArr[i].sCD) {
-                switch (data.type) {
-                    case '0':
-                        var newValue = data.value;
-
-                        var prev_close_price = this.ClickedArr[i].quo.prev_close_price;
-
-                        this.BoursesDetails[i].quo.last_price =newValue;
-
-                        var signal = (parseFloat(newValue) - parseFloat(prev_close_price)).toFixed(3),
-                            increase = (signal / parseFloat(prev_close_price)).toFixed(3);
-                        if (signal >= 0) {
-                            increase = '+' + increase;
-                            this.BoursesDetails[i].flag='';
-                        } else {
-                            //$("#hq_accordian .hq-item").eq(i).find(".hq-list>li").eq(2).find("h4").text(increase).addClass('active');
-                        }
-                        break;
-                    case '2':
-                        //$("#hq_accordian .hq-item").eq(i).find(".hq-list>li").eq(3).find("h4").text(data.value);
-                        break;
-                }
-            }
-        }
-    },
-
-    hqBoursesDetails(item) {
-        //各股市的股票详情
+    //行情的历史数据
+    hqhistoryData(obj,ID) {
         let params = {
-            "excd": item.code,
-        };
-
-        for(let i =0 ; i<this.BoursesList.length; i++){
-            this.BoursesList[i].isActive = false;
-        }
-
-        item.isActive = true;
+                "excd": obj.exCode,
+                "smcd": obj.sCD,
+                "unixtm": 0,
+                "unit": 0,
+                "count": 20
+            };
 
         let that = this;
-
-        axios.post(hq_endpoint+'/quotes/getInitSymboles',JSON.stringify(params)).then(function(res){
-            if(res.data.code == 100){
-                let obj = res.data.data;
-                let len = obj.length;
-                for (let i = 0; i < len; i++) {
-                    let plus, increasement;
-                    if (parseFloat(obj[i].quo.last_price) !== 0 && parseFloat(obj[i].quo.prev_close_price) !== 0) {
-                        increasement = ((parseFloat(obj[i].quo.last_price) - parseFloat(obj[i].quo.prev_close_price)) / parseFloat(obj[i].quo.prev_close_price)).toFixed(4);
-                    } else if (parseFloat(obj[i].quo.last_price) == 0) {
-                        increasement = 0;
-                    } else if (parseFloat(obj[i].quo.prev_close_price) == 0) {
-                        increasement = '--';
-                    }
-
-                    if (increasement >= 0) {
-                        plus = '';
-                    } else {
-                        plus = 'active';
-                    }
-                    obj[i].increase= increasement;
-
-                    obj[i].flag= plus;
-
-                    obj[i].isActive = false;
-
-                }
-                    that.hqSubscribe(obj); //订阅非固定数据行情
-
-                    that.BoursesDetails = obj;
-
-                    that.BoursesDetails[0].isActive = true;
-
-                    that.hqhistoryData(that.BoursesDetails[0],0);
-
+        axios.post(hq_endpoint+'/quotes/queryKLine', JSON.stringify(params)).then(function(res) {
+            if (res.data.code == 100) {
+                that.showEcharts(res.data.data,'',ID);
             }
         }).catch(function (error) {
                 console.log(error);
             });
     },
 
-    hqSubscribe(arr) {
-        this.ClickedArr = arr; //暂时存储当前被点击的数组
-        var tempArr = [];
-        var arr_len = arr.length;
-        for (var i = 0; i < arr_len; i++) {
-            tempArr.push({
-                "excd": arr[i].exCD,
-                "smcd": arr[i].sCD
-            });
-        }
-        //根据点击的交易所不同，来进行订阅
-        var body = {
-            "sid": this.hqSid,
-            "q_list": tempArr
-        };
-
-        $.post(hq_endpoint+'/quotes/quotesSubscription', JSON.stringify(body), function(result) {
-            if (result.code == 100) {
-                console.log("订阅成功！");
-            }
-        })
-    },
-
-    showEcharts(Arr,key,newData){
+    showEcharts(Arr,newData,ID){
        let arr = Arr.sort(this.compare('stime'));
 
        if (!newData) {
@@ -481,8 +278,7 @@ export default {
             return [+item.oprice, +item.cprice, +item.lprice, +item.hprice];
         });
 
-
-         var option = {
+        let option = {
             backgroundColor: '#000',
             legend: {
                 data: [],
@@ -531,10 +327,10 @@ export default {
                 },
             },
             grid: {
-                bottom: 50,
-                right: 50,
-                left:50,
-                top: 50
+                bottom: 40,
+                right: 60,
+                left:60,
+                top: 40
             },
             dataZoom: [{
                 type: 'inside',
@@ -556,40 +352,18 @@ export default {
                 }
             }]
         };
-
-        this.myEchart.setOption(option);
+        if(ID == 'main'){
+            this.myEchart.setOption(option);
+        }else{
+            this.myEchart_ag.setOption(option);
+        }
     },
 
-    hqhistoryData(obj, key) {
-         for(let i =0 ; i<this.BoursesDetails.length; i++){
-            this.BoursesDetails[i].isActive = false;
-         }
-        obj.isActive = true;
-
-        this.selectedHq = obj;
-
-        let params = {
-                "excd": obj.exCD,
-                "smcd": obj.sCD,
-                "unixtm": 0,
-                "unit": 0,
-                "count": 100
-            };
-
-        let that = this;
-        axios.post(hq_endpoint+'/quotes/queryKLine', JSON.stringify(params)).then(function(res) {
-            if (res.data.code == 100) {
-                that.showEcharts(res.data.data, key,'');
-            }
-        }).catch(function (error) {
-                console.log(error);
-            });
-    },
     //数组排序
-     compare (property) {
+    compare (property) {
         return function(a, b) {
-            var value1 = a[property];
-            var value2 = b[property];
+            let value1 = a[property];
+            let value2 = b[property];
             return value2 - value1;
         }
     },
@@ -613,30 +387,22 @@ export default {
         var YmdHis = year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second;
         return YmdHis;
     },
-
-    hqClose() {
-        console.log("WebSocket Closed.");
-        //2秒后启动重连
-        setTimeout("Zhibo.hqVirtualConn()", 2000);
-    },
-    hqError(evt) {
-        console.log("WebSocket Error." + evt);
-    },
-
   },
 }
 </script>
 
 <style scoped>
+    .zj-list-header>ul{
+        margin:0;
+    }
     .zj-list-header>ul li{
         padding:3px 20px;
-        margin:10px;
         font-size:16px;
+        margin:0 10px 10px 0;
     }
 
     .zj-list-header>ul li.active{
         background-color:#d1201d;
-        border-radius:5px;
     }
 
     .hq-item{
@@ -656,5 +422,21 @@ export default {
 
     .hq-select-time>li{
         margin-right:12px;
+    }
+
+    .date-select{
+        margin:10px;
+    }
+
+    .date-select>li {
+        width: 55px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .date-select>li.active {
+        background-color: #fff;
+        color: #d1201d;
+        border-radius: 5px;
     }
 </style>
