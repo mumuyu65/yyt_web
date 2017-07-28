@@ -3,6 +3,7 @@
     <div class="zj-list">
       <div class="inner-container">
         <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">财经日历</span></h4>
+        <iframe src="http://www.caijingriliba.com/" style="width:100%; height:100%;"></iframe>
       </div>
     </div>
     <div class="zhibo">

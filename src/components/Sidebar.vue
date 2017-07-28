@@ -49,9 +49,10 @@
             </li>
             <div class="divider"></div>
             <li class="text-center">
-                <router-link to="/economicDate" exact>
+                <a href="javascript:void(0)" @click="calendarDate()" v-bind:class="calenderShow">
                 <img src="../../static/images/calendar-icon.png" alt="">
-                <h6>财经日历</h6></router-link></li>
+                <h6>财经日历</h6></a>
+            </li>
             <div class="divider"></div>
             <li class="text-center">
                 <a href="javascript:void(0)" @click="ClassesArrage()" v-bind:class="classArrange">
@@ -214,6 +215,26 @@
             </div>
         </div>
    </div>
+
+   <!-- 财经日历 -->
+   <div class="modal fade" id="calenderModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="min-width:1100px;">
+                <div class="modal-header">
+                    <button type="button" class="close" @click="closeCalendar()" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                         <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px; color:#000">财经日历</span></h4>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="http://www.caijingriliba.com/" style="width:100%; min-height:800px;"></iframe>
+                </div>
+            </div>
+        </div>
+   </div>
 </div>
 </template>
 
@@ -230,6 +251,7 @@ export default {
     return{
       isLogin:false,
       classArrange:'',
+      calenderShow:'',
     }
   },
   mounted (){
@@ -531,6 +553,17 @@ export default {
     closeArrange(){
       $("#classesModal").modal('hide');
       this.classArrange = '';
+    },
+
+    //财经日历
+    calendarDate(){
+       $("#calenderModal").modal('show');
+       this.calenderShow = 'router-link-active';
+    },
+
+    closeCalendar(){
+      $("#calenderModal").modal('hide');
+      this.calenderShow='';
     },
   }
 }
