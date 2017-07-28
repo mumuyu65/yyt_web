@@ -102,12 +102,6 @@ export default {
   components:{ Zhibo,Activity},
   methods:{
     showContent(item){
-        let params={
-          flag:item.id,
-          begidx:0,
-          counts:100,
-        };
-
         for(let i=0; i<3; i++){
           this.mainTitle[i].isActive = false;
         }
@@ -119,9 +113,13 @@ export default {
             this.showTeacher = false;
         }else{
            let that= this;
-
+           this.showTeacher= true;
+           let params={
+            flag:item.id,
+            begidx:0,
+            counts:100,
+          };
           api.classes(params).then(function(res){
-              //console.log(res.data);
               if(res.data.Code ==3){
                 that.classes = res.data.Data;
               }
