@@ -222,17 +222,24 @@ export default {
   },
   computed: mapGetters({
       resetPwd: 'getReset',
+      isLogin:'getLogin',
   }),
+  watch:{
+    isLogin:'initLogin'
+  },
   mounted(){
-    if(window.localStorage.getItem("user")){
-        this.loginSuc = true;
-        let user = JSON.parse(window.localStorage.getItem("user"));
-        this.userNick = user.Nick;
-        this.userImg = env.baseUrl+'/cycj/head/head'+user.UserId;
-        this.Sid = user.SessionId;
-    }
+    this.initLogin();
   },
   methods: {
+    initLogin(){
+        if(window.localStorage.getItem("user") || this.isLogin){
+            this.loginSuc = true;
+            let user = JSON.parse(window.localStorage.getItem("user"));
+            this.userNick = user.Nick;
+            this.userImg = env.baseUrl+'/cycj/head/head'+user.UserId;
+            this.Sid = user.SessionId;
+        }
+    },
     //登录
     showLogin(){
         $("#loginModal").modal("show");
@@ -264,6 +271,7 @@ export default {
                     that.userNick = res.data.Data.Nick;
                     that.userImg = '../../static/images/course_t.png';
                     that.Sid = res.data.Data.SessionId;
+                    that.$store.dispatch('changeLogin',true);
                 }else{
                     alert(res.data.Msg);
                 }

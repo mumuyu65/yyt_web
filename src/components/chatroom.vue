@@ -60,6 +60,9 @@ import Jsonp from 'jsonp'
 
 import { mapGetters } from 'vuex'
 
+
+const chatUrl='http://61.147.124.143:10011';
+
 export default {
   name: 'chatRoom',
   data () {
@@ -70,29 +73,23 @@ export default {
       chatContent:'',
       ws:null,
       user:{},
-      userLevel:[],
+      userLevels:[],
       chatInner:[],
       roomID:0,
     }
   },
-  mounted (){
-    this.initFace();
-
-    this.initChat();
-
-    this.UserLevel();  //用户等级
+  watch:{
+    isLogin:'initChat'
   },
-   computed: mapGetters({
-      userOnline: 'getOnline',
-      giftNum: 'getLastGiftNum',
-      giftSelected:'getGiftSelected',
-      sendGift:'isSendGift',
-      giftArr:'getGifts',
+  computed: mapGetters({
       isLogin:'getLogin'
   }),
-  watch:{
-    sendGift:'chatGift',
-    isLogin:'initChat'
+  mounted (){
+    this.initFace();  //初始化表情
+
+    this.initChat();  //初始化聊天室
+
+    this.UserLevel();  //用户等级
   },
   methods:{
     //聊天图标
@@ -105,7 +102,6 @@ export default {
         });
     },
 
-    //初始化聊天室
     initChat (){
         if(this.isLogin || window.localStorage.getItem("user") ){
             this.user=JSON.parse(window.localStorage.getItem("user"));
@@ -123,7 +119,7 @@ export default {
       let that =this;
       api.userLevel().then(function(res){
            if (res.data.Code == 3) {
-                that.userLevel = res.data.Data;
+                that.userLevels = res.data.Data;
             }
       }).catch(function(err){
           console.log(err);
@@ -157,35 +153,9 @@ export default {
        }
     },
 
-    //发送礼物
-    chatGift (){
-       if(window.localStorage.getItem("user")){
-        var body = '{"roomid":"' + this.roomID + '",' + '"type":"1",' +
-            '"message":{' +
-            '"giftid":"' + this.giftSelected + '",' +
-            '"giftcount":"' + this.giftNum + '"' +
-            '}' +
-            '}';
-        var pklen = body + 16;
-        if(this.sendGift){
-            this.ws.send(JSON.stringify({
-            'pklen': pklen,
-            'klen': 16,
-            'ver': 1,
-            'op': 42,
-            'id': 4,
-            'body': JSON.parse(body)
-        }));
-         this.$store.dispatch("sendGift",false);
-        }
-      }else{
-        alert("未登录,不可以发送礼物的哦!");
-      }
-    },
-
     ConnSvr (){
         var that = this;
-        that.ws = new WebSocket("ws://58.220.31.244:57081/sub");
+        that.ws = new WebSocket("ws://61.147.124.143:10014/sub");
 
         that.ws.onopen = function() {
             console.log("conn succeed.");
@@ -223,7 +193,6 @@ export default {
                     let rcvbody_28 = data.body;
                     let data_28 = JSON.parse(JSON.stringify(rcvbody_28));
                     console.log("进入房间后的反馈信息", data_28);
-                    that.$store.dispatch('changeOnlinePeople',data_28.data.userlist.length);
                     if (data_28.code == 100) {
                         let roomId = data_28.data.roomid;
                         that.roomID = roomId;
@@ -264,11 +233,9 @@ export default {
 
     //验证用户信息
     confirmUser (){
+
         let sid = this.user.SessionId;
         let uid = this.user.UserId;
-
-        console.log(sid,uid);
-
 
         // 发送认证消息
         let body = '{"uid":"' + uid + '","sessionid":"' + sid + '","platform":"4"}';
@@ -297,16 +264,29 @@ export default {
 
     //进入房间
     enterRoom () {
-        let body = 888888;
-        let pklen = body.length + 16;
-        this.ws.send(JSON.stringify({
-            'pklen': pklen,
-            'klen': 16,
-            'ver': 1,
-            'op': 27,
-            'id': 4,
-            'body': body
-        }));
+        let params={
+            begidx:0,
+            counts:10
+        };
+
+        let that = this;
+        api.roomNum(params).then(function(res){
+            if(res.data.Code ==3){
+                let templateRoom = res.data.Data.Detail;
+                let body = templateRoom[0].roomno;
+                let pklen = body.length + 16;
+                that.ws.send(JSON.stringify({
+                    'pklen': pklen,
+                    'klen': 16,
+                    'ver': 1,
+                    'op': 27,
+                    'id': 4,
+                    'body': body
+                }));
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
     },
 
     //发送消息
@@ -429,43 +409,6 @@ export default {
         this.scrollTop();
     },
 
-    //显示礼物
-    showGift(date, Data, giftid, giftCount, giftusername) {
-        var img;
-        var giftImg, giftPrice;
-        for (let i = 0; i < this.giftArr.length; i++) {
-            if (giftid == this.giftArr[i].id) {
-                giftImg = this.giftArr[i].imgurl;
-                giftPrice = this.giftArr[i].price;
-            }
-        }
-
-        let len = this.userLevel.length;
-        for (let i = 0; i < len; i++) {
-            if (Data.userflag == this.userLevel[i].fid && Data.userlevel == this.userLevel[i].lid) {
-                img = this.userLevel[i].role_css;
-            }
-        }
-
-        let obj=JSON.parse(window.localStorage.getItem("user"));
-
-        obj.Beans -=parseInt(giftPrice) * parseInt(giftCount);
-
-        this.$store.dispatch('changeUser',obj);
-
-        window.localStorage.setItem('user',JSON.stringify(obj));
-
-        let Text='<span style="color:#f00;">' + giftusername + '送了' + giftCount + '个</span><img style="width:56px;" src="' + giftImg + '" alt="">';
-
-        let chat_content={
-            userlog:img,
-            name:Data.username,
-            date:date,
-            text:Text
-        };
-        this.chatInner.push(chat_content);
-        this.scrollTop();
-    },
   },
 }
 </script>

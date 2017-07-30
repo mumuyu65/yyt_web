@@ -164,5 +164,11 @@ class API {
         return axios.post('/cycj/liveinfo', {}, config);
     }
 
+    //查询房间号
+    roomNum(param) {
+        config.data = param;
+        return axios.post('/cycj/live/query', {}, config);
+    }
+
 }
 export default API;
