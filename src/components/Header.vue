@@ -135,6 +135,49 @@
             </div>
         </div>
    </div>
+
+   <!-- 个人设置 -->
+   <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                        <span style="color:#f00;">个人设置</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled login_border" style="color:#000;">
+                        <li>
+                            <div class="text_1">
+                                <p>个人设置</p>
+                            </div>
+                        </li>
+                        <li class="text_2">
+                            昵称:<input name="account" type="text" v-model="Nick" style="width:90%" required/>
+                        </li>
+                        <li class="text_2" style="position:relative;">
+                            头像:
+                            <input type="text" placeholder="" disabled style="height:50px;width:90%"/>
+                            <img v-bind:src="modifyImg" class="img-circle" style="position:absolute; width:50px; height:50px; right:90px; top:0; "/>
+                            <a href="javascript:;" class="btn setting-btn">上传头像
+                                <input type="file" name="file" @change="modifySettings"  ref="uploadImg"/>
+                            </a>
+                        </li>
+                        <li class="text_2">
+                            简介:<input type="text" placeholder="" v-model="Intro" style="height:50px; width:90%"/>
+                        </li>
+                        <li class="text_5">
+                            <input type="submit" value="提 交" @click="resetSettings()"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+   </div>
 </div>
 </template>
 
@@ -144,6 +187,10 @@ import { mapGetters } from 'vuex'
 import API from '@/api/API'
 //实例化api
 const api = new API();
+
+import axios from 'axios'
+
+import env from '@/config/env'
 
 export default {
   name: 'header',
@@ -167,6 +214,9 @@ export default {
             vcode:'',
             pwd:'',
         },
+        Nick:'',
+        Intro:'',
+        modifyImg:'',
 
     }
   },
@@ -178,7 +228,7 @@ export default {
         this.loginSuc = true;
         let user = JSON.parse(window.localStorage.getItem("user"));
         this.userNick = user.Nick;
-        this.userImg = '../../static/images/course_t.png';
+        this.userImg = env.baseUrl+'/cycj/head/head'+user.UserId;
         this.Sid = user.SessionId;
     }
   },
@@ -335,6 +385,55 @@ export default {
         });
     },
 
+    //个人设置
+    showPerson(){
+      $("#settingsModal").modal("show");
+      let user = JSON.parse(window.localStorage.getItem("user"));
+      this.Nick = user.Nick;
+
+      this.modifyImg = env.baseUrl+'/cycj/head/head'+user.UserId;
+
+      this.Intro = user.Intro;
+    },
+
+    modifySettings(e){
+        let files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+        return;
+        this.createImage(files[0]);
+    },
+
+    createImage(file) {
+      let reader = new FileReader();
+      let that = this;
+
+      reader.onload = (e) => {
+        that.modifyImg =e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+
+    resetSettings(){
+        let input = this.$refs.uploadImg;
+        let data = new FormData();
+        data.append('file', input.files[0]);
+        data.append('sid',this.Sid);
+        data.append('nick',this.Nick);
+        data.append('intro',this.Intro);
+        let that = this;
+        axios.post(env.baseUrl+'/cycj/userinfo/update', data, {
+            headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        .then(function (res) {
+          alert(res.data.Msg);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
   }
 }
 </script>
@@ -350,5 +449,29 @@ export default {
        background-color:#fff;
        border-radius:10px;
        color:#d1201d;
+    }
+
+    .setting-btn {
+        margin: auto;
+        width: 75px;
+        height: 35px;
+        border: none;
+        background-color: #E52327;
+        color: #FFFFFF;
+        border-radius: 0;
+        position:absolute;
+        top:10px;
+        right:2px;
+        cursor:pointer;
+    }
+
+    .setting-btn input[type=file]{
+        width: 100%;
+        left: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        opacity: 0;
     }
 </style>

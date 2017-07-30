@@ -2,9 +2,6 @@
     <div class="chat">
         <ul class="list-inline">
             <li><h4 style="color:#f00;">实时聊天</h4></li>
-            <li class="pull-right">
-                <h4>在线人数：<span>{{userOnline}}</span></h4>
-            </li>
         </ul>
         <div class="chat-inner">
             <div class="inner-container" id="chat_inner">

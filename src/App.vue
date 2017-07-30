@@ -8,7 +8,9 @@
           <router-view></router-view>
         </li>
         <li>
+          <!--
           <chat-room></chat-room>
+          -->
         </li>
       </ol>
     </div>
