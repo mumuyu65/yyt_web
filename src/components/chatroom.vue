@@ -6,7 +6,7 @@
         <div class="chat-inner">
             <div class="inner-container" id="chat_inner">
                 <div class="chat-item" v-for="item in chatInner">
-                  <ol class="list-inline">
+                  <ol class="list-inline" @click="sendTextTo(item)" style="cursor:pointer;">
                     <li style="vertical-align: bottom">
                       <img v-bind:src="item.userlog" alt="">
                     </li>
@@ -177,17 +177,17 @@ export default {
                     var timer = setInterval(function() {
                         that.heartbeat();
                      }, 20000);
-                    that.enterRoom();
+                    that.enterRoom();  //进入房间
                     break;
                 case 24:
                     let rcvbody_24 = data.body;
                     let data_24 = JSON.parse(JSON.stringify(rcvbody_24));
-                    that.personInformation(data_24);
+                    that.personInformation(data_24);  //接受个人信息消息
                     break;
                 case 26:
                     let rcvbody_26 = data.body;
                     let data_26 = JSON.parse(JSON.stringify(rcvbody_26));
-                    that.quliaoInformation(data_26);
+                    that.quliaoInformation(data_26);   //接受群聊消息
                     break;
                 case 28:
                     let rcvbody_28 = data.body;
@@ -204,11 +204,6 @@ export default {
                     let rcvbody_30 = data.body;
                     let data_30 = JSON.parse(JSON.stringify(rcvbody_30));
                     console.log("用户退出房间的反馈信息", data_30);
-                    break;
-                case 43:
-                    let rcvbody_43 = data.body;
-                    let data_43 = JSON.parse(JSON.stringify(rcvbody_43));
-                    console.log("发送送礼消息的反馈", data_43);
                     break;
             }
         };
@@ -273,7 +268,7 @@ export default {
         api.roomNum(params).then(function(res){
             if(res.data.Code ==3){
                 let templateRoom = res.data.Data.Detail;
-                let body = templateRoom[0].roomno;
+                let body = parseInt(templateRoom[0].roomno);
                 let pklen = body.length + 16;
                 that.ws.send(JSON.stringify({
                     'pklen': pklen,
@@ -305,7 +300,6 @@ export default {
         }else{
             this.ConnSvr();
         }
-
     },
 
     personInformation (Data) {
@@ -318,9 +312,6 @@ export default {
         switch (Data.type) {
             case '0':
                 this.showChat(date, Data.username, Data.message, Data);
-                break;
-            case '1':
-                this.showGift(date, Data, Data.message.giftid, Data.message.giftcount, Data.message.giftusername);
                 break;
             case '2':
                     this.showChat(date, Data.username, Data.message.inname + '进入房间', Data);
@@ -388,14 +379,14 @@ export default {
         //根据不同的级别，显示不同的图标
         var userLog;
         console.log('用户接受群聊消息', img);
-        let len = this.userLevel.length;
+        let len = this.userLevels.length;
         for (let i = 0; i < len; i++) {
-            if (img.userflag == this.userLevel[i].fid && img.userlevel == this.userLevel[i].lid) {
-                userLog = this.userLevel[i].role_css;
+            if (img.userflag == this.userLevels[i].fid && img.userlevel == this.userLevels[i].lid) {
+                userLog = this.userLevels[i].role_css;
             }
         }
 
-        var Text = this.analysis(text);
+        let Text = this.analysis(text);
 
         let chat_content={
             userlog:userLog,
@@ -404,11 +395,16 @@ export default {
             date:date
         };
 
+
         this.chatInner.push(chat_content);
 
         this.scrollTop();
     },
 
+    //私聊
+    sendTextTo(item){
+        console.log(item);
+    },
   },
 }
 </script>
