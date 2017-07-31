@@ -24,18 +24,39 @@
             <li class="chat-qq">错单解读</li>
         </ul>
         <ul class="list-inline">
-            <li class="chat-icon">
-                <img src="../../static/images/biaoqing.png" alt="" @click="toggleFace()"/>
-                <div class="chat-face" v-show="showFace">
-                    <div class="chat-face-inner">
-                        <div class="chat-face-content">
-                          <img v-bind:src="face.url" v-for="face in chatFaces" @click="faceSelect(face)" />
-                        </div>
+            <li class="chat-icon" @click="toggleFace()">
+                <i class="iconfont icon-xiaolian"></i>表情
+            </li>
+            <li class="chat-face" v-show="showFace">
+                <div class="chat-face-inner">
+                    <div class="chat-face-content">
+                      <img v-bind:src="face.url" v-for="face in chatFaces" @click="faceSelect(face)" />
                     </div>
                 </div>
             </li>
-            <li class="chat-icon"><img src="../../static/images/tupian.png" alt="" /></li>
-            <li class="chat-icon"><img src="../../static/images/qingpin.png" alt="" @click="clear()" /></li>
+            <li class="chat-icon" @click="toggleImg()">
+                <i class="iconfont icon-img"></i>图片
+            </li>
+            <li class="chat-face" v-show="showImg">
+                <div class="chat-face-inner">
+                    <div class="chat-face-content">
+                      <img v-bind:src="face.url" v-for="face in chatImgs" @click="ImgSelect(face)" />
+                    </div>
+                </div>
+            </li>
+            <li class="chat-icon" @click="toggleSkin()">
+                <i class="iconfont icon-huanfu"></i>换肤
+            </li>
+            <li class="chat-face" v-show="showSkin" style="height:50px; width:460px;">
+                <div class="chat-face-inner" style="background-color:#f5f5f5">
+                    <div class="skin-icon" v-bind:style='{backgroundColor:skin.value}' v-for="skin in Skins" @click="SkinSelect(skin)">
+                        <i class="iconfont icon-duigou" v-if="skin.isSelected" style="color:#ececec;position:absolute; bottom:-3px; right:0;"></i>
+                    </div>
+                </div>
+            </li>
+            <li class="chat-icon" @click="clear()">
+                <i class="iconfont icon-lajitong"></i>清屏
+            </li>
         </ul>
         <ul class="list-inline" style="position:relative;">
             <li style="width:100%;">
@@ -68,7 +89,7 @@ export default {
   data () {
     return {
       chatFaces:[],
-      showFace: false,
+      showFace: false,  //表情
       selectedFace:'',
       chatContent:'',
       ws:null,
@@ -76,13 +97,17 @@ export default {
       userLevels:[],
       chatInner:[],
       roomID:0,
+      showImg:false, //聊天图片
+      chatImgs:[],
+      showSkin:false,
+      Skins:[{id:1,value:'#282828',isSelected:true,color:'#000'},{id:2,value:'#fff',isSelected:false,color:'#000',fontColor:'#1B2C36'},{id:3,value:'#BF0103',isSelected:false,color:'#000',fontColor:'#fff'},{id:4,value:'#F7C33B',isSelected:false,color:'#000',fontColor:'#FEF4E2'},{id:5,value:'#003E5F',isSelected:false,color:'#000',fontColor:'#00C8F9'}],
     }
   },
   watch:{
     isLogin:'initChat'
   },
   computed: mapGetters({
-      isLogin:'getLogin'
+      isLogin:'getLogin',
   }),
   mounted (){
     this.initFace();  //初始化表情
@@ -90,6 +115,8 @@ export default {
     this.initChat();  //初始化聊天室
 
     this.UserLevel();  //用户等级
+
+    this.SkinSelect(this.Skins[0]);
   },
   methods:{
     //聊天图标
@@ -136,6 +163,28 @@ export default {
       this.selectedFace= item;
       this.chatContent += item.phrase;
       this.showFace = !this.showFace;
+    },
+
+    ImgSelect(item){
+
+    },
+    //开启或关闭聊天图片
+    toggleImg(){
+        this.showImg = !this.showImg;
+    },
+
+    //开启或关闭换肤
+    toggleSkin(){
+        this.showSkin = !this.showSkin;
+    },
+
+    SkinSelect(item){
+        for(let i=0; i<5;i++){
+            this.Skins[i].isSelected = false;
+        }
+        item.isSelected = true;
+
+        this.$store.dispatch('ChangeSkin',item);
     },
 
     //发送内容
@@ -421,5 +470,41 @@ export default {
         font-size:18px;
         border-radius:5px;
         margin-right:5px;
+    }
+
+    .chat .chat-icon{
+        color:#f00;
+        font-size:14px;
+        border:1px solid #f00;
+        padding:0px 5px;
+        vertical-align:top;
+        opacity:0.6;
+        margin-right:10px;
+        margin-left:5px;
+    }
+
+    .chat .chat-icon>i{
+        vertical-align:middle;
+    }
+
+    .chat .chat-face{
+        left:25px;
+        bottom:100px;
+        z-index:999;
+        opacity:1.0;
+    }
+
+    .chat .skin-icon{
+        position:relative;
+        width:70px;
+        height:30px;
+        margin:10px;
+        display:inline-block;
+        opacity:1.0;
+        cursor:pointer;
+    }
+
+    .chat .skin-icon:hover{
+        opacity:0.6;
     }
 </style>

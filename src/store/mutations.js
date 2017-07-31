@@ -16,6 +16,12 @@ export default {
 
         CHANGE_RESET(state, value) {
             state.resetPwd = value;
-        }
+        },
+
+        CHANGE_SKIN(state, value) {
+            state.resetSkin = value;
+
+            window.localStorage.setItem('skin', JSON.stringify(value));
+        },
 
 }
