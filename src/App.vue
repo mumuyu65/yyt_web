@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="daozhibo" v-bind:style='{backgroundColor:skin.value}'>
     <mq-header></mq-header>
     <sider-bar></sider-bar>
     <div class="content">
@@ -19,8 +19,18 @@
 import mqHeader from './components/Header'
 import SiderBar from './components/Sidebar'
 import ChatRoom from '@/components/chatroom'
+
+import { mapGetters} from 'vuex'
 export default {
   name: 'sidebar',
-  components: { mqHeader,SiderBar,ChatRoom }
+  components: { mqHeader,SiderBar,ChatRoom },
+  computed: mapGetters({
+      skin:'getSkin',
+  }),
+  mounted(){
+    if(window.localStorage.getItem('skin')){
+        this.skin = JSON.parse(window.localStorage.getItem('skin'));
+    }
+  },
 }
 </script>

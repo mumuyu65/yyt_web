@@ -161,7 +161,7 @@ class API {
     //直播
     getZhibo(param) {
         config.data = param;
-        return axios.post('/cycj/liveinfo', {}, config);
+        return axios.post('/cycj/live/query', {}, config);
     }
 
     //查询房间号

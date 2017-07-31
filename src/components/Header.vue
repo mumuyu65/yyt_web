@@ -1,6 +1,6 @@
 <template>
 <div>
-   <div class="header">
+   <div class="header" v-bind:style="{backgroundColor:header.color}">
         <router-link to="/"><img src="../../static/images/logo.png" class="logo" /></router-link>
         <ul class="list-inline pull-right" style="line-height:65px;">
             <li style="margin-right:30px;">
@@ -223,12 +223,16 @@ export default {
   computed: mapGetters({
       resetPwd: 'getReset',
       isLogin:'getLogin',
+      header:'getSkin'
   }),
   watch:{
     isLogin:'initLogin'
   },
   mounted(){
     this.initLogin();
+    if(window.localStorage.getItem('skin')){
+        this.header = JSON.parse(window.localStorage.getItem('skin'));
+    }
   },
   methods: {
     initLogin(){

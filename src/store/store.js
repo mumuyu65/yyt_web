@@ -14,6 +14,7 @@ const state = {
     loginway: 'login',
     isLogin: false,
     resetPwd: false,
+    resetSkin: '',
 }
 
 export default new Vuex.Store({

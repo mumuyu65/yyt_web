@@ -1,6 +1,6 @@
 <template>
 <div>
-   <div class="sidebar">
+   <div class="sidebar" v-bind:style="{backgroundColor:sidebarColor.color}">
         <ul class="list-unstyled">
             <div class="divider"></div>
             <li class="text-center">
@@ -258,9 +258,13 @@ export default {
   },
   mounted (){
     this.init();
+    if(window.localStorage.getItem('skin')){
+        this.sidebarColor = JSON.parse(window.localStorage.getItem('skin'));
+    }
   },
   computed: mapGetters({
       user: 'getUser',
+      sidebarColor:'getSkin',
   }),
   methods:{
     init (){

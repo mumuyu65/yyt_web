@@ -24,3 +24,9 @@ export const changeReset = ({
 }, value) => {
     commit('CHANGE_RESET', value)
 }
+
+export const ChangeSkin = ({
+    commit
+}, value) => {
+    commit('CHANGE_SKIN', value)
+}
