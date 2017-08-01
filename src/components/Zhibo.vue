@@ -1,6 +1,5 @@
 <template>
   <div id="player" class="player">
-
   </div>
 </template>
 
@@ -35,12 +34,11 @@ export default {
           if(templateLive){
             let url; //直播地址
             for(let i=0; i<templateLive.length;i++){
-              console.log(templateLive[i]);
               if(templateLive[i].type == 0){
                    url =templateLive[i].liveurl.trim();
               }
             }
-             console.log(url);
+             //console.log(url);
              let objectPlayer = new Player.aodianPlayer({
                 container: 'player', //播放器容器ID，必要参数
                 rtmpUrl:url, //控制台开通的APP rtmp地址，必要参数
@@ -64,6 +62,5 @@ export default {
       });
     }
   }
-
 }
 </script>

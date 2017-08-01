@@ -2,10 +2,146 @@
   <div class="main">
      <div class="zj-list">
         <div class="inner-container">
-          <ul class="list-inline">
-            <li><h4>疯狂猜涨跌</h4></li>
-          </ul>
           <iframe src="http://www.chuanglifenglive.com/smgame" width="760px" frameborder="0" height="1300px" scrolling="yes" id="small_game" ></iframe>
+           <div class="small-game">
+                            <ul id="myTab" class="list-inline" style="background-color:#000;">
+                                <li class="active">
+                                    <a href="#gameRank" data-toggle="tab" style="color:#fff;">
+                                        游戏排名
+                                    </a>
+                                </li>
+                                <li><a href="#joinRecord" data-toggle="tab" style="color:#fff;">参与记录</a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div class="tab-pane fade in active" id="gameRank">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <img src="images/game_1.png" alt="" />
+                                        </li>
+                                        <li>苗苗</li>
+                                        <li class="pull-right">
+                                            1014000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <img src="images/game_2.png" alt="" />
+                                        </li>
+                                        <li>洋洋</li>
+                                        <li class="pull-right">
+                                            1010000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <img src="images/game_3.png" alt="" />
+                                        </li>
+                                        <li>小曲</li>
+                                        <li class="pull-right">
+                                            910000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li style="position: relative;">
+                                            <img src="images/game.png" alt="" />
+                                            <span style="position: absolute; left:17px;top:12px;">4</span>
+                                        </li>
+                                        <li>传栋</li>
+                                        <li class="pull-right">
+                                            860000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li style="position: relative;">
+                                            <img src="images/game.png" alt="" />
+                                            <span style="position: absolute; left:17px;top:12px;">5</span>
+                                        </li>
+                                        <li>红超</li>
+                                        <li class="pull-right">
+                                            810000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li style="position: relative;">
+                                            <img src="images/game.png" alt="" />
+                                            <span style="position: absolute; left:17px;top:12px;">6</span>
+                                        </li>
+                                        <li>楠楠</li>
+                                        <li class="pull-right">
+                                            780000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li style="position: relative;">
+                                            <img src="images/game.png" alt="" />
+                                            <span style="position: absolute; left:17px;top:12px;">7</span>
+                                        </li>
+                                        <li>小章</li>
+                                        <li class="pull-right">
+                                            720000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="joinRecord">
+                                    <ul class="list-inline">
+                                        <li>苗苗</li>
+                                        <li class="pull-right">
+                                            1014000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>洋洋</li>
+                                        <li class="pull-right">
+                                            1010000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>小曲</li>
+                                        <li class="pull-right">
+                                            910000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>传栋</li>
+                                        <li class="pull-right">
+                                            860000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>红超</li>
+                                        <li class="pull-right">
+                                            810000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>楠楠</li>
+                                        <li class="pull-right">
+                                            780000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline">
+                                        <li>小章</li>
+                                        <li class="pull-right">
+                                            720000
+                                            <img src="images/gold.png" alt="">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+           </div>
         </div>
     </div>
     <div class="zhibo">

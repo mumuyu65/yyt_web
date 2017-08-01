@@ -35,12 +35,31 @@ export default {
     return {
       active: 0,
       currentView: 'Productsintro',
+      /*
       tabs: [
          {
           view: 'Productsintro',
           image:'../../static/images/product-icon.png',
           title:'产品介绍'
          },
+         {
+          view: 'Download',
+          image:'../../static/images/xiazai.png',
+          title:'下载中心'
+         },
+         {
+          view: 'Teamlive',
+          image:'../../static/images/jinrong-icon.png',
+          title:'战队直播'
+         },
+         {
+          view: 'Activityzone',
+          image:'../../static/images/zhibo-icon.png',
+          title:'活动专区'
+         }
+       ]
+       */
+       tabs: [
          {
           view: 'Download',
           image:'../../static/images/xiazai.png',
@@ -90,7 +109,7 @@ export default {
   }
 
   .activity .price li{
-    width:24%;
+    width:33%;
     line-height:110px;
     text-align:center;
     font-size:20px;

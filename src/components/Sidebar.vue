@@ -10,12 +10,17 @@
                 </router-link>
             </li>
             <div class="divider"></div>
+
+            <!--
+
             <li class="text-center">
                 <router-link to="/hangqing" exact>
                     <img src="../../static/images/hangqing.png" alt="">
                     <h6>行情</h6></router-link>
             </li>
             <div class="divider"></div>
+            -->
+
             <li class="text-center">
                 <a href="javascript:void(0)" @click="handlesuggestion()" v-if="!isLogin">
                     <img src="../../static/images/handle-icon.png" alt="">
@@ -28,7 +33,7 @@
             </li>
             <div class="divider"></div>
             <li class="text-center">
-                <router-link to="/hqpreview" exact>
+                <router-link to="/teacherrecommand" exact>
                     <img src="../../static/images/zhuanjia-icon.png" alt="">
                     <h6>老师观点</h6>
                 </router-link>
@@ -41,6 +46,9 @@
                 </router-link>
             </li>
             <div class="divider"></div>
+
+            <!--
+
             <li class="text-center">
               <router-link to="/smallgame" exact>
                   <img src="../../static/images/youxi-icon.png" alt="">
@@ -48,6 +56,8 @@
               </router-link>
             </li>
             <div class="divider"></div>
+
+            -->
             <li class="text-center">
                 <a href="javascript:void(0)" @click="calendarDate()" v-bind:class="calenderShow">
                 <img src="../../static/images/calendar-icon.png" alt="">
