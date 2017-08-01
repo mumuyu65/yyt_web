@@ -392,6 +392,7 @@ export default {
             //console.log(res.data);
             if(res.data.Code ==3){
                 that.loginSuc = false;
+                alert("退出成功!");
                 window.localStorage.removeItem("user");
                 that.$router.push('/');
             }
@@ -443,6 +444,10 @@ export default {
         })
         .then(function (res) {
           alert(res.data.Msg);
+          if(res.data.Code ==3){
+            window.localStorage.setItem('user',JSON.stringify(res.data.Data));
+            $("#settingsModal").modal("hide");
+          }
         })
         .catch(function (error) {
           console.log(error);
