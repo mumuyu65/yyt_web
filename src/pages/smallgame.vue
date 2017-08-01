@@ -5,7 +5,7 @@
           <ul class="list-inline">
             <li><h4>疯狂猜涨跌</h4></li>
           </ul>
-          <iframe src="http://sys.chuanglifenglive.com/smgame" width="760px" frameborder="0" height="1300px" scrolling="yes" id="small_game" ></iframe>
+          <iframe src="http://www.chuanglifenglive.com/smgame" width="760px" frameborder="0" height="1300px" scrolling="yes" id="small_game" ></iframe>
         </div>
     </div>
     <div class="zhibo">
