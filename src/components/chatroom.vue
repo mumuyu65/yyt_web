@@ -112,15 +112,18 @@ export default {
       chatImgs:[],
       customers:[],   //客服助理
       showSkin:false,   //换肤
+      templateRoom:'',  //直播房间号
       Skins:[{id:1,value:'#282828',isSelected:true,color:'#000'},{id:2,value:'#fff',isSelected:false,color:'#000',fontColor:'#1B2C36'},{id:3,value:'#BF0103',isSelected:false,color:'#000',fontColor:'#fff'},{id:4,value:'#F7C33B',isSelected:false,color:'#000',fontColor:'#FEF4E2'},{id:5,value:'#003E5F',isSelected:false,color:'#000',fontColor:'#00C8F9'}],
     }
   },
-  watch:{
-    isLogin:'initChat'
-  },
   computed: mapGetters({
       isLogin:'getLogin',
+      liveUrl:'getLive',
   }),
+  watch:{
+    isLogin:'initChat',
+    liveUrl:'changeChatRoom'
+  },
   mounted (){
     this.initFace();  //初始化表情
 
@@ -129,6 +132,8 @@ export default {
     this.UserLevel();  //用户等级
 
     this.customer();   //客服助理
+
+    this.roomNo();    //房间号列表
   },
   methods:{
     //聊天图标
@@ -262,8 +267,8 @@ export default {
         }));
     },
 
-    //进入房间
-    enterRoom () {
+    //查询房间号
+    roomNo(){
         let params={
             begidx:0,
             counts:10
@@ -272,21 +277,39 @@ export default {
         let that = this;
         api.roomNum(params).then(function(res){
             if(res.data.Code ==3){
-                let templateRoom = res.data.Data.Detail;
-                let body = parseInt(templateRoom[0].roomno);
-                let pklen = body.length + 16;
-                that.ws.send(JSON.stringify({
-                    'pklen': pklen,
-                    'klen': 16,
-                    'ver': 1,
-                    'op': 27,
-                    'id': 4,
-                    'body': body
-                }));
+                that.templateRoom = res.data.Data.Detail;
             }
         }).catch(function(err){
             console.log(err);
         });
+    },
+
+    //进入房间
+    enterRoom () {
+        let body = parseInt(this.templateRoom[0].roomno);
+        let pklen = body.length + 16;
+        this.ws.send(JSON.stringify({
+            'pklen': pklen,
+            'klen': 16,
+            'ver': 1,
+            'op': 27,
+            'id': 4,
+            'body': body
+        }));
+    },
+
+    //进入战队直播的聊天区间
+    changeChatRoom(){
+        let body = parseInt(this.templateRoom[1].roomno);
+        let pklen = body.length + 16;
+        this.ws.send(JSON.stringify({
+            'pklen': pklen,
+            'klen': 16,
+            'ver': 1,
+            'op': 27,
+            'id': 4,
+            'body': body
+        }));
     },
 
     //长链接
@@ -411,7 +434,13 @@ export default {
                 this.showChat(date, Data.username, Data.message, Data);
                 break;
             case '2':
-                    this.showChat(date, Data.username, Data.message.inname + '进入房间', Data);
+                    let roomName;
+                    if(this.liveUrl == '0'){
+                        roomName ='大厅直播';
+                    }else{
+                        roomName ='战队直播';
+                    }
+                    this.showChat(date, Data.username, Data.message.inname + '进入'+roomName+'房间', Data);
                     break;
             case '3':
                 this.showChat(date, Data.username, Data.message.outname + '退出房间', Data);
