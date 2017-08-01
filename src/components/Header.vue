@@ -230,8 +230,10 @@ export default {
   },
   mounted(){
     this.initLogin();
+    console.log(this.header);
     if(window.localStorage.getItem('skin')){
         this.header = JSON.parse(window.localStorage.getItem('skin'));
+        //console.log(this.header,JSON.parse(window.localStorage.getItem('skin')));
     }
   },
   methods: {

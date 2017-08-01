@@ -115,8 +115,6 @@ export default {
     this.initChat();  //初始化聊天室
 
     this.UserLevel();  //用户等级
-
-    this.SkinSelect(this.Skins[0]);
   },
   methods:{
     //聊天图标

@@ -62,9 +62,24 @@ export default {
   components:{ Productsintro, Download, Teamlive, Activityzone },
   methods: {
     toggle(i, v){
-       this.active = i
-       this.currentView = v
+       if(v == 'Teamlive'){
+          if(window.localStorage.getItem("user")){
+              let templateLevel = JSON.parse(window.localStorage.getItem("user")).Level;
+              if(parseInt(templateLevel)>=1){
+                this.active = i;
+                this.currentView = v;
+                this.$store.dispatch('changeLive',1);
+              }else{
+                alert("普通用户暂不可以观看战队直播！");
+              }
+          }else{
+            alert("未登录，不可以进入战队直播！");
+          }
+       }else{
+         this.active = i;
+         this.currentView = v;
        }
+    }
   }
 }
 </script>

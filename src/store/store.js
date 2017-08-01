@@ -14,7 +14,13 @@ const state = {
     loginway: 'login',
     isLogin: false,
     resetPwd: false,
-    resetSkin: '',
+    resetSkin: {
+        id: 1,
+        value: '#282828',
+        isSelected: false,
+        color: '#000'
+    },
+    liveurl: 0,
 }
 
 export default new Vuex.Store({

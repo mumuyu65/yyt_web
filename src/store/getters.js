@@ -10,3 +10,5 @@ export const getLogin = state => state.isLogin
 export const getReset = state => state.resetPwd
 
 export const getSkin = state => state.resetSkin
+
+export const getLive = state => state.liveurl

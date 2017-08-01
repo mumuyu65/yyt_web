@@ -35,6 +35,7 @@ export default {
           if(templateLive){
             let url; //直播地址
             for(let i=0; i<templateLive.length;i++){
+              console.log(templateLive[i]);
               if(templateLive[i].type == 0){
                    url =templateLive[i].liveurl.trim();
               }

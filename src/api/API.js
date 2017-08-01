@@ -170,5 +170,11 @@ class API {
         return axios.post('/cycj/live/query', {}, config);
     }
 
+    //课程表时间段
+    scheduleDistance(param) {
+        config.data = param;
+        return axios.post('/cycj/schedule/period', {}, config);
+    }
+
 }
 export default API;

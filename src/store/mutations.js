@@ -24,4 +24,9 @@ export default {
             window.localStorage.setItem('skin', JSON.stringify(value));
         },
 
+        CHANGE_LIVE(state, value) {
+            state.liveurl = value;
+
+            window.localStorage.setItem('liveurl', JSON.stringify(value));
+        },
 }
