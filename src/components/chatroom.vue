@@ -414,12 +414,43 @@ export default {
                     this.showChat(date, Data.username, Data.message.inname + '进入房间', Data);
                     break;
             case '3':
-                this.showChat(date, Data.username, Data.message.inname + '退出房间', Data);
+                this.showChat(date, Data.username, Data.message.outname + '退出房间', Data);
                 break;
             case '5':
                 alert("直播结束....");
                 break;
         }
+    },
+
+    //显示聊天内容
+    showChat (date, name, text, img) {
+        //根据不同的级别，显示不同的图标
+        var userLog;
+        console.log('用户接受群聊消息', img);
+        let len = this.userLevels.length;
+        for (let i = 0; i < len; i++) {
+            if (img.userflag == this.userLevels[i].fid && img.userlevel == this.userLevels[i].lid) {
+                userLog = this.userLevels[i].role_css;
+            }
+        }
+
+        let Text = this.analysis(text);
+
+        let chat_content={
+            userlog:userLog,
+            name:name,
+            text:Text,
+            date:date
+        };
+
+        this.chatInner.push(chat_content);
+
+        this.scrollTop();  //聊天置底
+    },
+
+    //私聊
+    sendTextTo(item){
+        this.chatContent = '@'+item.name;
     },
 
     //时间转换格式
@@ -471,37 +502,6 @@ export default {
         return value;
     },
 
-    //显示聊天内容
-    showChat (date, name, text, img) {
-        //根据不同的级别，显示不同的图标
-        var userLog;
-        console.log('用户接受群聊消息', img);
-        let len = this.userLevels.length;
-        for (let i = 0; i < len; i++) {
-            if (img.userflag == this.userLevels[i].fid && img.userlevel == this.userLevels[i].lid) {
-                userLog = this.userLevels[i].role_css;
-            }
-        }
-
-        let Text = this.analysis(text);
-
-        let chat_content={
-            userlog:userLog,
-            name:name,
-            text:Text,
-            date:date
-        };
-
-        this.chatInner.push(chat_content);
-
-        this.scrollTop();  //聊天置底
-    },
-
-    //私聊
-    sendTextTo(item){
-        this.chatContent = '@'+item.name;
-    },
-
     //聊天室的历史记录
     historyChat(rid){
         let params={
@@ -516,6 +516,8 @@ export default {
                 let templeObj = res.data.Data;
 
                 let len = that.userLevels.length;
+
+                console.log('历史用户聊天记录',templeObj);
 
                 for(let i=0; i<templeObj.length;i++){
                     let userlog;

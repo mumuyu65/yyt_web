@@ -29,6 +29,8 @@ import API from '@/api/API'
 //实例化api
 const api = new API();
 
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'activity',
   data () {
