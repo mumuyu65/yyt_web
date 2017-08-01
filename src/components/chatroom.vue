@@ -17,12 +17,23 @@
                 </div>
             </div>
         </div>
+
+        <!--
         <ul class="list-inline" style="margin:10px 0;">
             <li class="chat-qq">申请1对1</li>
             <li class="chat-qq">转户/开户</li>
             <li class="chat-qq">升级权限</li>
             <li class="chat-qq">错单解读</li>
         </ul>
+
+        -->
+        <!-- 高级助理 -->
+        <ul class="list-inline" style="margin:10px 0;">
+            <li class="chat-qq" v-for="item in customers">
+                <a  target="_blank" v-bind:href="'http://wpa.qq.com/msgrd?v=3&amp;uin='+item.qq+'&amp;site=qq&amp;menu=yes'"><img src="../../static/images/zhuli.gif" /></a>
+            </li>
+        </ul>
+
         <ul class="list-inline">
             <li class="chat-icon" @click="toggleFace()">
                 <i class="iconfont icon-xiaolian"></i>表情
@@ -99,6 +110,7 @@ export default {
       roomID:0,
       showImg:false, //聊天图片
       chatImgs:[],
+      customers:[],  //客服助理
       showSkin:false,
       Skins:[{id:1,value:'#282828',isSelected:true,color:'#000'},{id:2,value:'#fff',isSelected:false,color:'#000',fontColor:'#1B2C36'},{id:3,value:'#BF0103',isSelected:false,color:'#000',fontColor:'#fff'},{id:4,value:'#F7C33B',isSelected:false,color:'#000',fontColor:'#FEF4E2'},{id:5,value:'#003E5F',isSelected:false,color:'#000',fontColor:'#00C8F9'}],
     }
@@ -115,6 +127,8 @@ export default {
     this.initChat();  //初始化聊天室
 
     this.UserLevel();  //用户等级
+
+    this.customer();   //客服助理
   },
   methods:{
     //聊天图标
@@ -183,6 +197,23 @@ export default {
         item.isSelected = true;
 
         this.$store.dispatch('ChangeSkin',item);
+    },
+    //客服助理
+    customer(){
+        let that = this;
+        api.qqManage().then(function(res){
+            console.log(res.data);
+            if(res.data.Code ==3){
+                let templateObj = res.data.Data;
+                for(let i =0; i<2; i++){
+                    that.customers.push(templateObj[i]);
+                }
+            }else{
+                alert("客服助理不存在！");
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
     },
 
     //发送内容
