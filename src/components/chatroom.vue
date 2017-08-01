@@ -92,7 +92,6 @@ import Jsonp from 'jsonp'
 
 import { mapGetters } from 'vuex'
 
-
 const chatUrl='http://61.147.124.143:10011';
 
 export default {
@@ -103,15 +102,16 @@ export default {
       showFace: false,  //表情
       selectedFace:'',
       chatContent:'',
-      ws:null,
-      user:{},
-      userLevels:[],
-      chatInner:[],
-      roomID:0,
-      showImg:false, //聊天图片
+      role_img:'',
+      ws:null,        //长连接
+      user:{},        //用户
+      userLevels:[],  //用户等级
+      chatInner:[],   //聊天内容
+      roomID:0,       // 房间号
+      showImg:false,  //聊天图片
       chatImgs:[],
-      customers:[],  //客服助理
-      showSkin:false,
+      customers:[],   //客服助理
+      showSkin:false,   //换肤
       Skins:[{id:1,value:'#282828',isSelected:true,color:'#000'},{id:2,value:'#fff',isSelected:false,color:'#000',fontColor:'#1B2C36'},{id:3,value:'#BF0103',isSelected:false,color:'#000',fontColor:'#fff'},{id:4,value:'#F7C33B',isSelected:false,color:'#000',fontColor:'#FEF4E2'},{id:5,value:'#003E5F',isSelected:false,color:'#000',fontColor:'#00C8F9'}],
     }
   },
@@ -202,7 +202,7 @@ export default {
     customer(){
         let that = this;
         api.qqManage().then(function(res){
-            console.log(res.data);
+            //console.log(res.data);
             if(res.data.Code ==3){
                 let templateObj = res.data.Data;
                 for(let i =0; i<2; i++){
@@ -216,78 +216,6 @@ export default {
         });
     },
 
-    //发送内容
-    sendContent (){
-       if(window.localStorage.getItem("user")){
-            if(this.chatContent){
-                 this.sendText(this.chatContent);
-                 this.chatContent = '';
-            }else{
-                alert("输入的内容不能为空！");
-            }
-
-       }else{
-          alert("未登录,不可以发送消息的哦!");
-       }
-    },
-
-    ConnSvr (){
-        var that = this;
-        that.ws = new WebSocket("ws://61.147.124.143:10014/sub");
-
-        that.ws.onopen = function() {
-            console.log("conn succeed.");
-
-            that.confirmUser(); //用户认证消息
-        };
-
-        that.ws.onmessage = function(evt) {
-            let receives = JSON.parse(evt.data); //从字符窜中解析出json对象
-            let data = receives[0];
-            switch (data.op) {
-                case 3:
-                    console.log("聊天室收到心跳回复");
-                    break;
-                case 8:
-                    let rcvbody_8 = data.body;
-                    console.log("用户认证成功!");
-                    // 启动计时器发送心跳包
-                    var timer = setInterval(function() {
-                        that.heartbeat();
-                     }, 20000);
-                    that.enterRoom();  //进入房间
-                    break;
-                case 24:
-                    let rcvbody_24 = data.body;
-                    let data_24 = JSON.parse(JSON.stringify(rcvbody_24));
-                    that.personInformation(data_24);  //接受个人信息消息
-                    break;
-                case 26:
-                    let rcvbody_26 = data.body;
-                    let data_26 = JSON.parse(JSON.stringify(rcvbody_26));
-                    that.quliaoInformation(data_26);   //接受群聊消息
-                    break;
-                case 28:
-                    let rcvbody_28 = data.body;
-                    let data_28 = JSON.parse(JSON.stringify(rcvbody_28));
-                    console.log("进入房间后的反馈信息", data_28);
-                    if (data_28.code == 100) {
-                        let roomId = data_28.data.roomid;
-                        that.roomID = roomId;
-                    } else {
-                        console.log(data.msg);
-                    };
-                    break;
-                case 30:
-                    let rcvbody_30 = data.body;
-                    let data_30 = JSON.parse(JSON.stringify(rcvbody_30));
-                    console.log("用户退出房间的反馈信息", data_30);
-                    break;
-            }
-        };
-        that.ws.onclose = that.close;
-        that.ws.onerror = that.error;
-    },
     //长链接断开
     close (){
         let that = this;
@@ -306,7 +234,6 @@ export default {
 
     //验证用户信息
     confirmUser (){
-
         let sid = this.user.SessionId;
         let uid = this.user.UserId;
 
@@ -362,11 +289,100 @@ export default {
         });
     },
 
+    //长链接
+    ConnSvr (){
+        var that = this;
+        that.ws = new WebSocket("ws://61.147.124.143:10014/sub");
+
+        that.ws.onopen = function() {
+            console.log("conn succeed.");
+
+            that.confirmUser(); //用户认证消息
+        };
+
+        that.ws.onmessage = function(evt) {
+            let receives = JSON.parse(evt.data); //从字符窜中解析出json对象
+            let data = receives[0];
+            switch (data.op) {
+                case 3:
+                    console.log("聊天室收到心跳回复");
+                    break;
+                case 8:
+                    let rcvbody_8 = data.body;
+                    console.log("用户认证成功!");
+                    // 启动计时器发送心跳包
+                    var timer = setInterval(function() {
+                        that.heartbeat();
+                     }, 20000);
+                    that.enterRoom();  //进入房间
+                    break;
+                case 24:
+                    let rcvbody_24 = data.body;
+                    let data_24 = JSON.parse(JSON.stringify(rcvbody_24));
+                    that.personInformation(data_24);  //接受个人信息消息
+                    break;
+                case 26:
+                    let rcvbody_26 = data.body;
+                    let data_26 = JSON.parse(JSON.stringify(rcvbody_26));
+                    that.quliaoInformation(data_26);   //接受群聊消息
+                    break;
+                case 28:
+                    let rcvbody_28 = data.body;
+                    let data_28 = JSON.parse(JSON.stringify(rcvbody_28));
+                    console.log("进入房间后的反馈信息", data_28);
+                    if (data_28.code == 100) {
+                        let roomId = data_28.data.roomid;
+                        that.roomID = roomId;
+                        that.historyChat(roomId);
+                    } else {
+                        console.log(data.msg);
+                    };
+                    break;
+                case 30:
+                    let rcvbody_30 = data.body;
+                    let data_30 = JSON.parse(JSON.stringify(rcvbody_30));
+                    console.log("用户退出房间的反馈信息", data_30);
+                    break;
+            }
+        };
+        that.ws.onclose = that.close;
+        that.ws.onerror = that.error;
+    },
+
+    //发送内容
+    sendContent (){
+       if(window.localStorage.getItem("user")){
+            if(this.chatContent){
+                this.sendText(this.chatContent);
+
+                let tempLevel = this.userLevels.length;
+
+                let chat_content={
+                    userlog:this.userLevels[this.user.Level].role_css,
+                    name:this.user.Nick,
+                    text:this.analysis(this.chatContent),
+                    date:this.dateStamp(new Date())
+                };
+
+                this.chatInner.push(chat_content);
+
+                this.scrollTop();
+
+                this.chatContent = '';
+            }else{
+                alert("输入的内容不能为空！");
+            }
+
+       }else{
+          alert("未登录,不可以发送消息的哦!");
+       }
+    },
+
     //发送消息
     sendText (Message) {
         if(this.ws){
-            var body = '{"roomid":"' + this.roomID + '","message":"' + Message + '","type":"0"}';
-            var pklen = body + 16;
+            let body = '{"roomid":"' + this.roomID + '","message":"' + Message + '","type":"0"}';
+            let pklen = body + 16;
             this.ws.send(JSON.stringify({
                 'pklen': pklen,
                 'klen': 16,
@@ -382,6 +398,9 @@ export default {
 
     personInformation (Data) {
         console.log('自己在群聊中发送消息的反馈', Data);
+        if(Data.code == 100){
+
+        }
     },
 
     //接收群聊消息
@@ -422,6 +441,7 @@ export default {
         //返回拼接信息
         return this.add(H) + '：' + this.add(M);
     },
+
     add(m) {
         return m < 10 ? '0' + m : m
     },
@@ -436,7 +456,6 @@ export default {
      /*进行解析*/
     analysis (value) {
         let arr = value.match(/\[.{1,5}\]/g);
-        console.log(arr);
         if (arr) {
             for (let i = 0; i < arr.length; i++) {
                 for (let j in this.chatFaces) {
@@ -473,15 +492,55 @@ export default {
             date:date
         };
 
-
         this.chatInner.push(chat_content);
 
-        this.scrollTop();
+        this.scrollTop();  //聊天置底
     },
 
     //私聊
     sendTextTo(item){
-        console.log(item);
+        this.chatContent = '@'+item.name;
+    },
+
+    //聊天室的历史记录
+    historyChat(rid){
+        let params={
+            sid:this.user.SessionId,
+            rmid:parseInt(rid),
+        };
+
+        let that = this;
+        api.historyChat(params).then(function(res){
+            //console.log(res.data);
+            if(res.data.Code ==3){
+                let templeObj = res.data.Data;
+
+                let len = that.userLevels.length;
+
+                for(let i=0; i<templeObj.length;i++){
+                    let userlog;
+                    switch(templeObj[i].userlevel){
+                        case '0': userlog = that.userLevels[0].role_css;break;
+                        case '1': userlog = that.userLevels[1].role_css;break;
+                        case '2': userlog = that.userLevels[2].role_css;break;
+                        case '3': userlog = that.userLevels[3].role_css;break;
+                        case '4': userlog = that.userLevels[4].role_css;break;
+                        case '5': userlog = that.userLevels[5].role_css;break;
+                    }
+
+                    var chat_content={
+                        userlog:userlog,
+                        name:templeObj[i].username,
+                        text:that.analysis(templeObj[i].message),
+                        date:that.dateStamp(templeObj[i].time*1000)
+                    };
+
+                    that.chatInner.push(chat_content);
+                }
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
     },
   },
 }

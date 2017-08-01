@@ -170,6 +170,12 @@ class API {
         return axios.post('/cycj/live/query', {}, config);
     }
 
+    //查询聊天的历史记录
+    historyChat(param) {
+        config.data = param;
+        return axios.post('/cycj/live/messages', {}, config);
+    }
+
     //课程表时间段
     scheduleDistance(param) {
         config.data = param;

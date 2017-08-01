@@ -30,7 +30,7 @@ export default {
   mounted(){
     if(window.localStorage.getItem('skin')){
         this.skin = JSON.parse(window.localStorage.getItem('skin'));
-        console.log(this.skin);
+        //console.log(this.skin);
     }
   },
 }

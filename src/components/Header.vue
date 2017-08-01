@@ -200,8 +200,8 @@ export default {
     return{
         resetTitle:'登录',
         user:{
-            account:'',
-            pwd:'',
+            account:'18516074685',
+            pwd:'yu123456',
         },
         loginSuc:false,
         userImg:'',
@@ -219,7 +219,6 @@ export default {
         Nick:'',
         Intro:'',
         modifyImg:'',
-
     }
   },
   computed: mapGetters({
@@ -232,7 +231,7 @@ export default {
   },
   mounted(){
     this.initLogin();
-    console.log(this.header);
+    //console.log(this.header);
     if(window.localStorage.getItem('skin')){
         this.header = JSON.parse(window.localStorage.getItem('skin'));
         //console.log(this.header,JSON.parse(window.localStorage.getItem('skin')));
