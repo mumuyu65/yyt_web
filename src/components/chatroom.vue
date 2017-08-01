@@ -428,9 +428,13 @@ export default {
         var userLog;
         console.log('用户接受群聊消息', img);
         let len = this.userLevels.length;
-        for (let i = 0; i < len; i++) {
-            if (img.userflag == this.userLevels[i].fid && img.userlevel == this.userLevels[i].lid) {
-                userLog = this.userLevels[i].role_css;
+        if(img.username == '系统'){
+            userLog ='';
+        }else{
+            for (let i = 0; i < len; i++) {
+                if (img.userflag == this.userLevels[i].fid && img.userlevel == this.userLevels[i].lid) {
+                    userLog = this.userLevels[i].role_css;
+                }
             }
         }
 
