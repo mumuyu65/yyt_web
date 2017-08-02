@@ -1,5 +1,7 @@
 <template>
-  <div id="player" class="player">
+  <div>
+    <div id="player" class="player" v-if="!clanPlayer"></div>
+    <div id="clanPlayer" class="player" v-if="clanPlayer"></div>
   </div>
 </template>
 
@@ -17,6 +19,7 @@ export default {
   data(){
     return{
       zhiboLives:[],
+      clanPlayer:false,
     }
   },
   computed: mapGetters({
@@ -49,8 +52,7 @@ export default {
                    url =templateLive[i].liveurl.trim();
               }
             }
-             //console.log(url);
-             that.player(url);
+             that.player(url,'player');
           }else{
             alert('直播地址不存在！');
           }
@@ -67,15 +69,15 @@ export default {
       for(let i=0; i<this.zhiboLives.length;i++){
         if(this.zhiboLives[i].type == 1){
              url=this.zhiboLives[i].liveurl.trim();
-             //console.log(url);
-             this.player(url);
+             this.player(url,'clanPlayer');
+             this.clanPlayer = !this.clanPlayer;
         }
       }
     },
 
-    player(url){
+    player(url,playerId){
       let objectPlayer = new Player.aodianPlayer({
-        container: 'player', //播放器容器ID，必要参数
+        container: playerId, //播放器容器ID，必要参数
         rtmpUrl:url, //控制台开通的APP rtmp地址，必要参数
         width: '858', //播放器宽度，可用数字、百分比等
         height: '454', //播放器高度，可用数字、百分比等
