@@ -1,10 +1,10 @@
 <template>
 <div>
-   <div class="header" v-bind:style="{backgroundColor:header.color}">
+   <div class="header">
         <!--
         <router-link to="/"><img src="../../static/images/logo.png" class="logo" /></router-link>
         -->
-        <ul class="list-inline pull-right" style="line-height:65px;">
+        <ul class="list-inline pull-right" style="line-height:70px;">
             <li style="margin-right:30px;">
                 <a href="javascript:void(0)" @click="saveToDesk()">
                     <img src="../../static/images/desktop.png" alt="" />

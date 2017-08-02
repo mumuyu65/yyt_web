@@ -195,7 +195,6 @@ export default {
 
     ImgSelect(item){
         this.showImg = !this.showImg;
-        //console.log(item);
         if(window.localStorage.getItem("user")){
             let chat_content={
                 userlog:this.userLevels[this.user.Level].role_css,
@@ -226,6 +225,8 @@ export default {
     },
 
     SkinSelect(item){
+        this.showSkin = !this.showSkin;
+
         for(let i=0; i<5;i++){
             this.Skins[i].isSelected = false;
         }
@@ -461,8 +462,12 @@ export default {
         let date = this.dateStamp(parseInt(Data.time * 1000)); //时间戳
         switch (Data.type) {
             case '0':
-                this.showChat(date, Data.username, Data.message, Data);
-                break;
+                if(Data.username == this.user.Nick){
+                    break;
+                }else{
+                    this.showChat(date, Data.username, Data.message, Data);
+                    break;
+                }
             case '2':
                     let roomName;
                     if(this.liveUrl == '0'){
