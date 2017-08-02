@@ -4,8 +4,21 @@
     <sider-bar></sider-bar>
     <div class="content">
        <ol class="list-inline">
+        <li style="vertical-align:top">
+            <div class="main">
+              <div class="zj-list" v-bind:class="{active:sidebarShrink}">
+                  <router-view></router-view>
+              </div>
+            </div>
+        </li>
         <li>
-          <router-view></router-view>
+          <div class="zhibo">
+              <zhibo></zhibo>
+              <activity></activity>
+          </div>
+        </li>
+        <li>
+            <div class="shrink" @click="toggleShrink()" v-bind:class="{active:sidebarShrink}"></div>
         </li>
         <li>
           <chat-room></chat-room>
@@ -19,11 +32,17 @@
 import mqHeader from './components/Header'
 import SiderBar from './components/Sidebar'
 import ChatRoom from '@/components/chatroom'
-
+import Zhibo from '@/components/Zhibo'
+import Activity from '@/components/Activity'
 import { mapGetters} from 'vuex'
 export default {
   name: 'sidebar',
-  components: { mqHeader,SiderBar,ChatRoom },
+  data(){
+    return {
+      sidebarShrink:false,
+    }
+  },
+  components: { mqHeader,SiderBar,ChatRoom,Zhibo,Activity},
   computed: mapGetters({
       skin:'getSkin',
   }),
@@ -33,5 +52,10 @@ export default {
         //console.log(this.skin);
     }
   },
+  methods:{
+    toggleShrink(){
+      this.sidebarShrink = !this.sidebarShrink;
+    }
+  }
 }
 </script>

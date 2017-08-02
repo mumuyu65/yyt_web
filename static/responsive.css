@@ -11,6 +11,7 @@
         position: absolute;
         overflow: hidden;
         z-index: 2;
+        top: 75px;
         background-color:#000;
         transition:width 1s;
         -moz-transition:width 1s; /* Firefox 4 */
@@ -48,7 +49,7 @@
         height:13px;
         cursor:pointer;
         display:block;
-        background-image: url('../images/shrink_close.png');
+        background-image: url('../../static/images/shrink_close.png');
         background-size:100% 100%;
         -moz-background-size:100% 100%;
     }
@@ -62,7 +63,7 @@
         height:13px;
         cursor:pointer;
         display:block;
-        background-image: url('../images/shrink_open.png');
+        background-image: url('../../static/images/shrink_open.png');
         background-size:100% 100%;
         -moz-background-size:100% 100%;
     }
@@ -131,7 +132,7 @@
         height:13px;
         cursor:pointer;
         display:block;
-        background-image: url('../images/shrink_open.png');
+        background-image: url('../../static/images/shrink_open.png');
         background-size:100% 100%;
         -moz-background-size:100% 100%;
     }

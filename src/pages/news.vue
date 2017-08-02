@@ -1,7 +1,6 @@
 <template>
-  <div class="main news">
-    <div class="zj-list">
-      <div class="inner-container">
+  <div class="news">
+    <div class="inner-container">
         <ul class="list-inline news-type">
           <li v-for="type in newsType" @click="changeType(type)" v-bind:class="{'active':type.isActive}">
             {{ type.text}}
@@ -22,11 +21,6 @@
               </div>
           </li>
         </ol>
-      </div>
-    </div>
-    <div class="zhibo">
-        <zhibo></zhibo>
-        <activity></activity>
     </div>
   </div>
 </template>
@@ -35,10 +29,6 @@
 import API from '@/api/API'
 //实例化api
 const api = new API();
-
-import Zhibo from '@/components/Zhibo'
-
-import Activity from '@/components/Activity'
 
 export default {
   name: 'News',
@@ -73,7 +63,6 @@ export default {
   mounted (){
     this.initData();
   },
-  components:{ Zhibo,Activity},
   methods:{
     initData (){
         let that = this;

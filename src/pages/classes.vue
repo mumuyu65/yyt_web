@@ -1,54 +1,46 @@
 <template>
-  <div class="main">
-    <div class="zj-list">
-      <div class="inner-container">
-        <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">学习课件</span></h4>
-        <ul class="list-inline news-type">
-          <li v-for="item in mainTitle" @click="showContent(item)" v-bind:class="{'active':item.isActive}">
-            {{ item.title}}
-          </li>
-        </ul>
-        <!-- 展示 -->
-        <ol class="list-unstyled" v-if="showTeacher">
-          <li v-for="report in classes " class="report-item">
-              <div class="media">
-                  <a class="media-left">
-                      <img v-bind:src="report.cover_url" style="height:100px; width:130px;"/>
-                  </a>
-                  <div class="media-body">
-                    <h4 class="media-heading">
-                        <a>{{report.title}}</a>
-                    </h4>
-                    <h5>更新日期:{{report.unix | dateStamp }}</h5>
-                    <h6>{{report.owner}}</h6>
-                    <a v-bind:href="report.annex_url" v-if="report.annex_url"><button class="btn btn-danger">下载附件</button></a>
-                  </div>
-                  <div v-html="report.intro" style="margin-top:20px;"></div>
+  <div class="inner-container">
+    <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">学习课件</span></h4>
+    <ul class="list-inline news-type">
+      <li v-for="item in mainTitle" @click="showContent(item)" v-bind:class="{'active':item.isActive}">
+        {{ item.title}}
+      </li>
+    </ul>
+    <!-- 展示 -->
+    <ol class="list-unstyled" v-if="showTeacher">
+      <li v-for="report in classes " class="report-item">
+          <div class="media">
+              <a class="media-left">
+                  <img v-bind:src="report.cover_url" style="height:100px; width:130px;"/>
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">
+                    <a>{{report.title}}</a>
+                </h4>
+                <h5>更新日期:{{report.unix | dateStamp }}</h5>
+                <h6>{{report.owner}}</h6>
+                <a v-bind:href="report.annex_url" v-if="report.annex_url"><button class="btn btn-danger">下载附件</button></a>
               </div>
-          </li>
-        </ol>
+              <div v-html="report.intro" style="margin-top:20px;"></div>
+          </div>
+      </li>
+    </ol>
 
-        <ol class="list-unstyled" v-if="!showTeacher">
-          <li v-for="report in all_teachers " class="report-item">
-              <div class="media">
-                  <a class="media-left">
-                      <img v-bind:src="report.headurl" style="height:100px; width:130px;"/>
-                  </a>
-                  <div class="media-body">
-                    <h4 class="media-heading">
-                        昵称:{{report.nick}}
-                    </h4>
-                  </div>
-                  <div v-html="report.intro" style="margin-top:20px;"></div>
+    <ol class="list-unstyled" v-if="!showTeacher">
+      <li v-for="report in all_teachers " class="report-item">
+          <div class="media">
+              <a class="media-left">
+                  <img v-bind:src="report.headurl" style="height:100px; width:130px;"/>
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">
+                    昵称:{{report.nick}}
+                </h4>
               </div>
-          </li>
-        </ol>
-      </div>
-    </div>
-    <div class="zhibo">
-        <zhibo></zhibo>
-        <activity></activity>
-    </div>
+              <div v-html="report.intro" style="margin-top:20px;"></div>
+          </div>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -57,12 +49,8 @@ import API from '@/api/API'
 //实例化api
 const api = new API();
 
-import Zhibo from '@/components/Zhibo'
-
-import Activity from '@/components/Activity'
-
 export default {
-  name: 'HandleSuggestion',
+  name: 'Classes',
   data () {
     return {
         mainTitle:[
@@ -99,7 +87,6 @@ export default {
   mounted(){
     this.showContent(this.mainTitle[0]);
   },
-  components:{ Zhibo,Activity},
   methods:{
     showContent(item){
         for(let i=0; i<3; i++){

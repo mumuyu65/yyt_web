@@ -182,5 +182,12 @@ class API {
         return axios.post('/cycj/schedule/period', {}, config);
     }
 
+    //聊天图片
+    chatImage(param) {
+        config.data = param;
+        return axios.post('/cycj/live/images', {}, config);
+    }
+
+
 }
 export default API;

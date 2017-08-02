@@ -1,62 +1,50 @@
 <template>
-  <div class="main">
-    <div class="zj-list">
-      <div class="inner-container">
-        <!--
-        <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">老师观点</span></h4>
-        -->
-        <div class="zj-list-header">
-            <ul class="list-inline">
-                <li v-for="item in mainTitle" class="active" @click="changePreview(item)">
-                  {{item.title}}
-                </li>
-            </ul>
-        </div>
-        <div class="divider"></div>
-        <div class="sub-menu">
-            <ul class="list-inline sub-menu-inner">
-               <li v-bind:class="{active:item.isActive}" v-for="item in subMenu.children" v-if="subMenu.isFocus" @click="dayComment(item)">
-                    <h5>{{item.name}}</h5>
-                </li>
-                <li v-bind:class="{active:item.isActive}" v-for="item in subMenu.children" v-if="!subMenu.isFocus" @click="showPreview(item)">
-                    <h5>{{item.name}}</h5>
-                </li>
-            </ul>
-        </div>
-        <!--  内容  -->
-        <ol class="list-unstyled">
-          <li v-for="report in newsPreview " class="report-item">
-              <div class="media">
-                  <a class="media-left">
-                      <img v-bind:src="report.cover_img" style="height:100px;"/>
-                  </a>
-                  <div class="media-body">
-                    <h4 class="media-heading">
-                        标题:{{report.title}}
-                    </h4>
-                    <h5>更新时间:{{ report.unix | dateStamp }}</h5>
-                  </div>
-                  <div v-html="report.intro" style="margin-top:20px;"></div>
-              </div>
+ <div class="inner-container">
+  <!--
+  <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">老师观点</span></h4>
+  -->
+  <div class="zj-list-header">
+      <ul class="list-inline">
+          <li v-for="item in mainTitle" class="active" @click="changePreview(item)">
+            {{item.title}}
           </li>
-        </ol>
-      </div>
-    </div>
-    <div class="zhibo">
-        <zhibo></zhibo>
-        <activity></activity>
-    </div>
+      </ul>
   </div>
+  <div class="divider"></div>
+  <div class="sub-menu">
+      <ul class="list-inline sub-menu-inner">
+         <li v-bind:class="{active:item.isActive}" v-for="item in subMenu.children" v-if="subMenu.isFocus" @click="dayComment(item)">
+              <h5>{{item.name}}</h5>
+          </li>
+          <li v-bind:class="{active:item.isActive}" v-for="item in subMenu.children" v-if="!subMenu.isFocus" @click="showPreview(item)">
+              <h5>{{item.name}}</h5>
+          </li>
+      </ul>
+  </div>
+  <!--  内容  -->
+  <ol class="list-unstyled">
+    <li v-for="report in newsPreview " class="report-item">
+        <div class="media">
+            <a class="media-left">
+                <img v-bind:src="report.cover_img" style="height:100px;"/>
+            </a>
+            <div class="media-body">
+              <h4 class="media-heading">
+                  标题:{{report.title}}
+              </h4>
+              <h5>更新时间:{{ report.unix | dateStamp }}</h5>
+            </div>
+            <div v-html="report.intro" style="margin-top:20px;"></div>
+        </div>
+    </li>
+  </ol>
+</div>
 </template>
 
 <script>
 import API from '@/api/API'
 //实例化api
 const api = new API();
-
-import Zhibo from '@/components/Zhibo'
-
-import Activity from '@/components/Activity'
 
 export default {
   name: 'HandleSuggestion',
@@ -99,7 +87,6 @@ export default {
          return value;
       }
   },
-  components:{ Zhibo,Activity},
   mounted(){
     this.changePreview(this.mainTitle[0]);
   },

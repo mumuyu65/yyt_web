@@ -51,7 +51,7 @@
             <li class="chat-face" v-show="showImg">
                 <div class="chat-face-inner">
                     <div class="chat-face-content">
-                      <img v-bind:src="face.url" v-for="face in chatImgs" @click="ImgSelect(face)" />
+                      <img v-bind:src="face.imgurl" style="width:140px; height:70px;" v-for="face in chatImgs" @click="ImgSelect(face)" />
                     </div>
                 </div>
             </li>
@@ -127,8 +127,6 @@ export default {
   mounted (){
     this.initFace();  //初始化表情
 
-    this.initChat();  //初始化聊天室
-
     this.UserLevel();  //用户等级
 
     this.customer();   //客服助理
@@ -142,7 +140,20 @@ export default {
       Jsonp('https://api.weibo.com/2/emotions.json?source=1362404091',function (err, res) {
           if(res.code ==1){
             that.chatFaces=res.data;
+            that.initChat();  //初始化聊天室
           }
+        });
+
+        //聊天图片
+        api.chatImage().then(function(res){
+            console.log(res.data);
+            if(res.data.Code ==3){
+                that.chatImgs=res.data.Data;
+            }else{
+                alert("加载聊天图片不成功！");
+            }
+        }).catch(function(err){
+            console.log(err);
         });
     },
 
@@ -183,8 +194,27 @@ export default {
     },
 
     ImgSelect(item){
+        this.showImg = !this.showImg;
+        //console.log(item);
+        if(window.localStorage.getItem("user")){
+            let chat_content={
+                userlog:this.userLevels[this.user.Level].role_css,
+                name:this.user.Nick,
+                text:this.ImgTrans(item.imgurl),
+                date:this.dateStamp(new Date())
+            };
 
+            this.chatInner.push(chat_content);
+            this.sendText(item.imgurl);
+        }else{
+            alert("未登录，不可以发送图片!");
+        }
     },
+
+    ImgTrans(img){
+        return '<img src="' + img + '"/>'
+    },
+
     //开启或关闭聊天图片
     toggleImg(){
         this.showImg = !this.showImg;
@@ -207,7 +237,6 @@ export default {
     customer(){
         let that = this;
         api.qqManage().then(function(res){
-            //console.log(res.data);
             if(res.data.Code ==3){
                 let templateObj = res.data.Data;
                 for(let i =0; i<2; i++){
@@ -286,6 +315,7 @@ export default {
 
     //进入房间
     enterRoom () {
+        console.log(this.templateRoom);
         let body = parseInt(this.templateRoom[0].roomno);
         let pklen = body.length + 16;
         this.ws.send(JSON.stringify({
@@ -315,7 +345,7 @@ export default {
     //长链接
     ConnSvr (){
         var that = this;
-        that.ws = new WebSocket("ws://61.147.124.143:10014/sub");
+        that.ws = new WebSocket("ws://61.147.124.143:10015/sub");
 
         that.ws.onopen = function() {
             console.log("conn succeed.");
@@ -460,21 +490,19 @@ export default {
         if(img.username == '系统'){
             userLog ='';
         }else{
-            for (let i = 0; i < len; i++) {
-                if (img.userflag == this.userLevels[i].fid && img.userlevel == this.userLevels[i].lid) {
-                    userLog = this.userLevels[i].role_css;
-                }
-            }
+           userLog = this.userLevels[img.userlevel].role_css;
         }
 
         let Text = this.analysis(text);
 
-        let chat_content={
+        var chat_content={
             userlog:userLog,
             name:name,
             text:Text,
             date:date
         };
+
+        //console.log(chat_content,this.chatInner);
 
         this.chatInner.push(chat_content);
 
@@ -519,8 +547,12 @@ export default {
     //分析输入的聊天内容
      /*进行解析*/
     analysis (value) {
+
         let arr = value.match(/\[.{1,5}\]/g);
-        if (arr) {
+
+        let imgArr = value.indexOf("http");
+
+        if (arr && imgArr == -1) {
             for (let i = 0; i < arr.length; i++) {
                 for (let j in this.chatFaces) {
                     if (arr[i] == this.chatFaces[j].phrase) {
@@ -532,6 +564,11 @@ export default {
                 }
             }
         }
+        else if(imgArr !== -1 ){
+            value = '<img src="' + value + '"/>';
+        }
+        //console.log(value);
+
         return value;
     },
 
@@ -544,13 +581,10 @@ export default {
 
         let that = this;
         api.historyChat(params).then(function(res){
-            //console.log(res.data);
             if(res.data.Code ==3){
                 let templeObj = res.data.Data;
 
                 let len = that.userLevels.length;
-
-                console.log('历史用户聊天记录',templeObj);
 
                 for(let i=0; i<templeObj.length;i++){
                     let userlog;
@@ -569,6 +603,8 @@ export default {
                         text:that.analysis(templeObj[i].message),
                         date:that.dateStamp(templeObj[i].time*1000)
                     };
+
+                    //console.log(chat_content);
 
                     that.chatInner.push(chat_content);
                 }
