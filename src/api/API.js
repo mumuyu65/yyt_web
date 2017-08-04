@@ -188,6 +188,12 @@ class API {
         return axios.post('/cycj/live/images', {}, config);
     }
 
+    //课程安排时间段
+    periodQuery(param) {
+        config.data = param;
+        return axios.post('/cycj/schedule/period', {}, config);
+    }
+
 
 }
 export default API;

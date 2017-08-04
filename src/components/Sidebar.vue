@@ -262,6 +262,7 @@ export default {
       isLogin:false,
       classArrange:'',
       calenderShow:'',
+      tempPeriod:[],
     }
   },
   mounted (){
@@ -269,6 +270,8 @@ export default {
     if(window.localStorage.getItem('skin')){
         this.sidebarColor = JSON.parse(window.localStorage.getItem('skin'));
     }
+
+    this.queryPeriod();  //查询时间段
   },
   computed: mapGetters({
       user: 'getUser',
@@ -280,11 +283,45 @@ export default {
         }
     },
 
+    //查询时间段
+    queryPeriod(){
+        let that = this;
+        api.periodQuery().then(function(res){
+            if(res.data.Code ==3){
+                let templatObj= res.data.Data;
+                let tempPeriod=[];
+                for(let i =0 ; i<templatObj.length;i++){
+                    tempPeriod.push(templatObj[i].period);
+                }
+                that.tempPeriod=that.sortPeriod(tempPeriod);
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
+    },
+
+    sortPeriod(tempPeriod){
+        //时间点排序
+        tempPeriod.sort(function (a, b) {
+            var a1 = parseInt(a.split(":")[0]);
+            var a2 = parseInt(a.split(":")[1]);
+            var b1 = parseInt(b.split(":")[0]);
+            var b2 = parseInt(b.split(":")[1]);
+            if (a1 < b1 || (a1 == b1 && a2 < b2)) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+        tempPeriod=tempPeriod.join().split(",");//排序后赋值
+        return tempPeriod;
+    },
+
     ClassesArrage(){
       $("#classesModal").modal('show');
       this.classArrange = 'router-link-active';
+      let that = this;
       api.schedule().then(function(res){
-          console.log(res.data);
           if(res.data.Code ==3){
               let DataSource = [
                   {weekday:1,course:[]},
@@ -296,107 +333,103 @@ export default {
                   {weekday:7,course:[]},
               ];
 
-            let that = this;
-
             let items= res.data.Data;
 
             for(let i =0; i<items.length;i++){
                 switch(items[i].dayofweek){
                     case '周一':
                         var pointName;
-                        if(items[i].period == '9:00--10:00'){
+                        if(items[i].period == that.tempPeriod[0]){
                              pointName = 1;
                         }
-                        else if(items[i].period =='10:00--11:30'){
+                        else if(items[i].period ==that.tempPeriod[1]){
                              pointName = 2;
                         }
-                        else if(items[i].period =='11:30--13:00'){
+                        else if(items[i].period ==that.tempPeriod[2]){
                              pointName = 3;
                         }
-                        else if(items[i].period =='13:00--14:30'){
+                        else if(items[i].period ==that.tempPeriod[3]){
                              pointName = 4;
                         }
-                        else if(items[i].period =='14:30--16:00'){
+                        else if(items[i].period ==that.tempPeriod[4]){
                              pointName = 5;
                         }
-                        else if(items[i].period =='16:00--17:30'){
+                        else if(items[i].period ==that.tempPeriod[5]){
                              pointName = 6;
                         }
-                        else if(items[i].period =='17:30--19:00'){
+                        else if(items[i].period ==that.tempPeriod[6]){
                              pointName = 7;
                         }
-                        else if(items[i].period =='19:00--20:30'){
+                        else if(items[i].period ==that.tempPeriod[7]){
                              pointName = 8;
                         }
-                        else if(items[i].period =='20:30--22:00'){
+                        else if(items[i].period ==that.tempPeriod[8]){
                              pointName = 9;
                         }
                         else {
                              pointName = 10;
                         }
-                        //console.log(pointName,i);
                         DataSource[0].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
                     case '周二':
                         var pointName;
-                        if(items[i].period == '9:00--10:00'){
+                        if(items[i].period == that.tempPeriod[0]){
                              pointName = 1;
                         }
-                        else if(items[i].period =='10:00--11:30'){
+                        else if(items[i].period ==that.tempPeriod[1]){
                              pointName = 2;
                         }
-                        else if(items[i].period =='11:30--13:00'){
+                        else if(items[i].period ==that.tempPeriod[2]){
                              pointName = 3;
                         }
-                        else if(items[i].period =='13:00--14:30'){
+                        else if(items[i].period ==that.tempPeriod[3]){
                              pointName = 4;
                         }
-                        else if(items[i].period =='14:30--16:00'){
+                        else if(items[i].period ==that.tempPeriod[4]){
                              pointName = 5;
                         }
-                        else if(items[i].period =='16:00--17:30'){
+                        else if(items[i].period ==that.tempPeriod[5]){
                              pointName = 6;
                         }
-                        else if(items[i].period =='17:30--19:00'){
+                        else if(items[i].period ==that.tempPeriod[6]){
                              pointName = 7;
                         }
-                        else if(items[i].period =='19:00--20:30'){
+                        else if(items[i].period ==that.tempPeriod[7]){
                              pointName = 8;
                         }
-                        else if(items[i].period =='20:30--22:00'){
+                        else if(items[i].period ==that.tempPeriod[8]){
                              pointName = 9;
                         }
                         else {
                              pointName = 10;
                         }
-                        console.log(pointName);
                         DataSource[1].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
                     case '周三':
                         var pointName;
-                        if(items[i].period == '9:00--10:00'){
+                        if(items[i].period == that.tempPeriod[0]){
                              pointName = 1;
                         }
-                        else if(items[i].period =='10:00--11:30'){
+                        else if(items[i].period ==that.tempPeriod[1]){
                              pointName = 2;
                         }
-                        else if(items[i].period =='11:30--13:00'){
+                        else if(items[i].period ==that.tempPeriod[2]){
                              pointName = 3;
                         }
-                        else if(items[i].period =='13:00--14:30'){
+                        else if(items[i].period ==that.tempPeriod[3]){
                              pointName = 4;
                         }
-                        else if(items[i].period =='14:30--16:00'){
+                        else if(items[i].period ==that.tempPeriod[4]){
                              pointName = 5;
                         }
-                        else if(items[i].period =='16:00--17:30'){
+                        else if(items[i].period ==that.tempPeriod[5]){
                              pointName = 6;
                         }
-                        else if(items[i].period =='17:30--19:00'){
+                        else if(items[i].period ==that.tempPeriod[6]){
                              pointName = 7;
                         }
-                        else if(items[i].period =='19:00--20:30'){
+                        else if(items[i].period ==that.tempPeriod[7]){
                              pointName = 8;
                         }
-                        else if(items[i].period =='20:30--22:00'){
+                        else if(items[i].period ==that.tempPeriod[8]){
                              pointName = 9;
                         }
                         else {
@@ -405,31 +438,31 @@ export default {
                         DataSource[2].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
                     case '周四':
                         var pointName;
-                        if(items[i].period == '9:00--10:00'){
+                        if(items[i].period == that.tempPeriod[0]){
                              pointName = 1;
                         }
-                        else if(items[i].period =='10:00--11:30'){
+                        else if(items[i].period ==that.tempPeriod[1]){
                              pointName = 2;
                         }
-                        else if(items[i].period =='11:30--13:00'){
+                        else if(items[i].period ==that.tempPeriod[2]){
                              pointName = 3;
                         }
-                        else if(items[i].period =='13:00--14:30'){
+                        else if(items[i].period ==that.tempPeriod[3]){
                              pointName = 4;
                         }
-                        else if(items[i].period =='14:30--16:00'){
+                        else if(items[i].period ==that.tempPeriod[4]){
                              pointName = 5;
                         }
-                        else if(items[i].period =='16:00--17:30'){
+                        else if(items[i].period ==that.tempPeriod[5]){
                              pointName = 6;
                         }
-                        else if(items[i].period =='17:30--19:00'){
+                        else if(items[i].period ==that.tempPeriod[6]){
                              pointName = 7;
                         }
-                        else if(items[i].period =='19:00--20:30'){
+                        else if(items[i].period ==that.tempPeriod[7]){
                              pointName = 8;
                         }
-                        else if(items[i].period =='20:30--22:00'){
+                        else if(items[i].period ==that.tempPeriod[8]){
                              pointName = 9;
                         }
                         else {
@@ -438,31 +471,31 @@ export default {
                         DataSource[3].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
                         case '周五':
                         var pointName;
-                        if(items[i].period == '9:00--10:00'){
+                        if(items[i].period == that.tempPeriod[0]){
                              pointName = 1;
                         }
-                        else if(items[i].period =='10:00--11:30'){
+                        else if(items[i].period ==that.tempPeriod[1]){
                              pointName = 2;
                         }
-                        else if(items[i].period =='11:30--13:00'){
+                        else if(items[i].period ==that.tempPeriod[2]){
                              pointName = 3;
                         }
-                        else if(items[i].period =='13:00--14:30'){
+                        else if(items[i].period ==that.tempPeriod[3]){
                              pointName = 4;
                         }
-                        else if(items[i].period =='14:30--16:00'){
+                        else if(items[i].period ==that.tempPeriod[4]){
                              pointName = 5;
                         }
-                        else if(items[i].period =='16:00--17:30'){
+                        else if(items[i].period ==that.tempPeriod[5]){
                              pointName = 6;
                         }
-                        else if(items[i].period =='17:30--19:00'){
+                        else if(items[i].period ==that.tempPeriod[6]){
                              pointName = 7;
                         }
-                        else if(items[i].period =='19:00--20:30'){
+                        else if(items[i].period ==that.tempPeriod[7]){
                              pointName = 8;
                         }
-                        else if(items[i].period =='20:30--22:00'){
+                        else if(items[i].period ==that.tempPeriod[8]){
                              pointName = 9;
                         }
                         else {
@@ -471,31 +504,31 @@ export default {
                         DataSource[4].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
                         case '周六':
                         var pointName;
-                        if(items[i].period == '9:00--10:00'){
+                        if(items[i].period == that.tempPeriod[0]){
                              pointName = 1;
                         }
-                        else if(items[i].period =='10:00--11:30'){
+                        else if(items[i].period ==that.tempPeriod[1]){
                              pointName = 2;
                         }
-                        else if(items[i].period =='11:30--13:00'){
+                        else if(items[i].period ==that.tempPeriod[2]){
                              pointName = 3;
                         }
-                        else if(items[i].period =='13:00--14:30'){
+                        else if(items[i].period ==that.tempPeriod[3]){
                              pointName = 4;
                         }
-                        else if(items[i].period =='14:30--16:00'){
+                        else if(items[i].period ==that.tempPeriod[4]){
                              pointName = 5;
                         }
-                        else if(items[i].period =='16:00--17:30'){
+                        else if(items[i].period ==that.tempPeriod[5]){
                              pointName = 6;
                         }
-                        else if(items[i].period =='17:30--19:00'){
+                        else if(items[i].period ==that.tempPeriod[6]){
                              pointName = 7;
                         }
-                        else if(items[i].period =='19:00--20:30'){
+                        else if(items[i].period ==that.tempPeriod[7]){
                              pointName = 8;
                         }
-                        else if(items[i].period =='20:30--22:00'){
+                        else if(items[i].period ==that.tempPeriod[8]){
                              pointName = 9;
                         }
                         else {
@@ -504,31 +537,31 @@ export default {
                         DataSource[5].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
                         case '周日':
                         var pointName;
-                        if(items[i].period == '9:00--10:00'){
+                        if(items[i].period == that.tempPeriod[0]){
                              pointName = 1;
                         }
-                        else if(items[i].period =='10:00--11:30'){
+                        else if(items[i].period ==that.tempPeriod[1]){
                              pointName = 2;
                         }
-                        else if(items[i].period =='11:30--13:00'){
+                        else if(items[i].period ==that.tempPeriod[2]){
                              pointName = 3;
                         }
-                        else if(items[i].period =='13:00--14:30'){
+                        else if(items[i].period ==that.tempPeriod[3]){
                              pointName = 4;
                         }
-                        else if(items[i].period =='14:30--16:00'){
+                        else if(items[i].period ==that.tempPeriod[4]){
                              pointName = 5;
                         }
-                        else if(items[i].period =='16:00--17:30'){
+                        else if(items[i].period ==that.tempPeriod[5]){
                              pointName = 6;
                         }
-                        else if(items[i].period =='17:30--19:00'){
+                        else if(items[i].period ==that.tempPeriod[6]){
                              pointName = 7;
                         }
-                        else if(items[i].period =='19:00--20:30'){
+                        else if(items[i].period ==that.tempPeriod[7]){
                              pointName = 8;
                         }
-                        else if(items[i].period =='20:30--22:00'){
+                        else if(items[i].period ==that.tempPeriod[8]){
                              pointName = 9;
                         }
                         else {
