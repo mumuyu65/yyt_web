@@ -1,5 +1,5 @@
 <template>
-    <div class="chat">
+<div class="chat">
         <ul class="list-inline">
             <li><h4 style="color:#f00;">实时聊天</h4></li>
         </ul>
@@ -80,7 +80,7 @@
                 </button>
             </li>
         </ul>
-    </div>
+</div>
 </template>
 
 <script>
