@@ -27,19 +27,6 @@
         z-index: 2;
         background-color:#000;
     }
-
-    .daozhibo .chat{
-        position:absolute;
-        right: 0;
-        bottom:0;
-        top:43px;
-        width:calc(100% - 938px);
-        width:-webkit-calc(100% - 938px);
-        width:-moz-calc(100% - 938px);
-        height:800px;
-        padding:10px 30px;
-    }
-
     .daozhibo .shrink{
         position: absolute;
         left: 72px;
@@ -97,18 +84,6 @@
         background-color:#000;
     }
 
-    .daozhibo .chat{
-        position:absolute;
-        right: 0;
-        bottom:0;
-        top:43px;
-        width:calc(100% - 938px);
-        width:-webkit-calc(100% - 938px);
-        width:-moz-calc(100% - 938px);
-        height:800px;
-        padding:10px 30px;
-    }
-
     .daozhibo .shrink{
         position: absolute;
         left: 72px;
@@ -156,17 +131,5 @@
         overflow-x: hidden;
         overflow-y: scroll;
         padding-bottom: 20px;
-    }
-
-    .daozhibo .chat{
-        position:absolute;
-        right: 0;
-        bottom:0;
-        top:43px;
-        width:calc(100% - 1218px);
-        width:-webkit-calc(100% - 1218px);
-        width:-moz-calc(100% - 1218px);
-        height:800px;
-        padding:10px 30px;
     }
 }

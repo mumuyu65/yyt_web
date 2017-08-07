@@ -8,12 +8,18 @@ body.modal-open {
     padding-right: 0 !important;
 }
 
+body{
+    width:100%;
+    height:100%;
+    overflow: hidden;
+}
+
 .daozhibo{
     width:100%;
+    height:100%;
     position: relative;
     color:#fff;
-    min-width:1366px;
-    overflow-y:auto;
+    overflow-y:hidden;
     font-size:12px;
     overflow-x: hidden;
 }
@@ -24,7 +30,7 @@ a:visited,a:link,a:focus{
 
 .daozhibo .header{
     width:100%;
-    height:65px;
+    height:40px;
     padding-right:25px;
     background:url("../../static/images/bg.png") repeat-x center center;
 }
@@ -48,11 +54,12 @@ a:visited,a:link,a:focus{
 
 .daozhibo .sidebar{
     position: absolute;
-    top:75px;
-    left:0;
-    bottom:0;
-    width:70px;
-    height:auto;
+    top: 40px;
+    left: 0;
+    bottom: 0;
+    width: 70px;
+    padding-top: 10px;
+    height: auto;
     border-right: 1px solid #4b4b4b;
 }
 
@@ -132,20 +139,18 @@ a:visited,a:link,a:focus{
     height: 945px;
     background-color:#fff;
     opacity:0.19;
-
 }
 
 .daozhibo .content {
-    margin-left: 70px;
     width: calc(100% - 70px);
     width: -webkit-calc(100% - 70px);
     width: -moz-calc(100% - 70px);
-    height: 870px;
+    height:100%;
     overflow: hidden;
+    margin-left:70px;
 }
 
 .zhibo{
-    width:858px;
     display: inline-block;
     vertical-align: top;
 }
@@ -292,12 +297,11 @@ a:visited,a:link,a:focus{
     position: absolute;
     right: 0;
     bottom:0;
-    top:65px;
-    width:calc(100% - 1318px);
-    width:-webkit-calc(100% - 1318px);
-    width:-moz-calc(100% - 1318px);
-    height:800px;
-    padding:10px 30px;
+    top:40px;
+    width:500px;
+    height:100%;
+    padding:10px;
+    background-color: rgb(40, 40, 40);
 }
 
 .daozhibo .chat .form-control{
@@ -308,7 +312,6 @@ a:visited,a:link,a:focus{
 
 .daozhibo .chat .chat-inner{
     width:100%;
-    height:600px;
     margin-bottom: 10px;
     position:relative;
     overflow: hidden;
@@ -318,13 +321,16 @@ a:visited,a:link,a:focus{
     position: absolute;
     left:0;
     width:100%;
-    height:601px;
     overflow-x: hidden;
     overflow-y: auto;
     padding-bottom: 50px;
 }
 
 .daozhibo .chat .chat-inner .inner-container::-webkit-scrollbar {
+    display: none;
+}
+
+.daozhibo .chat .chat-inner .inner-container::-moz-scrollbar {
     display: none;
 }
 

@@ -3,8 +3,8 @@
         <ul class="list-inline">
             <li><h4 style="color:#f00;">实时聊天</h4></li>
         </ul>
-        <div class="chat-inner">
-            <div class="inner-container" id="chat_inner">
+        <div class="chat-inner" id="chat_inner">
+            <div class="inner-container" >
                 <div class="chat-item" v-for="item in chatInner">
                   <ol class="list-inline" @click="sendTextTo(item)" style="cursor:pointer;">
                     <li style="vertical-align: bottom">
@@ -25,61 +25,64 @@
             <li class="chat-qq">升级权限</li>
             <li class="chat-qq">错单解读</li>
         </ul>
-
         -->
-        <!-- 高级助理 -->
-        <ul class="list-inline" style="margin:10px 0;">
-            <li class="chat-qq" v-for="item in customers">
-                <a  target="_blank" v-bind:href="'http://wpa.qq.com/msgrd?v=3&amp;uin='+item.qq+'&amp;site=qq&amp;menu=yes'"><img src="../../static/images/zhuli.gif" /></a>
-            </li>
-        </ul>
+        <div style="position:fixed; width:500px; height:220px; padding:20px; right:0; bottom:20px;">
+            <div >
+                <!-- 高级助理 -->
+                <ul class="list-inline" style="margin:10px 0;">
+                    <li class="chat-qq" v-for="item in customers">
+                        <a  target="_blank" v-bind:href="'http://wpa.qq.com/msgrd?v=3&amp;uin='+item.qq+'&amp;site=qq&amp;menu=yes'"><img src="../../static/images/zhuli.gif" /></a>
+                    </li>
+                </ul>
 
-        <ul class="list-inline">
-            <li class="chat-icon" @click="toggleFace()">
-                <i class="iconfont icon-xiaolian"></i>表情
-            </li>
-            <li class="chat-face" v-show="showFace">
-                <div class="chat-face-inner">
-                    <div class="chat-face-content">
-                      <img v-bind:src="face.url" v-for="face in chatFaces" @click="faceSelect(face)" />
-                    </div>
-                </div>
-            </li>
-            <li class="chat-icon" @click="toggleImg()">
-                <i class="iconfont icon-img"></i>图片
-            </li>
-            <li class="chat-face" v-show="showImg">
-                <div class="chat-face-inner">
-                    <div class="chat-face-content">
-                      <img v-bind:src="face.imgurl" style="width:140px; height:70px;" v-for="face in chatImgs" @click="ImgSelect(face)" />
-                    </div>
-                </div>
-            </li>
-            <li class="chat-icon" @click="toggleSkin()">
-                <i class="iconfont icon-huanfu"></i>换肤
-            </li>
-            <li class="chat-face" v-show="showSkin" style="height:50px; width:460px;">
-                <div class="chat-face-inner" style="background-color:#f5f5f5">
-                    <div class="skin-icon" v-bind:style='{backgroundColor:skin.value}' v-for="skin in Skins" @click="SkinSelect(skin)">
-                        <i class="iconfont icon-duigou" v-if="skin.isSelected" style="color:#ececec;position:absolute; bottom:-3px; right:0;"></i>
-                    </div>
-                </div>
-            </li>
-            <li class="chat-icon" @click="clear()">
-                <i class="iconfont icon-lajitong"></i>清屏
-            </li>
-        </ul>
-        <ul class="list-inline" style="position:relative;">
-            <li style="width:100%;">
-                <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
-            </li>
-            <li>
-                <button class="btn btn-send" @click="sendContent()">
-                    <img src="../../static/images/send.png" alt="send"/>
-                    <span>发送</span>
-                </button>
-            </li>
-        </ul>
+                <ul class="list-inline">
+                    <li class="chat-icon" @click="toggleFace()">
+                        <i class="iconfont icon-xiaolian"></i>表情
+                    </li>
+                    <li class="chat-face" v-show="showFace">
+                        <div class="chat-face-inner">
+                            <div class="chat-face-content">
+                              <img v-bind:src="face.url" v-for="face in chatFaces" @click="faceSelect(face)" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chat-icon" @click="toggleImg()">
+                        <i class="iconfont icon-img"></i>图片
+                    </li>
+                    <li class="chat-face" v-show="showImg">
+                        <div class="chat-face-inner">
+                            <div class="chat-face-content">
+                              <img v-bind:src="face.imgurl" style="width:140px; height:70px;" v-for="face in chatImgs" @click="ImgSelect(face)" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chat-icon" @click="toggleSkin()">
+                        <i class="iconfont icon-huanfu"></i>换肤
+                    </li>
+                    <li class="chat-face" v-show="showSkin" style="height:50px; width:460px;">
+                        <div class="chat-face-inner" style="background-color:#f5f5f5">
+                            <div class="skin-icon" v-bind:style='{backgroundColor:skin.value}' v-for="skin in Skins" @click="SkinSelect(skin)">
+                                <i class="iconfont icon-duigou" v-if="skin.isSelected" style="color:#ececec;position:absolute; bottom:-3px; right:0;"></i>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="chat-icon" @click="clear()">
+                        <i class="iconfont icon-lajitong"></i>清屏
+                    </li>
+                </ul>
+                <ul class="list-inline" style="position:relative;">
+                    <li style="width:100%;">
+                        <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
+                    </li>
+                    <li  class="pull-right">
+                        <button class="btn btn-send" @click="sendContent()">
+                            <img src="../../static/images/send.png" alt="send"/>
+                            <span>发送</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
 </div>
 </template>
 
@@ -132,8 +135,20 @@ export default {
     this.customer();   //客服助理
 
     this.roomNo();    //房间号列表
+
+    this.chatHeight();  //聊天内容区块高度不固定
   },
   methods:{
+    chatHeight(){
+        $(window).resize(function(){
+          let total_height = parseInt(window.innerHeight);
+
+          $("#chat_inner").height(total_height-350);
+
+          $("#chat_inner .inner-container").height(total_height-350+1);
+        });
+    },
+
     //聊天图标
     initFace (){
       let that =this;
