@@ -65,7 +65,7 @@ export default {
         $(window).resize(function(){
           let total_height = parseInt(window.innerHeight);
 
-          $("#chat_inner").height(total_height-350);
+          $("#chat_inner .chat-inner").height(total_height-350);
 
           $("#chat_inner .inner-container").height(total_height-350+1);
 
@@ -96,6 +96,8 @@ export default {
       let total_height = parseInt(window.innerHeight);
 
       $("#myTabContent").height(total_height-544);
+
+      $("#chat_inner .chat-inner").height(total_height-350);
     },
   }
 }

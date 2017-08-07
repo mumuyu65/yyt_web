@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       active: 0,
-      currentView: 'Productsintro',
+      currentView: 'Download',
       /*
       tabs: [
          {
