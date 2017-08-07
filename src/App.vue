@@ -69,10 +69,12 @@ export default {
 
           $("#chat_inner .inner-container").height(total_height-350+1);
 
-          $("#zhibo").width(window.innerWidth-950);
-
           if(window.innerWidth<1440){
             $("#zhibo").width(window.innerWidth-560);
+          }else if(1400<=window.innerWidth<=1600){
+            $("#zhibo").width(window.innerWidth-840);
+          }else{
+            $("#zhibo").width(window.innerWidth-950);
           }
         });
     },
@@ -82,6 +84,8 @@ export default {
       if(total_width<1440){
         $("#chat_inner").width(450);
         $("#zhibo").width(window.innerWidth-520);
+      }else if(1400<=window.innerWidth<=1600){
+        $("#zhibo").width(window.innerWidth-840);
       }
       else{
         $("#zhibo").width(window.innerWidth-950);

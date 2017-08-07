@@ -1,7 +1,7 @@
 <template>
   <div class="activity">
       <div class="price">
-         <ol id="myTab" class="list-inline">
+         <ol id="myTab" class="list-inline" style="width:100%;">
               <li v-for="(tab,index) in tabs" >
                 <a @click="toggle(index,tab.view)" :class="{active:active == index}">
                   <img v-bind:src="tab.image"  alt="" />{{tab.title}}
