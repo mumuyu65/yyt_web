@@ -79,8 +79,8 @@ export default {
       let objectPlayer = new Player.aodianPlayer({
         container: playerId, //播放器容器ID，必要参数
         rtmpUrl:url, //控制台开通的APP rtmp地址，必要参数
-        width: '858', //播放器宽度，可用数字、百分比等
-        height: '454', //播放器高度，可用数字、百分比等
+        width: '100%', //播放器宽度，可用数字、百分比等
+        height: '100%', //播放器高度，可用数字、百分比等
         autostart: true, //是否自动播放，默认为false
         bufferlength: '3', //视频缓冲时间，默认为3秒。hls不支持！手机端不支持
         maxbufferlength: '2', //最大视频缓冲时间，默认为2秒。hls不支持！手机端不支持

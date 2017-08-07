@@ -12,7 +12,7 @@
             </div>
         </li>
         <li class="pull-left">
-          <div class="zhibo text-center" id="zhibo" style="background-color:#000;">
+          <div class="zhibo text-center" id="zhibo" style="background-color:#000; width:100%;">
               <zhibo></zhibo>
               <activity></activity>
           </div>
@@ -83,6 +83,7 @@ export default {
 
     initData(){
       let total_width = parseInt(window.innerWidth);
+      let total_height = parseInt(window.innerHeight);
       if(total_width<1440){
         $("#chat_inner").width('450');
         $("#zhibo").width(total_width-570);
@@ -93,9 +94,7 @@ export default {
         $("#zhibo").width(total_width-950);
       }
 
-      let total_height = parseInt(window.innerHeight);
-
-      $("#myTabContent").height(total_height-544);
+      $("#myTabContent").height(total_height-444);
 
       $("#chat_inner .chat-inner").height(total_height-350);
     },
