@@ -53,6 +53,8 @@ export default {
     }
 
     this.chatHeight();  //聊天内容区块高度不固定
+
+    this.initData();
   },
   methods:{
     toggleShrink(){
@@ -69,10 +71,21 @@ export default {
 
           $("#zhibo").width(window.innerWidth-950);
 
-          if(window.innerWidth<=1440){
+          if(window.innerWidth<1440){
             $("#zhibo").width(window.innerWidth-560);
           }
         });
+    },
+
+    initData(){
+      let total_width = window.innerWidth;
+      if(total_width<1440){
+        $("#chat_inner").width(450);
+        $("#zhibo").width(window.innerWidth-520);
+      }
+      else{
+        $("#zhibo").width(window.innerWidth-950);
+      }
     },
   }
 }
