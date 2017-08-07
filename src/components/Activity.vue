@@ -106,16 +106,18 @@ export default {
 </script>
 
 <style scoped>
-  .activity .tab-content{
-    height:450px;
-  }
-
   .activity .price li{
     width:33%;
-    line-height:110px;
+    line-height:80px;
     text-align:center;
     font-size:20px;
     cursor:pointer;
+  }
+
+  .activity{
+    width:100%;
+    height:auto;
+    overflow:hidden;
   }
 
   .activity .price li a{

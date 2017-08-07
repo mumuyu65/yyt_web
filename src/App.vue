@@ -49,7 +49,7 @@ export default {
   mounted(){
     if(window.localStorage.getItem('skin')){
         this.skin = JSON.parse(window.localStorage.getItem('skin'));
-        //console.log(this.skin);
+        console.log(this.skin);
     }
 
     this.chatHeight();  //聊天内容区块高度不固定
@@ -69,27 +69,33 @@ export default {
 
           $("#chat_inner .inner-container").height(total_height-350+1);
 
-          if(window.innerWidth<1440){
-            $("#zhibo").width(window.innerWidth-560);
-          }else if(1400<=window.innerWidth<=1600){
-            $("#zhibo").width(window.innerWidth-840);
+          let total_width = parseInt(window.innerWidth);
+
+          if(total_width<1440){
+            $("#zhibo").width(total_width-570);
+          }else if(total_width<=1600){
+            $("#zhibo").width(total_width-840);
           }else{
-            $("#zhibo").width(window.innerWidth-950);
+            $("#zhibo").width(total_width-950);
           }
         });
     },
 
     initData(){
-      let total_width = window.innerWidth;
+      let total_width = parseInt(window.innerWidth);
       if(total_width<1440){
-        $("#chat_inner").width(450);
-        $("#zhibo").width(window.innerWidth-520);
-      }else if(1400<=window.innerWidth<=1600){
-        $("#zhibo").width(window.innerWidth-840);
+        $("#chat_inner").width('450');
+        $("#zhibo").width(total_width-570);
+      }else if(total_width <= 1600){
+        $("#zhibo").width(total_width-840);
       }
       else{
-        $("#zhibo").width(window.innerWidth-950);
+        $("#zhibo").width(total_width-950);
       }
+
+      let total_height = parseInt(window.innerHeight);
+
+      $("#myTabContent").height(total_height-544);
     },
   }
 }

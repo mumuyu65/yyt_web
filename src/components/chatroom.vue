@@ -1,9 +1,9 @@
 <template>
-<div class="chat">
+<div class="chat" id="chat_inner">
         <ul class="list-inline">
             <li><h4 style="color:#f00;">实时聊天</h4></li>
         </ul>
-        <div class="chat-inner" id="chat_inner">
+        <div class="chat-inner">
             <div class="inner-container" >
                 <div class="chat-item" v-for="item in chatInner">
                   <ol class="list-inline" @click="sendTextTo(item)" style="cursor:pointer;">
@@ -135,20 +135,8 @@ export default {
     this.customer();   //客服助理
 
     this.roomNo();    //房间号列表
-
-    this.chatHeight();  //聊天内容区块高度不固定
   },
   methods:{
-    chatHeight(){
-        $(window).resize(function(){
-          let total_height = parseInt(window.innerHeight);
-
-          $("#chat_inner").height(total_height-350);
-
-          $("#chat_inner .inner-container").height(total_height-350+1);
-        });
-    },
-
     //聊天图标
     initFace (){
       let that =this;
@@ -667,10 +655,10 @@ export default {
     }
 
     .chat .chat-face{
-        left:25px;
-        bottom:100px;
-        z-index:999;
-        opacity:1.0;
+            left: 16px;
+            bottom: 144px;
+            z-index: 999;
+            opacity: 1;
     }
 
     .chat .skin-icon{
