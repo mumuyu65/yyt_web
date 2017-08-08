@@ -29,4 +29,8 @@ export default {
 
             window.localStorage.setItem('liveurl', JSON.stringify(value));
         },
+
+        CHANGE_FLAG(state, value) {
+            state.userFlag = value;
+        },
 }

@@ -162,7 +162,7 @@ export default {
       api.dayComment(params).then(function(res){
          //console.log(res.data);
          if(res.data.Code ==3){
-            that.newsPreview = res.data.Data;
+            that.newsPreview = res.data.Data.Detail;
          }else{
             alert(res.data.Msg);
          }

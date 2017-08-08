@@ -21,6 +21,7 @@ const state = {
         color: '#000'
     },
     liveurl: 0,
+    userFlag: '', //用户角色
 }
 
 export default new Vuex.Store({

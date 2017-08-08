@@ -43,6 +43,11 @@ class API {
         return axios.post('/cycj/level/query', {}, config);
     }
 
+    changeLevel(param) {
+        config.data = param;
+        return axios.post('/cycj/live/changeNick', {}, config);
+    }
+
     //资讯类型
     getNewsType(param) {
         config.data = param;

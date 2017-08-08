@@ -1,88 +1,125 @@
 <template>
 <div class="chat" id="chat_inner">
-        <ul class="list-inline">
-            <li><h4 style="color:#f00;">实时聊天</h4></li>
-        </ul>
-        <div class="chat-inner">
-            <div class="inner-container" >
-                <div class="chat-item" v-for="item in chatInner">
-                  <ol class="list-inline" @click="sendTextTo(item)" style="cursor:pointer;">
-                    <li style="vertical-align: bottom">
-                      <img v-bind:src="item.userlog" alt="">
-                    </li>
-                    <li style="vertical-align: bottom"><h5>{{item.date}}</h5></li>
-                    <li><h5>{{item.name}}</h5></li>
-                  </ol>
-                  <h4 v-html="item.text"></h4>
+    <ul class="list-inline">
+        <li><h4 style="color:#f00;">实时聊天</h4></li>
+        <li v-show="isnavy" class="pull-right">
+            <button class="btn btn-send" @click="changeFlag()">更改账号</button>
+        </li>
+    </ul>
+    <div class="chat-inner">
+        <div class="inner-container" >
+            <div class="chat-item" v-for="item in chatInner">
+              <ol class="list-inline" @click="sendTextTo(item)" style="cursor:pointer;">
+                <li style="vertical-align: middle">
+                  <img v-bind:src="item.userlog" alt="">
+                </li>
+                <li style="vertical-align: middle"><h5>{{item.date}}</h5></li>
+                <li><h5>{{item.name}}</h5></li>
+              </ol>
+              <h4 v-html="item.text"></h4>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    <ul class="list-inline" style="margin:10px 0;">
+        <li class="chat-qq">申请1对1</li>
+        <li class="chat-qq">转户/开户</li>
+        <li class="chat-qq">升级权限</li>
+        <li class="chat-qq">错单解读</li>
+    </ul>
+    -->
+    <div style="position:fixed; width:500px; height:220px; padding:20px; right:0; bottom:20px;">
+        <div >
+            <!-- 高级助理 -->
+            <ul class="list-inline" style="margin:10px 0;">
+                <li class="chat-qq" v-for="item in customers">
+                    <a  target="_blank" v-bind:href="'http://wpa.qq.com/msgrd?v=3&amp;uin='+item.qq+'&amp;site=qq&amp;menu=yes'"><img src="../../static/images/zhuli.gif" /></a>
+                </li>
+            </ul>
+
+            <ul class="list-inline">
+                <li class="chat-icon" @click="toggleFace()">
+                    <i class="iconfont icon-xiaolian"></i>表情
+                </li>
+                <li class="chat-face" v-show="showFace">
+                    <div class="chat-face-inner">
+                        <div class="chat-face-content">
+                          <img v-bind:src="face.url" v-for="face in chatFaces" @click="faceSelect(face)" />
+                        </div>
+                    </div>
+                </li>
+                <li class="chat-icon" @click="toggleImg()">
+                    <i class="iconfont icon-img"></i>图片
+                </li>
+                <li class="chat-face" v-show="showImg">
+                    <div class="chat-face-inner">
+                        <div class="chat-face-content">
+                          <img v-bind:src="face.imgurl" style="width:140px; height:70px;" v-for="face in chatImgs" @click="ImgSelect(face)" />
+                        </div>
+                    </div>
+                </li>
+                <li class="chat-icon" @click="toggleSkin()">
+                    <i class="iconfont icon-huanfu"></i>换肤
+                </li>
+                <li class="chat-face" v-show="showSkin" style="height:50px; width:460px;">
+                    <div class="chat-face-inner" style="background-color:#f5f5f5">
+                        <div class="skin-icon" v-bind:style='{backgroundColor:skin.value}' v-for="skin in Skins" @click="SkinSelect(skin)">
+                            <i class="iconfont icon-duigou" v-if="skin.isSelected" style="color:#ececec;position:absolute; bottom:-3px; right:0;"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="chat-icon" @click="clear()">
+                    <i class="iconfont icon-lajitong"></i>清屏
+                </li>
+            </ul>
+            <ul class="list-inline" style="position:relative;">
+                <li style="width:100%;">
+                    <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
+                </li>
+                <li  class="pull-right">
+                    <button class="btn btn-send" @click="sendContent()">
+                        <img src="../../static/images/send.png" alt="send"/>
+                        <span>发送</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+     <!-- 水军账号身份选择 -->
+   <div class="modal fade" id="navyModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                        <span style="color:#f00;">水军账号身份选择</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="color:#000; padding:50px 0;">
+                    <ul class="list-unstyled text-center">
+                        <li><h5>水军昵称：<input type='text' value=""  v-model="Nick"  style="height:30px;width:200px;"/></h5></li>
+                        <li><h5>水军身份：
+                                <select v-model="userlevel" style="height:30px; width:200px;">
+                                    <option v-for="option in navys" v-bind:value="option.lid" >
+                                            {{ option.role_name }}
+                                    </option>
+                                </select>
+                            </h5>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" @click="changeIdentity()">提交</button>
+                    <button class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div>
         </div>
-
-        <!--
-        <ul class="list-inline" style="margin:10px 0;">
-            <li class="chat-qq">申请1对1</li>
-            <li class="chat-qq">转户/开户</li>
-            <li class="chat-qq">升级权限</li>
-            <li class="chat-qq">错单解读</li>
-        </ul>
-        -->
-        <div style="position:fixed; width:500px; height:220px; padding:20px; right:0; bottom:20px;">
-            <div >
-                <!-- 高级助理 -->
-                <ul class="list-inline" style="margin:10px 0;">
-                    <li class="chat-qq" v-for="item in customers">
-                        <a  target="_blank" v-bind:href="'http://wpa.qq.com/msgrd?v=3&amp;uin='+item.qq+'&amp;site=qq&amp;menu=yes'"><img src="../../static/images/zhuli.gif" /></a>
-                    </li>
-                </ul>
-
-                <ul class="list-inline">
-                    <li class="chat-icon" @click="toggleFace()">
-                        <i class="iconfont icon-xiaolian"></i>表情
-                    </li>
-                    <li class="chat-face" v-show="showFace">
-                        <div class="chat-face-inner">
-                            <div class="chat-face-content">
-                              <img v-bind:src="face.url" v-for="face in chatFaces" @click="faceSelect(face)" />
-                            </div>
-                        </div>
-                    </li>
-                    <li class="chat-icon" @click="toggleImg()">
-                        <i class="iconfont icon-img"></i>图片
-                    </li>
-                    <li class="chat-face" v-show="showImg">
-                        <div class="chat-face-inner">
-                            <div class="chat-face-content">
-                              <img v-bind:src="face.imgurl" style="width:140px; height:70px;" v-for="face in chatImgs" @click="ImgSelect(face)" />
-                            </div>
-                        </div>
-                    </li>
-                    <li class="chat-icon" @click="toggleSkin()">
-                        <i class="iconfont icon-huanfu"></i>换肤
-                    </li>
-                    <li class="chat-face" v-show="showSkin" style="height:50px; width:460px;">
-                        <div class="chat-face-inner" style="background-color:#f5f5f5">
-                            <div class="skin-icon" v-bind:style='{backgroundColor:skin.value}' v-for="skin in Skins" @click="SkinSelect(skin)">
-                                <i class="iconfont icon-duigou" v-if="skin.isSelected" style="color:#ececec;position:absolute; bottom:-3px; right:0;"></i>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="chat-icon" @click="clear()">
-                        <i class="iconfont icon-lajitong"></i>清屏
-                    </li>
-                </ul>
-                <ul class="list-inline" style="position:relative;">
-                    <li style="width:100%;">
-                        <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
-                    </li>
-                    <li  class="pull-right">
-                        <button class="btn btn-send" @click="sendContent()">
-                            <img src="../../static/images/send.png" alt="send"/>
-                            <span>发送</span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </div>
+   </div>
 </div>
 </template>
 
@@ -117,15 +154,20 @@ export default {
       showSkin:false,   //换肤
       templateRoom:'',  //直播房间号
       Skins:[{id:1,value:'#282828',isSelected:true,color:'#000'},{id:2,value:'#fff',isSelected:false,color:'#000',fontColor:'#1B2C36'},{id:3,value:'#BF0103',isSelected:false,color:'#000',fontColor:'#fff'},{id:4,value:'#F7C33B',isSelected:false,color:'#000',fontColor:'#FEF4E2'},{id:5,value:'#003E5F',isSelected:false,color:'#000',fontColor:'#00C8F9'}],
+      isnavy:false,   //水军账号
+      navys:[],   //水军身份的列表
+      userlevel:'',  //水军
+      Nick:'',   //水军用户的昵称
     }
   },
   computed: mapGetters({
       isLogin:'getLogin',
       liveUrl:'getLive',
+      flag:'getFlag',
   }),
   watch:{
     isLogin:'initChat',
-    liveUrl:'changeChatRoom'
+    liveUrl:'changeChatRoom',
   },
   mounted (){
     this.initFace();  //初始化表情
@@ -149,7 +191,7 @@ export default {
 
         //聊天图片
         api.chatImage().then(function(res){
-            console.log(res.data);
+            //console.log(res.data);
             if(res.data.Code ==3){
                 that.chatImgs=res.data.Data;
             }else{
@@ -164,6 +206,10 @@ export default {
         if(this.isLogin || window.localStorage.getItem("user") ){
             this.user=JSON.parse(window.localStorage.getItem("user"));
             this.ConnSvr();
+
+            if(this.user.Flag ==5){
+                this.isNavy();
+            }
         }
     },
 
@@ -311,6 +357,7 @@ export default {
         api.roomNum(params).then(function(res){
             if(res.data.Code ==3){
                 that.templateRoom = res.data.Data.Detail;
+                console.log(that.templateRoom);
             }
         }).catch(function(err){
             console.log(err);
@@ -319,7 +366,6 @@ export default {
 
     //进入房间
     enterRoom () {
-        console.log(this.templateRoom);
         let body = parseInt(this.templateRoom[0].roomno);
         let pklen = body.length + 16;
         this.ws.send(JSON.stringify({
@@ -334,6 +380,7 @@ export default {
 
     //进入战队直播的聊天区间
     changeChatRoom(){
+        console.log(this.templateRoom);
         let body = parseInt(this.templateRoom[1].roomno);
         let pklen = body.length + 16;
         this.ws.send(JSON.stringify({
@@ -616,6 +663,40 @@ export default {
 
                     that.chatInner.push(chat_content);
                 }
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
+    },
+
+    //是否为水军账号
+    isNavy(){
+        this.navys = [];
+
+        this.isnavy = !this.isnavy;
+        for(let i=0; i<6;i++){
+            this.navys.push(this.userLevels[i]);
+        }
+    },
+
+    //水军更改角色
+    changeFlag(){
+        $("#navyModal").modal("show");
+    },
+
+    changeIdentity(){
+        let params={
+            sid:this.user.SessionId,
+            uid:this.user.UserId,
+            nick:this.Nick,
+            level:this.userlevel
+        };
+
+        api.changeLevel(params).then(function(res){
+            if(res.data.Code ==3){
+                $("#navyModal").modal("hide");
+            }else{
+                alert(res.data.Msg);
             }
         }).catch(function(err){
             console.log(err);

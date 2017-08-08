@@ -279,6 +279,8 @@ export default {
                     that.userImg = '../../static/images/course_t.png';
                     that.Sid = res.data.Data.SessionId;
                     that.$store.dispatch('changeLogin',true);
+
+                    that.$store.dispatch('changeFlag',res.data.Data.Flag);
                 }else{
                     alert(res.data.Msg);
                 }

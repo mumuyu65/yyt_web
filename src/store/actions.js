@@ -40,3 +40,10 @@ export const changeLive = ({
 }, value) => {
     commit('CHANGE_LIVE', value)
 }
+
+//创建水军
+export const changeFlag = ({
+    commit
+}, value) => {
+    commit('CHANGE_FLAG', value)
+}

@@ -69,6 +69,7 @@ export default {
       for(let i=0; i<this.zhiboLives.length;i++){
         if(this.zhiboLives[i].type == 1){
              url=this.zhiboLives[i].liveurl.trim();
+             console.log(url);
              this.player(url,'clanPlayer');
              this.clanPlayer = !this.clanPlayer;
         }
