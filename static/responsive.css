@@ -5,6 +5,7 @@
         overflow:hidden;
     }
 
+    /*
     .daozhibo .zj-list {
         width: 20px;
         height: 870px;
@@ -14,11 +15,10 @@
         top: 55px;
         background-color:#000;
         transition:width 1s;
-        -moz-transition:width 1s; /* Firefox 4 */
-        -webkit-transition:width 1s; /* Safari and Chrome */
-        -o-transition:width 1s; /* Opera */
+        -moz-transition:width 1s;
+        -webkit-transition:width 1s;
+        -o-transition:width 1s;
     }
-
     .daozhibo .zj-list.active {
         width: 380px;
         height:870px;
@@ -27,6 +27,7 @@
         z-index: 2;
         background-color:#000;
     }
+    */
 
     .daozhibo .shrink{
         position: absolute;
@@ -63,6 +64,7 @@
         overflow:hidden;
     }
 
+    /*
     .daozhibo .zj-list {
         width: 20px;
         height: 907px;
@@ -71,11 +73,10 @@
         z-index: 2;
         background-color:#000;
         transition:width 1s;
-        -moz-transition:width 1s; /* Firefox 4 */
-        -webkit-transition:width 1s; /* Safari and Chrome */
-        -o-transition:width 1s; /* Opera */
+        -moz-transition:width 1s;
+        -webkit-transition:width 1s;
+        -o-transition:width 1s;
     }
-
     .daozhibo .zj-list.active {
         width: 380px;
         height: 907px;
@@ -84,6 +85,7 @@
         z-index: 2;
         background-color:#000;
     }
+    */
 
     .daozhibo .shrink{
         position: absolute;
@@ -149,3 +151,45 @@
         height:354px;
     }
 }
+
+.daozhibo .shrink{
+        position: absolute;
+        left: 72px;
+        z-index: 300;
+        top: 210px;
+        width:13px;
+        height:13px;
+        cursor:pointer;
+        display:block;
+        background-image: url('../../static/images/shrink_close.png');
+        background-size:100% 100%;
+        -moz-background-size:100% 100%;
+    }
+
+    .daozhibo .shrink.active{
+        position: absolute;
+        left: 72px;
+        z-index: 300;
+        top: 210px;
+        width:13px;
+        height:13px;
+        cursor:pointer;
+        display:block;
+        background-image: url('../../static/images/shrink_open.png');
+        background-size:100% 100%;
+        -moz-background-size:100% 100%;
+    }
+
+    .daozhibo .zj-list.active {
+        width: 20px;
+        height: 870px;
+        position: absolute;
+        overflow: hidden;
+        z-index: 2;
+        top: 55px;
+        background-color:#000;
+        transition:width 1s;
+        -moz-transition:width 1s;
+        -webkit-transition:width 1s;
+        -o-transition:width 1s;
+    }

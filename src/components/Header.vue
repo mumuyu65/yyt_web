@@ -56,6 +56,9 @@
                         <div class="text_5">
                             <input type="submit" value="登   录"  @click="doLogin()" />
                         </div>
+                      <div class="text_5">
+                        <input type="submit" value="游客登录"  @click="visitorLogin()" />
+                      </div>
                         <div class="text_6">
                             <a @click="resetpwd()" class="pull-right">忘记密码?</a>
                         </div>
@@ -200,8 +203,8 @@ export default {
     return{
         resetTitle:'登录',
         user:{
-            account:'18516074685',
-            pwd:'yu123456',
+            account:'',
+            pwd:'',
         },
         loginSuc:false,
         userImg:'',
@@ -276,7 +279,6 @@ export default {
                     that.loginSuc = true;
                     $("#loginModal").modal("hide");
                     that.userNick = res.data.Data.Nick;
-                    that.userImg = '../../static/images/course_t.png';
                     that.Sid = res.data.Data.SessionId;
                     that.$store.dispatch('changeLogin',true);
 
@@ -388,7 +390,8 @@ export default {
         let params ={
             sid:this.Sid
         };
-
+        window.localStorage.removeItem("clf-user");
+        location.reload()
         let that = this;
         api.logout(params).then(function(res){
             //console.log(res.data);
@@ -454,8 +457,17 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    }
+    },
 
+    visitorLogin() {
+        api.visitorLogin().then(function(res) {
+            alert(res.data.Msg);
+            if(res.data.Code ==3){
+                window.localStorage.setItem('clf-user',JSON.stringify(res.data.Data));
+                location.reload()
+            }
+        })
+    }
   }
 }
 </script>
