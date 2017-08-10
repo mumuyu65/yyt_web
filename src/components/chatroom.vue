@@ -438,6 +438,7 @@ export default {
                         let roomId = data_28.data.roomid;
                         that.roomID = roomId;
                         that.historyChat(roomId);
+                        that.scrollTop();
                     } else {
                         console.log(data.msg);
                     };
@@ -595,9 +596,12 @@ export default {
 
     //文字始终置顶
     scrollTop (){
-//        let t = document.getElementById('chat_inner');
+//       let t = document.getElementById('chat_inner');
         let t = document.getElementsByClassName('chat-inner')[0];
-        t.scrollTop = t.scrollHeight;
+        let shit = t.scrollHeight;
+        setTimeout(function(){
+            t.scrollTop = shit;
+        },100)
     },
 
     //分析输入的聊天内容

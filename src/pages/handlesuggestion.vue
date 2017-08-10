@@ -12,6 +12,7 @@
       <li v-for="item in templateArr " class="report-item">
           <div class="media">
               <h3 style="color:#d1201d;">{{item.result}}</h3>
+              <h4>（仅供参考）</h4>
               <div class="media-body">
                 <ul class="list-inline" style="font-size:16px; margin:10px 0;">
                   <li>类型:{{item.order_type}}</li>
@@ -25,7 +26,7 @@
                 </ul>
 
                 <ul class="list-inline" style="font-size:16px;">
-                  <li><h5>意见人：{{item.owner}}</h5></li>
+                  <li><h5>老师：{{item.owner}}</h5></li>
                   <li class="pull-right"><h5>更新日期:{{item.unix | dateStamp }}</h5></li>
                 </ul>
               </div>
