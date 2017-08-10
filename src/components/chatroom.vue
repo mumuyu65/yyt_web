@@ -698,10 +698,11 @@ export default {
             nick:this.Nick,
             level:this.userlevel
         };
-
+        let _this = this
         api.changeLevel(params).then(function(res){
             if(res.data.Code ==3){
                 $("#navyModal").modal("hide");
+                _this.user.Nick = _this.Nick
             }else{
                 alert(res.data.Msg);
             }
