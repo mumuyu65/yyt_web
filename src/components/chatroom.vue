@@ -479,7 +479,7 @@ export default {
             }
 
        }else{
-          alert("未登录,不可以发送消息的哦!");
+          $("#loginModal").modal("show");
        }
     },
 
