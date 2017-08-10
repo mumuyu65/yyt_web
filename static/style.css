@@ -314,23 +314,21 @@ a:visited,a:link,a:focus{
     width:100%;
     margin-bottom: 10px;
     position:relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y:scroll;
 }
 
 .daozhibo .chat .chat-inner .inner-container{
     position: absolute;
     left:0;
     width:100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding-bottom: 50px;
 }
 
-.daozhibo .chat .chat-inner .inner-container::-webkit-scrollbar {
+.daozhibo .chat .chat-inner::-webkit-scrollbar {
     display: none;
 }
 
-.daozhibo .chat .chat-inner .inner-container::-moz-scrollbar {
+.daozhibo .chat .chat-inner::-moz-scrollbar {
     display: none;
 }
 
