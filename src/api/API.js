@@ -7,6 +7,12 @@ import axios from 'axios'
 import config from './config'
 
 class API {
+    // 游客登录
+    visitorLogin(param) {
+        config.data = param
+        return axios.post('/cycj/visitor/login', {}, config)
+    }
+
     //登录
     login(param) {
         config.data = param;
