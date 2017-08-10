@@ -80,6 +80,12 @@ export default {
         }).catch(function(err){
           console.log(err);
         });
+
+        let total_height = parseInt(window.innerHeight);
+
+        $("#zj_list").height(total_height);
+
+        $("#zj_list .inner-container").height(total_height+1);
     },
 
     changeType(item){

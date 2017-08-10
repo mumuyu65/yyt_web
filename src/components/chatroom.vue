@@ -720,6 +720,10 @@ export default {
         cursor: pointer;
     }
 
+    .chat>.list-inline>li{
+        padding:0;
+    }
+
     .chat .chat-qq{
         background-color:#2D373D;
         padding:5px 20px;

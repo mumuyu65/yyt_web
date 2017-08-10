@@ -69,6 +69,10 @@ export default {
         $(window).resize(function(){
           let total_height = parseInt(window.innerHeight);
 
+          $("#zj_list").height(total_height);
+
+          $("#zj_list .inner-container").height(total_height+1);
+
           $("#chat_inner .chat-inner").height(total_height-350);
 
           $("#chat_inner .inner-container").height(total_height-350+1);
@@ -77,14 +81,9 @@ export default {
 
           $("#zhibo").width(total_width-740);
 
-          $("#player").height(total_height*0.4);
+          $("#player").height(total_height*0.5);
 
-          $("#myTabContent").height(total_height*0.5);
-
-          $("#zj_list").height(total_height);
-
-          $("#zj_list .inner-container").height(total_height+1);
-
+          $("#myTabContent").height(total_height*0.4);
         });
     },
 
@@ -97,11 +96,11 @@ export default {
 
       $("#zj_list .inner-container").height(total_height+1);
 
-      $("#zhibo").width(total_width-760);
+      $("#zhibo").width(total_width-740);
 
-      $("#player").height(total_height*0.4);
+      $("#player").height(total_height*0.5);
 
-      $("#myTabContent").height(total_height*0.5);
+      $("#myTabContent").height(total_height*0.4);
 
       $("#chat_inner .chat-inner").height(total_height-350);
 
