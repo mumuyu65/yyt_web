@@ -595,10 +595,7 @@ export default {
 
     //文字始终置顶
     scrollTop (){
-<<<<<<< HEAD
-=======
 //        let t = document.getElementById('chat_inner');
->>>>>>> 052eb6b5d08d5a563f669e1c7a9ef8ef3d74d67b
         let t = document.getElementsByClassName('chat-inner')[0];
         t.scrollTop = t.scrollHeight;
     },
