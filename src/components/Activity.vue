@@ -84,8 +84,8 @@ export default {
   methods: {
     toggle(i, v){
        if(v == 'Teamlive'){
-          if(window.localStorage.getItem("user")){
-              let templateLevel = JSON.parse(window.localStorage.getItem("user")).Level;
+          if(window.localStorage.getItem("clf-user")){
+              let templateLevel = JSON.parse(window.localStorage.getItem("clf-user")).Level;
               if(parseInt(templateLevel)>=1){
                 this.active = i;
                 this.currentView = v;

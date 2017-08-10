@@ -203,8 +203,8 @@ export default {
     },
 
     initChat (){
-        if(this.isLogin || window.localStorage.getItem("user") ){
-            this.user=JSON.parse(window.localStorage.getItem("user"));
+        if(this.isLogin || window.localStorage.getItem("clf-user") ){
+            this.user=JSON.parse(window.localStorage.getItem("clf-user"));
             this.ConnSvr();
 
             if(this.user.Flag ==5){
@@ -244,7 +244,7 @@ export default {
 
     ImgSelect(item){
         this.showImg = !this.showImg;
-        if(window.localStorage.getItem("user")){
+        if(window.localStorage.getItem("clf-user")){
             let chat_content={
                 userlog:this.userLevels[this.user.Level].role_css,
                 name:this.user.Nick,
@@ -455,7 +455,7 @@ export default {
 
     //发送内容
     sendContent (){
-       if(window.localStorage.getItem("user")){
+       if(window.localStorage.getItem("clf-user")){
             if(this.chatContent){
                 this.sendText(this.chatContent);
 
@@ -595,7 +595,11 @@ export default {
 
     //文字始终置顶
     scrollTop (){
-        let t = document.getElementById('chat_inner');
+<<<<<<< HEAD
+=======
+//        let t = document.getElementById('chat_inner');
+>>>>>>> 052eb6b5d08d5a563f669e1c7a9ef8ef3d74d67b
+        let t = document.getElementsByClassName('chat-inner')[0];
         t.scrollTop = t.scrollHeight;
     },
 
@@ -662,6 +666,8 @@ export default {
                     //console.log(chat_content);
 
                     that.chatInner.push(chat_content);
+
+                    that.scrollTop();
                 }
             }
         }).catch(function(err){

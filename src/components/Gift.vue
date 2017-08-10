@@ -105,7 +105,7 @@ export default {
       let lastGiftNum=this.lastGiftNum;
       this.$store.dispatch('changeGiftSelected',this.giftSelected);
       this.$store.dispatch('changelastGiftNum',lastGiftNum);
-      if(window.localStorage.getItem("user")){
+      if(window.localStorage.getItem("clf-user")){
         this.$store.dispatch("sendGift",true);
       }
       else{

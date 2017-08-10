@@ -239,9 +239,9 @@ export default {
   },
   methods: {
     initLogin(){
-        if(window.localStorage.getItem("user") || this.isLogin){
+        if(window.localStorage.getItem("clf-user") || this.isLogin){
             this.loginSuc = true;
-            let user = JSON.parse(window.localStorage.getItem("user"));
+            let user = JSON.parse(window.localStorage.getItem("clf-user"));
             this.userNick = user.Nick;
             this.userImg = env.baseUrl+'/cycj/head/head'+user.UserId;
             this.Sid = user.SessionId;
@@ -272,7 +272,7 @@ export default {
         if(this.user.account && this.user.pwd){
             api.login(params).then(function(res){
                 if(res.data.Code ==3){
-                    window.localStorage.setItem('user',JSON.stringify(res.data.Data));
+                    window.localStorage.setItem('clf-user',JSON.stringify(res.data.Data));
                     that.loginSuc = true;
                     $("#loginModal").modal("hide");
                     that.userNick = res.data.Data.Nick;
@@ -395,7 +395,7 @@ export default {
             if(res.data.Code ==3){
                 that.loginSuc = false;
                 alert("退出成功!");
-                window.localStorage.removeItem("user");
+                window.localStorage.removeItem("clf-user");
                 that.$router.push('/');
             }
         }).catch(function(err){
@@ -406,7 +406,7 @@ export default {
     //个人设置
     showPerson(){
       $("#settingsModal").modal("show");
-      let user = JSON.parse(window.localStorage.getItem("user"));
+      let user = JSON.parse(window.localStorage.getItem("clf-user"));
       this.Nick = user.Nick;
 
       this.modifyImg = env.baseUrl+'/cycj/head/head'+user.UserId;
@@ -447,7 +447,7 @@ export default {
         .then(function (res) {
           alert(res.data.Msg);
           if(res.data.Code ==3){
-            window.localStorage.setItem('user',JSON.stringify(res.data.Data));
+            window.localStorage.setItem('clf-user',JSON.stringify(res.data.Data));
             $("#settingsModal").modal("hide");
           }
         })

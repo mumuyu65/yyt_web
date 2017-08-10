@@ -279,7 +279,7 @@ export default {
   }),
   methods:{
     init (){
-      if(window.localStorage.getItem("user")){
+      if(window.localStorage.getItem("clf-user")){
         }
     },
 
@@ -586,7 +586,7 @@ export default {
     },
 
     handlesuggestion(){
-      if(window.localStorage.getItem("user")){
+      if(window.localStorage.getItem("clf-user")){
         this.isLogin=true ;
       }else{
         alert("亲爱的用户，登录后才可查看此部分内容！");
