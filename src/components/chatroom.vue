@@ -663,6 +663,8 @@ export default {
                     //console.log(chat_content);
 
                     that.chatInner.push(chat_content);
+
+                    that.scrollTop();
                 }
             }
         }).catch(function(err){
