@@ -166,7 +166,7 @@
         -moz-background-size:100% 100%;
     }
 
-    .daozhibo .shrink.active{
+.daozhibo .shrink.active{
         position: absolute;
         left: 72px;
         z-index: 300;
@@ -180,7 +180,7 @@
         -moz-background-size:100% 100%;
     }
 
-    .daozhibo .zj-list.active {
+.daozhibo .zj-list.active {
         width: 20px;
         height: 870px;
         position: absolute;
@@ -192,4 +192,4 @@
         -moz-transition:width 1s;
         -webkit-transition:width 1s;
         -o-transition:width 1s;
-    }
+  }

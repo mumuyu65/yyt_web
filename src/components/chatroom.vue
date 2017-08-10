@@ -29,8 +29,8 @@
         <li class="chat-qq">错单解读</li>
     </ul>
     -->
-    <div style="position:fixed; width:350px; height:220px;right:0; bottom:20px;">
-        <div >
+    <div style="position:fixed; width:350px; height:220px;right:10px; bottom:20px;">
+        <div style="width:100%;">
             <!-- 高级助理 -->
             <ul class="list-inline" style="margin:10px 0;">
                 <li class="chat-qq" v-for="item in customers">
@@ -479,7 +479,7 @@ export default {
             }
 
        }else{
-          alert("未登录,不可以发送消息的哦!");
+          $("#loginModal").modal("show");
        }
     },
 
@@ -698,10 +698,11 @@ export default {
             nick:this.Nick,
             level:this.userlevel
         };
-
+        let _this = this
         api.changeLevel(params).then(function(res){
             if(res.data.Code ==3){
                 $("#navyModal").modal("hide");
+                _this.user.Nick = _this.Nick
             }else{
                 alert(res.data.Msg);
             }
