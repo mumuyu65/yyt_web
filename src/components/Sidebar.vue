@@ -230,7 +230,7 @@
    <div class="modal fade" id="calenderModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="min-width:1100px;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" @click="closeCalendar()" aria-hidden="true">
                         &times;
@@ -600,6 +600,13 @@ export default {
 
     //财经日历
     calendarDate(){
+        let total_width = parseInt(window.innerWidth);
+        console.log(total_width)
+        if(total_width < 1300){
+          $('.modal-content').width(800);
+          $('iframe').width(800);
+          console.log(1)
+        }
        $("#calenderModal").modal('show');
        this.calenderShow = 'router-link-active';
     },
