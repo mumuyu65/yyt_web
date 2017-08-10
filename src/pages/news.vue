@@ -8,16 +8,14 @@
         </ul>
         <ol class="list-unstyled">
           <li v-for="report in economicNews " class="report-item">
-              <div class="media">
-                  <a class="media-left">
-                      <img v-bind:src="report.imgurl" style="height:100px;"/>
-                  </a>
+              <div class="media text-center">
+                  <img v-bind:src="report.imgurl" style="height:100px;"/>
                   <div class="media-body">
-                    <h4 class="media-heading">
-                        <a>{{report.title}}</a>
+                    <h4 class="media-heading" style="margin:10px 0;">
+                        {{report.title}}
                     </h4>
                   </div>
-                  <div v-html="report.content" style="margin-top:20px;"></div>
+                  <div v-html="report.content"></div>
               </div>
           </li>
         </ol>

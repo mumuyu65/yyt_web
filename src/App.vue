@@ -6,7 +6,7 @@
        <ol class="list-inline" style="width:100%;height:100%;">
         <li class="pull-left">
             <div class="main">
-              <div class="zj-list" v-bind:class="{active:sidebarShrink}">
+              <div class="zj-list" v-bind:class="{active:sidebarShrink}" id="zj_list">
                   <router-view></router-view>
               </div>
             </div>
@@ -27,7 +27,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import mqHeader from './components/Header'
 import SiderBar from './components/Sidebar'
@@ -59,6 +58,12 @@ export default {
   methods:{
     toggleShrink(){
       this.sidebarShrink = !this.sidebarShrink;
+      let total_width = parseInt(window.innerWidth);
+      if(this.sidebarShrink){
+        $("#zhibo").width(total_width-460);
+      }else{
+        $("#zhibo").width(total_width-740);
+      }
     },
 
     chatHeight(){
@@ -71,30 +76,33 @@ export default {
 
           let total_width = parseInt(window.innerWidth);
 
-          if(total_width<1440){
-            $("#zhibo").width(total_width-570);
-          }else if(total_width<=1600){
-            $("#zhibo").width(total_width-840);
-          }else{
-            $("#zhibo").width(total_width-950);
-          }
+          $("#zhibo").width(total_width-740);
+
+          $("#player").height(total_height*0.4);
+
+          $("#myTabContent").height(total_height*0.5);
+
+          $("#zj_list").height(total_height);
+
+          $("#zj_list .inner-container").height(total_height+1);
+
         });
     },
 
     initData(){
       let total_width = parseInt(window.innerWidth);
-      let total_height = parseInt(window.innerHeight);
-      if(total_width<1440){
-        $("#chat_inner").width('450');
-        $("#zhibo").width(total_width-570);
-      }else if(total_width <= 1600){
-        $("#zhibo").width(total_width-840);
-      }
-      else{
-        $("#zhibo").width(total_width-950);
-      }
 
-      $("#myTabContent").height(total_height-444);
+      let total_height = parseInt(window.innerHeight);
+
+      $("#zj_list").height(total_height);
+
+      $("#zj_list .inner-container").height(total_height+1);
+
+      $("#zhibo").width(total_width-760);
+
+      $("#player").height(total_height*0.4);
+
+      $("#myTabContent").height(total_height*0.5);
 
       $("#chat_inner .chat-inner").height(total_height-350);
 

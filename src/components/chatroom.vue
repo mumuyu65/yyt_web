@@ -29,7 +29,7 @@
         <li class="chat-qq">错单解读</li>
     </ul>
     -->
-    <div style="position:fixed; width:500px; height:220px; padding:20px; right:0; bottom:20px;">
+    <div style="position:fixed; width:350px; height:220px;right:0; bottom:20px;">
         <div >
             <!-- 高级助理 -->
             <ul class="list-inline" style="margin:10px 0;">

@@ -276,7 +276,6 @@ export default {
                     that.loginSuc = true;
                     $("#loginModal").modal("hide");
                     that.userNick = res.data.Data.Nick;
-                    that.userImg = '../../static/images/course_t.png';
                     that.Sid = res.data.Data.SessionId;
                     that.$store.dispatch('changeLogin',true);
 

@@ -1,7 +1,7 @@
 <template>
 <ul class="list-inline">
-    <li v-for="item in downloads"  class="text-center" style="width:25%; margin-top:50px; vertical-align:top;">
-        <img v-bind:src="item.imgurl" style="height:150px;" />
+    <li v-for="item in downloads"  class="text-center" style="width:23%; margin-top:50px; vertical-align:top;">
+        <img v-bind:src="item.imgurl" style="width:100%;max-width:150px;" />
         <div style="margin-top:20px;" v-if="item.fileurl"><a v-bind:href="item.fileurl"><button class="btn btn-danger">客户端下载</button></a>
         </div>
     </li>
