@@ -29,8 +29,8 @@
         <li class="chat-qq">错单解读</li>
     </ul>
     -->
-    <div style="position:fixed; width:350px; height:220px;right:0; bottom:20px;">
-        <div >
+    <div style="position:fixed; width:350px; height:220px;right:10px; bottom:20px;">
+        <div style="width:100%;">
             <!-- 高级助理 -->
             <ul class="list-inline" style="margin:10px 0;">
                 <li class="chat-qq" v-for="item in customers">

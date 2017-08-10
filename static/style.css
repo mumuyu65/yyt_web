@@ -297,10 +297,9 @@ a:visited,a:link,a:focus{
     position: absolute;
     right: 0;
     bottom:0;
-    top:40px;
+    top:50px;
     width:350px;
     height:100%;
-    padding:10px;
     background-color: rgb(40, 40, 40);
 }
 
