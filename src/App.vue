@@ -17,8 +17,7 @@
               <activity></activity>
           </div>
         </li>
-        <li>
-            <div class="shrink" @click="toggleShrink()" v-bind:class="{active:sidebarShrink}"></div>
+        <li class="shrink" @click="toggleShrink()" v-bind:class="{active:sidebarShrink}">
         </li>
         <li>
           <chat-room></chat-room>
@@ -114,3 +113,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .content>.list-inline>li{
+    padding:0 !important;
+  }
+</style>
