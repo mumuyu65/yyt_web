@@ -114,7 +114,7 @@
                         </li>
                         <li class="text_2">
                             <input name="account" type="text" placeholder="输入手机号" v-model="Phone" required/>
-                            <input type="button" value="获取验证码" class="num" @click="getVcode()"/>
+                            <input type="button" v-bind:value="registerTip" class="num" @click="getVcode()"/>
                         </li>
                         <li class="text_2">
                             <input name="vcode" type="text" placeholder="输入验证码" v-model="Vcode" required/>
@@ -219,6 +219,7 @@ export default {
         Nick:'',
         Intro:'',
         modifyImg:'',
+        registerTip:'获取验证码',
     }
   },
   computed: mapGetters({
@@ -299,17 +300,24 @@ export default {
         $("#registerModal").modal("show");
     },
 
+    //验证码
     getVcode(){
         let params={
             phone:this.Phone.trim()
         };
 
+        this.registerTip= '发送中...';
+
+        let that = this;
+
         if(this.Phone.trim()){
-            api.getVcode(params).then(function(res){
-                console.log(res);
-            }).catch(function(error){
-                console.log(error);
-            });
+            $.post(env.baseUrl+'/cycj/vcode/get',params,function(res){
+                if(res.Code ==3){
+                    that.registerTip= '发送成功！';
+                }else{
+                    alert(res.Msg);
+                }
+            })
         }else{
             alert('手机号码不能为空！');
         }
