@@ -549,6 +549,7 @@ export default {
            userLog = this.userLevels[img.userlevel].role_css;
         }
 
+
         let Text = this.analysis(text);
 
         var chat_content={
