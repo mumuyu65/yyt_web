@@ -239,6 +239,10 @@ export default {
         this.header = JSON.parse(window.localStorage.getItem('skin'));
         //console.log(this.header,JSON.parse(window.localStorage.getItem('skin')));
     }
+
+    if (!window.localStorage.getItem('clf-user')) {
+        this.visitorLogin()
+    }
   },
   methods: {
     initLogin(){
