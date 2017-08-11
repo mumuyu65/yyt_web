@@ -743,7 +743,6 @@ export default {
         //是否为水军账号
         isNavy(){
             this.navys = [];
-
             this.isnavy = !this.isnavy;
             for(let i=0; i<6;i++){
                 this.navys.push(this.userLevels[i]);
@@ -768,6 +767,7 @@ export default {
                     $("#navyModal").modal("hide");
                     _this.user.Nick = _this.Nick;
                     _this.user.Level = _this.userlevel;
+                    _this.user.Flag = 5;
                     window.localStorage.setItem('clf-user',JSON.stringify(_this.user));
                 }else{
                     alert(res.data.Msg);
