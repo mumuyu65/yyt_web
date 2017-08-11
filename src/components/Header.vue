@@ -70,7 +70,7 @@
                             </li>
                             <li class="text_2">
                                 <input name="account" type="text" placeholder="输入手机号" v-model="reset.phone"/>
-                                <input type="button" value="获取验证码" class="num" @click="getResetVcode()"/>
+                                <input type="button" v-bind:value="resetVcode" class="num" @click="getResetVcode()"/>
                             </li>
                             <li class="text_2">
                                 <input name="vcode" type="number" placeholder="输入验证码" v-model="reset.vcode" required/>
@@ -220,6 +220,8 @@ export default {
         Intro:'',
         modifyImg:'',
         registerTip:'获取验证码',
+
+        resetVcode:'获取验证码',
     }
   },
   computed: mapGetters({
@@ -364,12 +366,18 @@ export default {
             phone:this.reset.phone.trim()
         };
 
+        this.resetVcode = '发送中...';
+
+        let that =  this;
+
         if(this.reset.phone.trim()){
-            api.getVcode(params).then(function(res){
-                console.log(res);
-            }).catch(function(error){
-                console.log(error);
-            });
+            $.post(env.baseUrl+'/cycj/vcode/get',params,function(res){
+                if(res.Code ==3){
+                    that.resetVcode= '发送成功！';
+                }else{
+                    alert(res.Msg);
+                }
+            })
         }else{
             alert('手机号码不能为空！');
         }
