@@ -720,6 +720,10 @@ export default {
         cursor: pointer;
     }
 
+    .chat>.list-inline>li{
+        padding:0;
+    }
+
     .chat .chat-qq{
         background-color:#2D373D;
         padding:5px 20px;
@@ -729,9 +733,9 @@ export default {
     }
 
     .chat .chat-icon{
-        color:#f00;
+        color:#fff;
         font-size:14px;
-        border:1px solid #f00;
+        border:1px solid #fff;
         padding:0px 5px;
         vertical-align:top;
         opacity:0.6;
@@ -744,10 +748,10 @@ export default {
     }
 
     .chat .chat-face{
-            left: 16px;
-            bottom: 144px;
-            z-index: 999;
-            opacity: 1;
+        left: -5px;
+        bottom: 165px;
+        z-index: 999;
+        opacity: 1;
     }
 
     .chat .skin-icon{

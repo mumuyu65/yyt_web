@@ -89,6 +89,11 @@ export default {
   },
   mounted(){
     this.changePreview(this.mainTitle[0]);
+    let total_height = parseInt(window.innerHeight);
+
+    $("#zj_list").height(total_height);
+
+    $("#zj_list .inner-container").height(total_height+1);
   },
   methods:{
     changePreview(item){

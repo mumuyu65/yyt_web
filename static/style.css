@@ -552,15 +552,14 @@ a:visited,a:link,a:focus{
 .login_border {
     background-color: #fff;
     width: 360px;
-    height: 450px;
+    height: 400px;
     margin:0 auto;
-    margin-top: 50px;
 }
 
 .text_1 {
     line-height: 28px;
     width: 80%;
-    padding-top: 60px;
+    padding-top: 25px;
     margin: auto;
 }
 
