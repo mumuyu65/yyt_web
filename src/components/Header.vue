@@ -56,9 +56,6 @@
                         <div class="text_5">
                             <input type="submit" value="登   录"  @click="doLogin()" />
                         </div>
-                      <div class="text_5">
-                        <input type="submit" value="游客登录"  @click="visitorLogin()" />
-                      </div>
                         <div class="text_6">
                             <a @click="resetpwd()" class="pull-right">忘记密码?</a>
                         </div>
@@ -234,21 +231,20 @@ export default {
   },
   mounted(){
     this.initLogin();
-    //console.log(this.header);
     if(window.localStorage.getItem('skin')){
         this.header = JSON.parse(window.localStorage.getItem('skin'));
         //console.log(this.header,JSON.parse(window.localStorage.getItem('skin')));
     }
 
-    if (!window.localStorage.getItem('clf-user')) {
-        this.visitorLogin()
-    }
+     this.visitorLogin();   //游客登录
   },
   methods: {
     initLogin(){
         if(window.localStorage.getItem("clf-user") || this.isLogin){
-            this.loginSuc = true;
             let user = JSON.parse(window.localStorage.getItem("clf-user"));
+            if(user.Flag !== -1){
+                this.loginSuc = true;
+            }
             this.userNick = user.Nick;
             this.userImg = env.baseUrl+'/cycj/head/head'+user.UserId;
             this.Sid = user.SessionId;
@@ -463,12 +459,13 @@ export default {
         });
     },
 
+    //游客登录
     visitorLogin() {
         api.visitorLogin().then(function(res) {
-            alert(res.data.Msg);
             if(res.data.Code ==3){
                 window.localStorage.setItem('clf-user',JSON.stringify(res.data.Data));
-                location.reload()
+            }else{
+                alert(res.data.Msg);
             }
         })
     }
