@@ -299,6 +299,7 @@ export default {
         $("#registerModal").modal("show");
     },
 
+    //验证码
     getVcode(){
         let params={
             phone:this.Phone.trim()
