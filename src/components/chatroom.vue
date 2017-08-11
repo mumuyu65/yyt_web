@@ -59,7 +59,7 @@
                                 {{item.title}}
                             </li>
                         </ol>
-                        <div class="chat-face-content">
+                        <div class="chat-face-content" style="padding-bottom: 50px;">
                           <img v-bind:src="face.imgurl" v-for="face in chatImgs" @click="ImgSelect(face)" />
                         </div>
                     </div>
