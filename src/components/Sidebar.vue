@@ -230,7 +230,7 @@
    <div class="modal fade" id="calenderModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" style="width:1200px">
                 <div class="modal-header">
                     <button type="button" class="close" @click="closeCalendar()" aria-hidden="true">
                         &times;
@@ -240,7 +240,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <iframe src="http://www.caijingriliba.com/" frameborder="0" scrolling="yes" class="calendar-date" style="width:100%; min-height:800px;"></iframe>
+                    <iframe src="http://www.caijingriliba.com/" frameborder="0" scrolling="yes" class="calendar-date" style="width:100%;height:800px;"></iframe>
                 </div>
             </div>
         </div>
@@ -601,11 +601,22 @@ export default {
     //财经日历
     calendarDate(){
         let total_width = parseInt(window.innerWidth);
-        console.log(total_width)
+        let total_height = parseInt(window.innerHeight);
+        if(total_width < 1600){
+          $('.modal-content').width(1000);
+          $('iframe').width(1000);
+        }
         if(total_width < 1300){
           $('.modal-content').width(800);
           $('iframe').width(800);
-          console.log(1)
+        }
+        if(total_height < 1000){
+          $('.modal-content').height(800);
+          $('iframe').height(700);
+        }
+        if(total_height < 800){
+          $('.modal-content').height(600);
+          $('iframe').height(500);
         }
        $("#calenderModal").modal('show');
        this.calenderShow = 'router-link-active';
