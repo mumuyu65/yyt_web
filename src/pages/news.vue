@@ -9,7 +9,7 @@
         <ol class="list-unstyled">
           <li v-for="report in economicNews " class="report-item">
               <div class="media text-center">
-                  <img v-bind:src="report.imgurl" style="height:100px;"/>
+                  <img v-bind:src="report.imgurl" style="height:100px;" v-if="report.imgurl"/>
                   <div class="media-body">
                     <h4 class="media-heading" style="margin:10px 0;">
                         {{report.title}}

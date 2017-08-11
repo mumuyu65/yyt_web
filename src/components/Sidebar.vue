@@ -1,6 +1,6 @@
 <template>
 <div>
-   <div class="sidebar" v-bind:style="{backgroundColor:sidebarColor.color}">
+   <div class="sidebar">
         <ul class="list-unstyled">
             <div class="divider"></div>
             <li class="text-center">
