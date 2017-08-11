@@ -179,11 +179,11 @@ export default {
     mounted (){
         this.initFace();  //初始化表情
 
-        this.UserLevel();  //用户等级
-
         this.customer();   //客服助理
 
         this.roomNo();    //房间号列表
+
+        this.initChat();   //判断是否登录
     },
     methods:{
         //聊天图标
@@ -226,11 +226,15 @@ export default {
         initChat (){
             if(this.isLogin || window.localStorage.getItem("clf-user") ){
                 this.user=JSON.parse(window.localStorage.getItem("clf-user"));
-                this.ConnSvr();
 
+                this.ConnSvr();  //聊天链接
+
+                //水军账号登录
                 if(this.user.Flag ==5){
                     this.isNavy();
                 }
+
+                this.UserLevel();  //用户等级
             }
         },
 
@@ -240,6 +244,7 @@ export default {
           api.userLevel().then(function(res){
                if (res.data.Code == 3) {
                     that.userLevels = res.data.Data;
+                    console.log(that.user);
                 }
           }).catch(function(err){
               console.log(err);
@@ -382,6 +387,7 @@ export default {
 
         //进入房间
         enterRoom () {
+            //console.log(this.templateRoom[0]);
             let body = parseInt(this.templateRoom[0].roomno);
             let pklen = body.length + 16;
             this.ws.send(JSON.stringify({
@@ -478,22 +484,36 @@ export default {
 
                     let tempLevel = this.userLevels.length;
 
-                    let chat_content={
-                        userlog:this.userLevels[this.user.Level].role_css,
-                        name:this.user.Nick,
-                        text:this.analysis(this.chatContent),
-                        date:this.dateStamp(new Date())
-                    };
+                    if(this.user.Flag == -1){
+                        let chat_content={
+                            userlog:this.userLevels[10].role_css,
+                            name:this.user.Nick,
+                            text:this.analysis(this.chatContent),
+                            date:this.dateStamp(new Date())
+                        };
 
-                    this.chatInner.push(chat_content);
+                          this.chatInner.push(chat_content);
 
-                    this.scrollTop();
+                          this.scrollTop();
 
-                    this.chatContent = '';
+                          this.chatContent = '';
+                    }else{
+                         let chat_content={
+                            userlog:this.userLevels[this.user.Level].role_css,
+                            name:this.user.Nick,
+                            text:this.analysis(this.chatContent),
+                            date:this.dateStamp(new Date())
+                        };
+
+                          this.chatInner.push(chat_content);
+
+                          this.scrollTop();
+
+                          this.chatContent = '';
+                    }
                 }else{
                     alert("输入的内容不能为空！");
                 }
-
            }else{
               $("#loginModal").modal("show");
            }
@@ -557,16 +577,16 @@ export default {
         showChat (date, name, text, img) {
             //根据不同的级别，显示不同的图标
             var userLog;
-            console.log('用户接受群聊消息', img);
+            console.log('用户接收群聊消息', img);
             let len = this.userLevels.length;
             if(img.username == '系统'){
                 userLog ='';
-            }else{
+            }else if(parseInt(img.inflag)== -1){
+                userLog = this.userLevels[10].role_css;
+            }
+            else{
                userLog = this.userLevels[img.userlevel].role_css;
             }
-
-            console.log(img);
-
 
             let Text = this.analysis(text);
 
@@ -659,35 +679,50 @@ export default {
             };
 
             let that = this;
+
             api.historyChat(params).then(function(res){
                 if(res.data.Code ==3){
                     let templeObj = res.data.Data;
 
                     let len = that.userLevels.length;
 
+                    let userlog;
+
                     for(let i=0; i<templeObj.length;i++){
-                        let userlog;
-                        switch(templeObj[i].userlevel){
-                            case '0': userlog = that.userLevels[0].role_css;break;
-                            case '1': userlog = that.userLevels[1].role_css;break;
-                            case '2': userlog = that.userLevels[2].role_css;break;
-                            case '3': userlog = that.userLevels[3].role_css;break;
-                            case '4': userlog = that.userLevels[4].role_css;break;
-                            case '5': userlog = that.userLevels[5].role_css;break;
+                        if(parseInt(templeObj[i].userflag) !==-1){
+                            switch(templeObj[i].userlevel){
+                                case '0': userlog = that.userLevels[0].role_css;break;
+                                case '1': userlog = that.userLevels[1].role_css;break;
+                                case '2': userlog = that.userLevels[2].role_css;break;
+                                case '3': userlog = that.userLevels[3].role_css;break;
+                                case '4': userlog = that.userLevels[4].role_css;break;
+                                case '5': userlog = that.userLevels[5].role_css;break;
+                            }
+
+                            var chat_content={
+                                userlog:userlog,
+                                name:templeObj[i].username,
+                                text:that.analysis(templeObj[i].message),
+                                date:that.dateStamp(templeObj[i].time*1000)
+                            };
+
+                            that.chatInner.push(chat_content);
+
+                            that.scrollTop();
+
+                        }else{
+                            userlog = that.userLevels[10].role_css;
+                            var chat_content={
+                                userlog:userlog,
+                                name:templeObj[i].username,
+                                text:that.analysis(templeObj[i].message),
+                                date:that.dateStamp(templeObj[i].time*1000)
+                            };
+
+                            that.chatInner.push(chat_content);
+
+                            that.scrollTop();
                         }
-
-                        var chat_content={
-                            userlog:userlog,
-                            name:templeObj[i].username,
-                            text:that.analysis(templeObj[i].message),
-                            date:that.dateStamp(templeObj[i].time*1000)
-                        };
-
-                        //console.log(chat_content);
-
-                        that.chatInner.push(chat_content);
-
-                        that.scrollTop();
                     }
                 }
             }).catch(function(err){
@@ -717,7 +752,7 @@ export default {
                 nick:this.Nick,
                 level:this.userlevel
             };
-            let _this = this
+            let _this = this;
             api.changeLevel(params).then(function(res){
                 if(res.data.Code ==3){
                     $("#navyModal").modal("hide");
