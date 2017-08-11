@@ -229,11 +229,6 @@ export default {
 
                 this.ConnSvr();  //聊天链接
 
-                //水军账号登录
-                if(this.user.Flag ==5){
-                    this.isNavy();
-                }
-
                 this.UserLevel();  //用户等级
             }
         },
@@ -244,7 +239,10 @@ export default {
           api.userLevel().then(function(res){
                if (res.data.Code == 3) {
                     that.userLevels = res.data.Data;
-                    console.log(that.user);
+                    //水军账号登录
+                    if(that.user.Flag ==5){
+                        that.isNavy();
+                    }
                 }
           }).catch(function(err){
               console.log(err);
@@ -590,7 +588,7 @@ export default {
             console.log('用户接收群聊消息', img);
             let len = this.userLevels.length;
             if(img.username == '系统'){
-                userLog ='';
+                userLog ='../../static/images/xitong.png';
             }else if(parseInt(img.inflag)== -1){
                 userLog = this.userLevels[10].role_css;
             }
@@ -744,6 +742,7 @@ export default {
         isNavy(){
             this.navys = [];
             this.isnavy = !this.isnavy;
+
             for(let i=0; i<6;i++){
                 this.navys.push(this.userLevels[i]);
             }
