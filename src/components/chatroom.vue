@@ -34,7 +34,12 @@
             <!-- 高级助理 -->
             <ul class="list-inline" style="margin:10px 0;">
                 <li class="chat-qq" v-for="item in customers">
-                    <a  target="_blank" v-bind:href="'http://wpa.qq.com/msgrd?v=3&amp;uin='+item.qq+'&amp;site=qq&amp;menu=yes'"><img src="../../static/images/zhuli.gif" /></a>
+                    <!--
+                    <a  target="_blank" v-bind:href="'http://wpa.qq.com/msgrd?v=3&amp;uin='+item.qq+'&amp;site=qq&amp;menu=yes'">
+                        <img src="../../static/images/zhuli.gif" />
+                    </a>
+                    -->
+                    <a @click="callQQ(item.qq)" style="cursor:pointer"><img src="../../static/images/zhuli.gif" /></a>
                 </li>
             </ul>
 
@@ -232,6 +237,12 @@ export default {
                 this.UserLevel();  //用户等级
             }
         },
+
+        callQQ(qq) {
+            let url = "tencent://message/?Menu=yes&amp;amp;uin=" + qq + "&amp;amp;Service=58&amp;amp;SigT=A7F6FEA02730C988560E6A29DD620C36E5D02A3C50894BFDDFA9AE24C72EA4E656447195EDF21AA25E56C81415A4E3E06394A554DD64F3F1A382F9455BCE1C9214192773F8AF6EBF516F0E7092D08806B703D054DC2F56A1F65106C78DF1021C883D86C37678EE2EDB615B9954A338A2B2CD7A840089AB4E&amp;amp;SigU=30E5D5233A443AB2727689328A4863A4534880EE96161430D2EA5140D343AB27F9CE70D1273A9F87C0C4EA780476BBB4EB0CD74D567304A9E32DB62FCEABADF3D6133AE3F86FDB82";
+            window.location.href = url;
+        },
+
 
         //用户等级
         UserLevel (){
