@@ -6,7 +6,7 @@
         -->
         <ul class="list-inline pull-right" style="line-height:40px;">
             <li style="margin-right:30px;">
-                <a href="javascript:void(0)" @click="saveToDesk()">
+                <a href="https://yingdedao.com:10022/cycj/appfile/Clf.url" download="clf.url">
                     <img src="../../static/images/desktop.png" alt="" />
                     <h4>保存到桌面</h4>
                 </a>
