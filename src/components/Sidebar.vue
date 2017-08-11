@@ -22,7 +22,7 @@
             -->
 
             <li class="text-center">
-                <a href="javascript:void(0)" @click="handlesuggestion()" v-if="!isLogin">
+                <a href="javascript:void(0)" @click="handlesuggestion()" v-if="!isLogin" id="handle_suggestion">
                     <img src="../../static/images/handle-icon.png" alt="">
                     <h6>操作建议</h6>
                 </a>
@@ -587,9 +587,13 @@ export default {
 
     handlesuggestion(){
       if(window.localStorage.getItem("clf-user")){
-        this.isLogin=true ;
-      }else{
-        alert("亲爱的用户，登录后才可查看此部分内容！");
+        let Flag =JSON.parse(window.localStorage.getItem("clf-user")).Flag;
+        if(Flag == -1){
+          this.isLogin=false ;
+          alert("亲爱的用户，登录后才可查看此部分内容！");
+        }else{
+          this.isLogin=true ;
+        }
       }
     },
 

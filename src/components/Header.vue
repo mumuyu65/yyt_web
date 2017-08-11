@@ -285,6 +285,8 @@ export default {
                     that.Sid = res.data.Data.SessionId;
                     that.$store.dispatch('changeLogin',true);
 
+                    $("#handle_suggestion").display("none");
+
                     that.$store.dispatch('changeFlag',res.data.Data.Flag);
                 }else{
                     alert(res.data.Msg);
@@ -308,11 +310,10 @@ export default {
             phone:this.Phone.trim()
         };
 
-        this.registerTip= '发送中...';
-
         let that = this;
 
         if(this.Phone.trim()){
+            this.registerTip= '发送中...';
             $.post(env.baseUrl+'/cycj/vcode/get',params,function(res){
                 if(res.Code ==3){
                     that.registerTip= '发送成功！';
@@ -366,11 +367,11 @@ export default {
             phone:this.reset.phone.trim()
         };
 
-        this.resetVcode = '发送中...';
 
         let that =  this;
 
         if(this.reset.phone.trim()){
+            this.resetVcode = '发送中...';
             $.post(env.baseUrl+'/cycj/vcode/get',params,function(res){
                 if(res.Code ==3){
                     that.resetVcode= '发送成功！';
