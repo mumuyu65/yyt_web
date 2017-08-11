@@ -266,13 +266,23 @@ export default {
         ImgSelect(item){
             this.showImg = !this.showImg;
             if(window.localStorage.getItem("clf-user")){
-                let chat_content={
-                    userlog:this.userLevels[this.user.Level].role_css,
-                    name:this.user.Nick,
-                    text:this.ImgTrans(item.imgurl),
-                    date:this.dateStamp(new Date())
-                };
-
+                let Flag = JSON.parse(window.localStorage.getItem("clf-user")).Flag;
+                let chat_content;
+                if(parseInt(Flag)==-1){
+                    chat_content={
+                        userlog:this.userLevels[10].role_css,
+                        name:this.user.Nick,
+                        text:this.ImgTrans(item.imgurl),
+                        date:this.dateStamp(new Date())
+                    };
+                }else{
+                    chat_content={
+                        userlog:this.userLevels[this.user.Level].role_css,
+                        name:this.user.Nick,
+                        text:this.ImgTrans(item.imgurl),
+                        date:this.dateStamp(new Date())
+                    };
+                }
                 this.chatInner.push(chat_content);
                 this.sendText(item.imgurl);
             }else{
@@ -756,7 +766,9 @@ export default {
             api.changeLevel(params).then(function(res){
                 if(res.data.Code ==3){
                     $("#navyModal").modal("hide");
-                    _this.user.Nick = _this.Nick
+                    _this.user.Nick = _this.Nick;
+                    _this.user.Level = _this.userlevel;
+                    window.localStorage.setItem('clf-user',JSON.stringify(_this.user));
                 }else{
                     alert(res.data.Msg);
                 }

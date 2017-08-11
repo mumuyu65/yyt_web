@@ -399,7 +399,7 @@ export default {
                 that.loginSuc = false;
                 alert("退出成功!");
                 window.localStorage.removeItem("clf-user");
-                that.$router.push('/');
+                window.location.reload();
             }
         }).catch(function(err){
             console.log(err);
