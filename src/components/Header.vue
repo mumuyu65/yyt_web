@@ -407,11 +407,8 @@ export default {
         let params ={
             sid:this.Sid
         };
-        window.localStorage.removeItem("clf-user");
-        location.reload()
         let that = this;
         api.logout(params).then(function(res){
-            //console.log(res.data);
             if(res.data.Code ==3){
                 that.loginSuc = false;
                 alert("退出成功!");

@@ -421,17 +421,21 @@ export default {
 
         //进入战队直播的聊天区间
         changeChatRoom(){
-            console.log(this.templateRoom);
-            let body = parseInt(this.templateRoom[1].roomno);
-            let pklen = body.length + 16;
-            this.ws.send(JSON.stringify({
-                'pklen': pklen,
-                'klen': 16,
-                'ver': 1,
-                'op': 27,
-                'id': 4,
-                'body': body
-            }));
+            if(this.templateRoom[1]){
+                let body = parseInt(this.templateRoom[1].roomno);
+                let pklen = body.length + 16;
+                this.ws.send(JSON.stringify({
+                    'pklen': pklen,
+                    'klen': 16,
+                    'ver': 1,
+                    'op': 27,
+                    'id': 4,
+                    'body': body
+                }));
+            }else{
+                alert("战队直播房间不存在。");
+            }
+
         },
 
         //长链接

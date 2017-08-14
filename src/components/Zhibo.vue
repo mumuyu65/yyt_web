@@ -64,14 +64,16 @@ export default {
       });
     },
 
+    //直播地址不存在！
     changeLive(){
-      let url; //直播地址
+      let url;
       for(let i=0; i<this.zhiboLives.length;i++){
         if(this.zhiboLives[i].type == 1){
              url=this.zhiboLives[i].liveurl.trim();
-             console.log(url);
              this.player(url,'clanPlayer');
              this.clanPlayer = !this.clanPlayer;
+        }else{
+          alert('战队直播视频地址不存在！');
         }
       }
     },
