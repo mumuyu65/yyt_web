@@ -1,5 +1,5 @@
 <template>
-    <img v-bind:src='activity' style="width:100%; height:100%;" />
+    <img v-bind:src='activity' style="width:100%; height:90%;" />
 </template>
 
 <script>

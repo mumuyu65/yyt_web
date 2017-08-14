@@ -11,14 +11,14 @@
       <li v-for="report in classes " class="report-item">
           <div class="media">
               <a class="media-left">
-                  <img v-bind:src="report.cover_url" style="height:100px; width:130px;"/>
+                  <img v-bind:src="report.cover_url" style="height:70px; width:100px;"/>
               </a>
               <div class="media-body">
                 <h4 class="media-heading">
                     <a>{{report.title}}</a>
                 </h4>
                 <h5>更新日期:{{report.unix | dateStamp }}</h5>
-                <h6>{{report.owner}}</h6>
+                <h6>老师:  {{report.owner}}</h6>
                 <a v-bind:href="report.annex_url" v-if="report.annex_url"><button class="btn btn-danger">下载附件</button></a>
               </div>
               <div v-html="report.intro" style="margin-top:20px;"></div>

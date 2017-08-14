@@ -26,7 +26,7 @@
     <li v-for="report in newsPreview " class="report-item">
         <div class="media">
             <a class="media-left">
-                <img v-bind:src="report.cover_img" style="height:100px;"/>
+                <img v-bind:src="report.cover_img" style="height:70px; width:100px;"/>
             </a>
             <div class="media-body">
               <h4 class="media-heading">

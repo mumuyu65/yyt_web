@@ -324,6 +324,10 @@ a:visited,a:link,a:focus{
     width:100%;
 }
 
+.inner-container .report-item {
+    margin-right: 5px;
+}
+
 .daozhibo .chat .chat-inner::-webkit-scrollbar {
     display: none;
 }
@@ -343,15 +347,17 @@ a:visited,a:link,a:focus{
 }
 
 .daozhibo .chat .btn-send{
-    width:93px;
-    height:33px;
+    width: 87px;
+    height: 30px;
     background-color: #e61f1c;
-    color:#fff;
-    line-height:17px;
+    color: #fff;
+    /* line-height: 5px; */
+    padding: 3px 12px;
 }
 
 .daozhibo .chat .btn-send img{
-    margin-right:10px;
+    margin-right: 7px;
+    width: 20px;
 }
 
 .daozhibo .zj-list{
