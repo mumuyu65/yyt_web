@@ -73,9 +73,9 @@ export default {
 
           $("#zj_list .inner-container").height(total_height+1);
 
-          $("#chat_inner .chat-inner").height(total_height-350);
+          $("#chat_inner .chat-inner").height(total_height-250);
 
-          $("#chat_inner .inner-container").height(total_height-350+1);
+          $("#chat_inner .inner-container").height(total_height-250+1);
 
           let total_width = parseInt(window.innerWidth);
 
@@ -102,7 +102,7 @@ export default {
 
       $("#myTabContent").height(total_height*0.4);
 
-      $("#chat_inner .chat-inner").height(total_height-350);
+      $("#chat_inner .chat-inner").height(total_height-250);
 
       if ((navigator.userAgent.indexOf('MSIE') >= 0)
           && (navigator.userAgent.indexOf('Opera') < 0)){

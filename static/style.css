@@ -347,12 +347,12 @@ a:visited,a:link,a:focus{
 }
 
 .daozhibo .chat .btn-send{
-    width: 87px;
-    height: 30px;
+    width: 50px;
+    height: 40px;
     background-color: #e61f1c;
     color: #fff;
     /* line-height: 5px; */
-    padding: 3px 12px;
+    padding: 3px 10px;
 }
 
 .daozhibo .chat .btn-send img{
@@ -405,14 +405,16 @@ a:visited,a:link,a:focus{
 }
 
 .daozhibo .chat .chat-content{
-    width:100%;
-    height:80px;
+    width:82%;
+    height:40px;
     background-color:#fff;
     margin:10px 0;
     padding:10px;
     color:#000;
     overflow-x:hidden;
     overflow-y:auto;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .daozhibo .chat .chat-face .chat-face-inner{

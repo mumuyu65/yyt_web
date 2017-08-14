@@ -2,8 +2,8 @@
 <div class="chat" id="chat_inner">
     <ul class="list-inline">
         <li><h4 style="color:#f00;">实时聊天</h4></li>
-        <li v-show="isnavy" class="pull-right">
-            <button class="btn btn-send" @click="changeFlag()">更改账号</button>
+        <li v-show="isnavy" class="pull-right" style="margin:10px 20px 0 0">
+            <span @click="changeFlag()" style="font-size:14px; padding:5px 10px; background-color:#e61f1c; cursor:pointer">更改账号</span>
         </li>
     </ul>
     <div class="chat-inner">
@@ -29,7 +29,7 @@
         <li class="chat-qq">错单解读</li>
     </ul>
     -->
-    <div style="position:fixed; width:350px; height:220px;right:10px; bottom:20px;">
+    <div style="position:fixed; width:350px; height:120px;right:10px; bottom:20px;">
         <div style="width:100%;">
             <!-- 高级助理 -->
             <ul class="list-inline" style="margin:10px 0;">
@@ -83,10 +83,7 @@
             <ul class="list-inline" style="position:relative;">
                 <li style="width:100%;">
                     <input class="chat-content" @keyup.enter="sendContent()" v-model="chatContent" />
-                </li>
-                <li  class="pull-right">
                     <button class="btn btn-send" @click="sendContent()">
-                        <img src="../../static/images/send.png" alt="send"/>
                         <span>发送</span>
                     </button>
                 </li>

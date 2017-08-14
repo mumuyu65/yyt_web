@@ -238,7 +238,6 @@ export default {
         this.header = JSON.parse(window.localStorage.getItem('skin'));
         //console.log(this.header,JSON.parse(window.localStorage.getItem('skin')));
     }
-
      this.visitorLogin();   //游客登录
   },
   methods: {
