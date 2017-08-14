@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       active: 0,
-      currentView: 'Download',
+      currentView: 'Activityzone',
       /*
       tabs: [
          {
@@ -62,10 +62,10 @@ export default {
        ]
        */
        tabs: [
-         {
-          view: 'Download',
-          image:'../../static/images/xiazai.png',
-          title:'下载中心'
+       {
+          view: 'Activityzone',
+          image:'../../static/images/zhibo-icon.png',
+          title:'活动专区'
          },
          {
           view: 'Teamlive',
@@ -73,9 +73,9 @@ export default {
           title:'战队直播'
          },
          {
-          view: 'Activityzone',
-          image:'../../static/images/zhibo-icon.png',
-          title:'活动专区'
+          view: 'Download',
+          image:'../../static/images/xiazai.png',
+          title:'下载中心'
          }
        ]
     }

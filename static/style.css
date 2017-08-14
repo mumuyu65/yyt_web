@@ -359,6 +359,10 @@ a:visited,a:link,a:focus{
     display: inline-block;
     position: relative;
     overflow: hidden;
+    transition:width 1s;
+    -moz-transition:width 1s;
+    -webkit-transition:width 1s;
+    -o-transition:width 1s;
 }
 
 .daozhibo .zj-list .inner-container {
