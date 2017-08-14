@@ -826,7 +826,7 @@ export default {
 
     .chat .chat-face{
         left: -5px;
-        bottom: 165px;
+        bottom: 70px;
         z-index: 999;
         opacity: 1;
     }
