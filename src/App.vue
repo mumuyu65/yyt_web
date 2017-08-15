@@ -95,11 +95,6 @@ export default {
       $("#myTabContent").height(total_height*0.4);
 
       $("#chat_inner .chat-inner").height(total_height-250);
-
-      if ((navigator.userAgent.indexOf('MSIE') >= 0)
-          && (navigator.userAgent.indexOf('Opera') < 0)){
-          alert('您使用的浏览器版本过低，请更换浏览器！');
-      }
     },
   }
 }

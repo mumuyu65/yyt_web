@@ -8,12 +8,15 @@
     <link rel="stylesheet" type="text/css" href="" id="style_css" />
     <link rel="stylesheet" type="text/css" href="../../static/responsive.css" />
     <link rel="stylesheet" type="text/css" href="../../static/iconfont/iconfont.css" />
-    <script type="text/javascript" src="../../static/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript">
-      var LSS_SITE = 'http://cdn.aodianyun.com';
-    </script>
   </head>
   <body>
     <div id="app"></div>
+    <script type="text/javascript" src="../../static/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        var LSS_SITE = 'http://cdn.aodianyun.com';
+        if (!!window.ActiveXObject || "ActiveXObject" in window){
+          alert('您使用的浏览器版本过低，请更换为其他浏览器！');
+        }
+    </script>
   </body>
 </html>

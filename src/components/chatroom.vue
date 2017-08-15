@@ -200,12 +200,12 @@ export default {
             for(let i=0; i<8;i++){
                 if(skin_css == this.Skins[i].title){
                     this.SkinSelect(this.Skins[i]);
-                    this.showSkin = !this.showSkin;
+                    this.toggleSkin();
                 }
             }
         }else{
             this.SkinSelect(this.Skins[7]);
-            this.showSkin = !this.showSkin;
+            this.toggleSkin();
         }
     },
     methods:{

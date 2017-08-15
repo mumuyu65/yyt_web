@@ -19,6 +19,12 @@ class API {
         return axios.post('/cycj/login', {}, config);
     }
 
+    //皮肤
+    skin(param) {
+        config.data = param;
+        return axios.post('/cycj/user/skin', {}, config);
+    }
+
     //验证码
     getVcode(param) {
         config.data = param;
