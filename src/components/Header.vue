@@ -84,10 +84,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" @click="loginClose()">关闭
-                    </button>
-                </div>
             </div>
         </div>
    </div>
