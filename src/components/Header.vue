@@ -230,11 +230,7 @@ export default {
   },
   mounted(){
     this.initLogin();
-    if(window.localStorage.getItem('skin')){
-        this.header = JSON.parse(window.localStorage.getItem('skin'));
-        //console.log(this.header,JSON.parse(window.localStorage.getItem('skin')));
-    }
-     this.visitorLogin();   //游客登录
+
   },
   methods: {
     initLogin(){
@@ -242,10 +238,14 @@ export default {
             let user = JSON.parse(window.localStorage.getItem("clf-user"));
             if(user.Flag !== -1){
                 this.loginSuc = true;
+            }else{
+                this.loginSuc = false;
             }
             this.userNick = user.Nick;
             this.userImg = env.baseUrl+'/cycj/head/head'+user.UserId;
             this.Sid = user.SessionId;
+        }else{
+            this.visitorLogin();   //游客登录
         }
     },
     //登录
@@ -335,8 +335,7 @@ export default {
         if(this.Phone.trim() && this.Pwd.trim() && this.Nick.trim() && this.Phone.trim()){
             api.register(params).then(function(res){
                 if(res.data.Code ==3){
-                    //TODO
-                    console.log(res.data);
+                    alert("注册成功!");
                 }else{
                     alert(res.data.Msg);
                 }
@@ -461,6 +460,9 @@ export default {
           if(res.data.Code ==3){
             window.localStorage.setItem('clf-user',JSON.stringify(res.data.Data));
             $("#settingsModal").modal("hide");
+            that.initLogin();   //更新头像
+
+            that.userImg = that.modifyImg;  //
           }
         })
         .catch(function (error) {
