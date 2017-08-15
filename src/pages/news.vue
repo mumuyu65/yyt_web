@@ -195,7 +195,6 @@ export default {
     }
 
     .news-type>li.active{
-      background-color: #d1201d;
       border-radius: 5px;
     }
 </style>

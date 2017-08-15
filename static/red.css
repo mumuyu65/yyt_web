@@ -1,0 +1,97 @@
+.router-link-active{
+   background-color:#e61f1c;
+   text-decoration:none;
+}
+
+.daozhibo .header{
+    width:100%;
+    height:40px;
+    padding-right:25px;
+    background:#e61f1c;
+}
+
+.news-type>li.active{
+    background-color: #e61f1c;
+}
+
+.activity .price li a.active{
+    border-bottom:2px solid #e61f1c;
+}
+
+.activity .price li a{
+    color:#fff;
+    text-decoration:none;
+    padding-bottom:20px;
+    border-bottom:2px solid transparent;
+}
+
+.chat .chat-title{
+    color:#e61f1c;
+}
+
+.daozhibo .chat .btn-send{
+    width: 50px;
+    height: 40px;
+    background-color: #e61f1c;
+    color: #fff;
+    padding: 3px 10px;
+}
+
+.login-title{
+    color:#e61f1c;
+}
+
+.text_1 p {
+    color:#e61f1c;
+}
+
+.text_5 input {
+    background-color:#e61f1c;
+}
+
+.text_6 a {
+    color: #e61f1c;
+}
+
+.login_border .num {
+    background-color: #e61f1c;
+}
+
+.btn-danger{
+    background-color: #e61f1c;
+    border-color: #e61f1c;
+}
+
+.daozhibo .sidebar ul li>a:hover{
+   background-color:#e61f1c;
+}
+
+.login_reg>span.active{
+   background-color:#fff;
+   border-radius:10px;
+   color:#e61f1c;
+}
+
+.change-account{
+    background-color:#e61f1c;
+}
+
+.border-title{
+    border-left:2px solid #e61f1c;
+}
+
+.media-title{
+    color:#e61f1c;
+}
+
+.zj-list-header>ul li.active{
+    background-color:#e61f1c;
+}
+
+.zj-list .sub-menu .sub-menu-inner>li.active{
+    border-top:2px solid #e61f1c;
+}
+
+.setting-btn {
+    background-color:#e61f1c;
+}

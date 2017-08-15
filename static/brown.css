@@ -1,0 +1,108 @@
+.router-link-active{
+   background-color:#804a5c;
+   text-decoration:none;
+}
+
+.daozhibo .header{
+    width:100%;
+    height:40px;
+    padding-right:25px;
+    background:#804a5c;
+}
+
+.news-type>li.active{
+    background-color: #804a5c;
+}
+
+.activity .price li a.active{
+    border-bottom:2px solid #804a5c;
+}
+
+.activity .price li a{
+    color:#fff;
+    text-decoration:none;
+    padding-bottom:20px;
+    border-bottom:2px solid transparent;
+}
+
+.chat .chat-title{
+    color:#804a5c;
+}
+
+.daozhibo .chat .btn-send{
+    width: 50px;
+    height: 40px;
+    background-color: #804a5c;
+    color: #fff;
+    padding: 3px 10px;
+}
+
+.login-title{
+    color:#804a5c;
+}
+
+.text_1 p {
+    color:#804a5c;
+}
+
+.text_5 input {
+    width: 100%;
+    height: 40px;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    background-color:#804a5c;
+}
+
+
+.text_6 a {
+    color:#804a5c;
+}
+
+.login_border .num {
+    background-color: #804a5c;
+}
+
+.btn-danger{
+    background-color:#804a5c;
+    border-color:#804a5c;
+}
+
+.daozhibo .sidebar ul li>a:hover{
+   background-color:#804a5c;
+}
+
+.login_reg>span.active{
+   background-color:#fff;
+   border-radius:10px;
+   color:#804a5c;
+}
+
+.change-account{
+    background-color:#804a5c;
+}
+
+.news-type>li.active{
+   background-color:#804a5c;
+}
+
+.border-title{
+    border-left:2px solid #804a5c;
+}
+
+.media-title{
+    color:#804a5c;
+}
+
+.zj-list-header>ul li.active{
+    background-color:#804a5c;
+}
+
+.zj-list .sub-menu .sub-menu-inner>li.active{
+    border-top:2px solid #804a5c;
+}
+
+.setting-btn {
+    background-color: #804a5c;
+}

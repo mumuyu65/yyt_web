@@ -94,7 +94,7 @@
                         &times;
                     </button>
                     <h4 class="modal-title" >
-                        <span style="color:#f00;">课程表安排</span>
+                        <span class="login-title">课程表安排</span>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -236,7 +236,7 @@
                         &times;
                     </button>
                     <h4 class="modal-title" >
-                         <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px; color:#000">财经日历</span></h4>
+                         <h4 class="border-title"><span style="margin-left:10px;" class="login-title">财经日历</span></h4>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -267,15 +267,11 @@ export default {
   },
   mounted (){
     this.init();
-    if(window.localStorage.getItem('skin')){
-        this.sidebarColor = JSON.parse(window.localStorage.getItem('skin'));
-    }
 
     this.queryPeriod();  //查询时间段
   },
   computed: mapGetters({
       user: 'getUser',
-      sidebarColor:'getSkin',
   }),
   methods:{
     init (){
@@ -636,7 +632,6 @@ export default {
 
 <style scoped>
 .router-link-active{
-   background-color:#d1201d;
    text-decoration:none;
 }
 

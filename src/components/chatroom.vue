@@ -1,9 +1,9 @@
 <template>
 <div class="chat" id="chat_inner">
     <ul class="list-inline">
-        <li><h4 style="color:#f00;">实时聊天</h4></li>
+        <li><h4 class="chat-title">实时聊天</h4></li>
         <li v-show="isnavy" class="pull-right" style="margin:10px 20px 0 0">
-            <span @click="changeFlag()" style="font-size:14px; padding:5px 10px; background-color:#e61f1c; cursor:pointer">更改账号</span>
+            <span @click="changeFlag()" class="change-account">更改账号</span>
         </li>
     </ul>
     <div class="chat-inner">
@@ -72,7 +72,7 @@
                 <li class="chat-icon" @click="toggleSkin()">
                     <i class="iconfont icon-huanfu"></i>换肤
                 </li>
-                <li class="chat-face" v-show="showSkin" style="height:50px; width:460px;">
+                <li class="chat-face" v-show="showSkin" style="height:100px; width:400px;">
                     <div class="chat-face-inner" style="background-color:#f5f5f5">
                         <div class="skin-icon" v-bind:style='{backgroundColor:skin.value}' v-for="skin in Skins" @click="SkinSelect(skin)">
                             <i class="iconfont icon-duigou" v-if="skin.isSelected" style="color:#ececec;position:absolute; bottom:-3px; right:0;"></i>
@@ -91,8 +91,8 @@
         </div>
     </div>
 
-     <!-- 水军账号身份选择 -->
-   <div class="modal fade" id="navyModal" tabindex="-1" role="dialog"
+    <!-- 水军账号身份选择 -->
+    <div class="modal fade" id="navyModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -101,7 +101,7 @@
                         &times;
                     </button>
                     <h4 class="modal-title" >
-                        <span style="color:#f00;">水军账号身份选择</span>
+                        <span class="login-title">水军账号身份选择</span>
                     </h4>
                 </div>
                 <div class="modal-body" style="color:#000; padding:50px 0;">
@@ -123,7 +123,7 @@
                 </div>
             </div>
         </div>
-   </div>
+    </div>
 </div>
 </template>
 
@@ -157,7 +157,14 @@ export default {
           customers:[],   //客服助理
           showSkin:false,   //换肤
           templateRoom:'',  //直播房间号
-          Skins:[{id:1,value:'#282828',isSelected:true,color:'#000'},{id:2,value:'#fff',isSelected:false,color:'#000',fontColor:'#1B2C36'},{id:3,value:'#BF0103',isSelected:false,color:'#000',fontColor:'#fff'},{id:4,value:'#F7C33B',isSelected:false,color:'#000',fontColor:'#FEF4E2'},{id:5,value:'#003E5F',isSelected:false,color:'#000',fontColor:'#00C8F9'}],
+          Skins:[{id:1,value:'#31577a',isSelected:false,title:'blue'},
+                 {id:2,value:'#e52b50',isSelected:false,title:'pink'},
+                 {id:3,value:'#487dbf',isSelected:false,title:'light_blue'},
+                 {id:4,value:'#636d7a',isSelected:false,title:'grey'},
+                 {id:5,value:'#8043e1',isSelected:false,title:'purple'},
+                 {id:6,value:'#fbc324',isSelected:false,title:'yellow'},
+                 {id:7,value:'#804a5c',isSelected:false,title:'brown'},
+                 {id:8,value:'#e61f1c',isSelected:false,title:'red'}],
           isnavy:false,   //水军账号
           navys:[],   //水军身份的列表
           userlevel:'',  //水军
@@ -186,6 +193,20 @@ export default {
         this.roomNo();    //房间号列表
 
         this.initChat();   //判断是否登录
+
+        if(window.localStorage.getItem('skin')){
+            let skin_css=JSON.parse(window.localStorage.getItem('skin'));
+
+            for(let i=0; i<8;i++){
+                if(skin_css == this.Skins[i].title){
+                    this.SkinSelect(this.Skins[i]);
+                    this.showSkin = !this.showSkin;
+                }
+            }
+        }else{
+            this.SkinSelect(this.Skins[7]);
+            this.showSkin = !this.showSkin;
+        }
     },
     methods:{
         //聊天图标
@@ -318,7 +339,13 @@ export default {
             }
             item.isSelected = true;
 
-            this.$store.dispatch('ChangeSkin',item);
+            let skin_css = "../../static/"+item.title+".css";
+
+            $("#style_css").attr("href",skin_css);
+
+            window.localStorage.setItem("skin",JSON.stringify(item.title));
+
+            return false;
         },
         //客服助理
         customer(){

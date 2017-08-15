@@ -120,22 +120,7 @@ export default {
     overflow:hidden;
   }
 
-  .activity .price li a{
-    color:#fff;
-    text-decoration:none;
-    padding-bottom:20px;
-     border-bottom:2px solid transparent;
-  }
-
-  .activity .price li a.active{
-    border-bottom:2px solid #f00;
-  }
-
   .activity .price li a>img{
     margin-right:10px;
   }
-
-  .active{
-     color:red
-    }
 </style>

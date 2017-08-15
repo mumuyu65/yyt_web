@@ -1,6 +1,6 @@
 <template>
   <div class="inner-container">
-    <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">学习课件</span></h4>
+    <h4 class="border-title"><span style=" margin-left:10px;">学习课件</span></h4>
     <ul class="list-inline news-type">
       <li v-for="item in mainTitle" @click="showContent(item)" v-bind:class="{'active':item.isActive}">
         {{ item.title}}
@@ -15,7 +15,7 @@
               </a>
               <div class="media-body">
                 <h4 class="media-heading">
-                    <a>{{report.title}}</a>
+                    <a style="color:#fff;">{{report.title}}</a>
                 </h4>
                 <h5>更新日期:{{report.unix | dateStamp }}</h5>
                 <h6>老师:  {{report.owner}}</h6>
@@ -159,11 +159,6 @@ export default {
     .news-type>li{
       cursor:pointer;
       padding:5px 10px;
-    }
-
-    .news-type>li.active{
-      background-color: #d1201d;
-      border-radius: 5px;
     }
 
     .inner-container .report-item{

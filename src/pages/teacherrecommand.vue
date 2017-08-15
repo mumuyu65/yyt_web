@@ -1,8 +1,6 @@
 <template>
  <div class="inner-container">
-  <!--
-  <h4 style="border-left:2px solid #f00;"><span style=" margin-left:10px;">老师观点</span></h4>
-  -->
+  <h4 class="border-title"><span style=" margin-left:10px;">老师观点</span></h4>
   <div class="zj-list-header">
       <ul class="list-inline">
           <li v-for="item in mainTitle" class="active" @click="changePreview(item)">
@@ -189,11 +187,6 @@ export default {
         padding:3px 20px;
         margin:10px;
         font-size:16px;
-    }
-
-    .zj-list-header>ul li.active{
-        background-color:#d1201d;
-        border-radius:5px;
     }
 
     .hq-item{

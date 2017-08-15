@@ -39,7 +39,7 @@
                         &times;
                     </button>
                     <h4 class="modal-title" >
-                        <span style="color:#f00;">{{resetTitle}}</span>
+                        <span class="login-title">{{resetTitle}}</span>
                     </h4>
                 </div>
                 <div class="modal-body" >
@@ -98,7 +98,7 @@
                         &times;
                     </button>
                     <h4 class="modal-title" >
-                        <span style="color:#f00;">注册</span>
+                        <span class="login-title">注册</span>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -144,7 +144,7 @@
                         &times;
                     </button>
                     <h4 class="modal-title" >
-                        <span style="color:#f00;">个人设置</span>
+                        <span class="login-title">个人设置</span>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -489,18 +489,11 @@ export default {
         cursor:pointer;
     }
 
-    .login_reg>span.active{
-       background-color:#fff;
-       border-radius:10px;
-       color:#d1201d;
-    }
-
     .setting-btn {
         margin: auto;
         width: 75px;
         height: 35px;
         border: none;
-        background-color: #E52327;
         color: #FFFFFF;
         border-radius: 0;
         position:absolute;

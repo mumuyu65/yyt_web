@@ -1,5 +1,5 @@
 <template>
-  <div class="daozhibo" v-bind:style='{backgroundColor:skin.value}'>
+  <div class="daozhibo">
     <mq-header></mq-header>
     <sider-bar></sider-bar>
     <div class="content">
@@ -41,15 +41,7 @@ export default {
     }
   },
   components: { mqHeader,SiderBar,ChatRoom,Zhibo,Activity},
-  computed: mapGetters({
-      skin:'getSkin',
-  }),
   mounted(){
-    if(window.localStorage.getItem('skin')){
-        this.skin = JSON.parse(window.localStorage.getItem('skin'));
-        console.log(this.skin);
-    }
-
     this.chatHeight();  //聊天内容区块高度不固定
 
     this.initData();
@@ -112,7 +104,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
   .content>.list-inline>li{
     padding:0 !important;
