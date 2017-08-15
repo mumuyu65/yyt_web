@@ -157,14 +157,15 @@ export default {
           customers:[],   //客服助理
           showSkin:false,   //换肤
           templateRoom:'',  //直播房间号
-          Skins:[{id:1,value:'#31577a',isSelected:false,title:'blue'},
+          Skins:[
+                 {id:1,value:'#e61f1c',isSelected:false,title:'red'},
                  {id:2,value:'#e52b50',isSelected:false,title:'pink'},
                  {id:3,value:'#487dbf',isSelected:false,title:'light_blue'},
                  {id:4,value:'#636d7a',isSelected:false,title:'grey'},
                  {id:5,value:'#8043e1',isSelected:false,title:'purple'},
                  {id:6,value:'#fbc324',isSelected:false,title:'yellow'},
                  {id:7,value:'#804a5c',isSelected:false,title:'brown'},
-                 {id:8,value:'#e61f1c',isSelected:false,title:'red'}],
+                 {id:1,value:'#31577a',isSelected:false,title:'blue'}],
           isnavy:false,   //水军账号
           navys:[],   //水军身份的列表
           userlevel:'',  //水军
@@ -240,10 +241,15 @@ export default {
 
                 this.UserLevel();  //用户等级
 
-                let skin_css = "../../static/"+this.user.Skin+".css";
+                if(this.user.Skin){
+                    let skin_css = "../../static/"+this.user.Skin+".css";
 
-                $("#style_css").attr("href",skin_css);
+                    $("#style_css").attr("href",skin_css);
+                }else{
+                    let skin_css = "../../static/"+this.Skins[0].title+".css";
 
+                    $("#style_css").attr("href",skin_css);
+                }
             }else{
                 if(window.localStorage.getItem('skin')){
                     let skin_css=JSON.parse(window.localStorage.getItem('skin'));
@@ -255,7 +261,7 @@ export default {
                         }
                     }
                 }else{
-                    this.SkinSelect(this.Skins[7]);
+                    this.SkinSelect(this.Skins[0]);
                     this.toggleSkin();
                 }
             }
