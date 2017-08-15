@@ -193,20 +193,6 @@ export default {
         this.roomNo();    //房间号列表
 
         this.initChat();   //判断是否登录
-
-        if(window.localStorage.getItem('skin')){
-            let skin_css=JSON.parse(window.localStorage.getItem('skin'));
-
-            for(let i=0; i<8;i++){
-                if(skin_css == this.Skins[i].title){
-                    this.SkinSelect(this.Skins[i]);
-                    this.toggleSkin();
-                }
-            }
-        }else{
-            this.SkinSelect(this.Skins[7]);
-            this.toggleSkin();
-        }
     },
     methods:{
         //聊天图标
@@ -247,12 +233,31 @@ export default {
         },
 
         initChat (){
-            if(this.isLogin || window.localStorage.getItem("clf-user") ){
+            if(this.isLogin || JSON.parse(window.localStorage.getItem("clf-user")).Flag !== -1 ){
                 this.user=JSON.parse(window.localStorage.getItem("clf-user"));
 
                 this.ConnSvr();  //聊天链接
 
                 this.UserLevel();  //用户等级
+
+                let skin_css = "../../static/"+this.user.Skin+".css";
+
+                $("#style_css").attr("href",skin_css);
+
+            }else{
+                if(window.localStorage.getItem('skin')){
+                    let skin_css=JSON.parse(window.localStorage.getItem('skin'));
+
+                    for(let i=0; i<8;i++){
+                        if(skin_css == this.Skins[i].title){
+                            this.SkinSelect(this.Skins[i]);
+                            this.toggleSkin();
+                        }
+                    }
+                }else{
+                    this.SkinSelect(this.Skins[7]);
+                    this.toggleSkin();
+                }
             }
         },
 
@@ -343,8 +348,20 @@ export default {
 
             $("#style_css").attr("href",skin_css);
 
-            window.localStorage.setItem("skin",JSON.stringify(item.title));
-
+            if(JSON.parse(window.localStorage.getItem("clf-user")).Flag !== -1){
+                    let params={
+                        sid:this.user.SessionId,
+                        skin:item.title
+                    };
+                    api.skin(params).then(function(res){
+                        //console.log(res.data);
+                        alert(res.data.Msg);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+            }else{
+                 window.localStorage.setItem("skin",JSON.stringify(item.title));
+            }
             return false;
         },
         //客服助理
