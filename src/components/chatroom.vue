@@ -234,36 +234,40 @@ export default {
         },
 
         initChat (){
-            if(this.isLogin || JSON.parse(window.localStorage.getItem("clf-user")).Flag !== -1 ){
+            if(this.isLogin || window.localStorage.getItem("clf-user")){
                 this.user=JSON.parse(window.localStorage.getItem("clf-user"));
 
                 this.ConnSvr();  //聊天链接
 
                 this.UserLevel();  //用户等级
 
-                if(this.user.Skin){
-                    let skin_css = "../../static/"+this.user.Skin+".css";
+                if(JSON.parse(window.localStorage.getItem("clf-user")).Flag !== -1){
+                  if(this.user.Skin){
+                        let skin_css = "../../static/"+this.user.Skin+".css";
 
-                    $("#style_css").attr("href",skin_css);
-                }else{
-                    let skin_css = "../../static/"+this.Skins[0].title+".css";
+                        $("#style_css").attr("href",skin_css);
+                    }else{
+                        let skin_css = "../../static/"+this.Skins[0].title+".css";
 
-                    $("#style_css").attr("href",skin_css);
-                }
-            }else{
-                if(window.localStorage.getItem('skin')){
-                    let skin_css=JSON.parse(window.localStorage.getItem('skin'));
-
-                    for(let i=0; i<8;i++){
-                        if(skin_css == this.Skins[i].title){
-                            this.SkinSelect(this.Skins[i]);
-                            this.toggleSkin();
-                        }
+                        $("#style_css").attr("href",skin_css);
                     }
                 }else{
-                    this.SkinSelect(this.Skins[0]);
-                    this.toggleSkin();
+                    if(window.localStorage.getItem('skin')){
+                        let skin_css=JSON.parse(window.localStorage.getItem('skin'));
+
+                        for(let i=0; i<8;i++){
+                            if(skin_css == this.Skins[i].title){
+                                this.SkinSelect(this.Skins[i]);
+                                this.toggleSkin();
+                            }
+                        }
+                    }else{
+                        this.SkinSelect(this.Skins[0]);
+                        this.toggleSkin();
+                    }
                 }
+
+
             }
         },
 
