@@ -240,7 +240,9 @@
                     </h4>
                 </div>
                 <div class="modal-body">
+                    <!--
                     <iframe src="http://www.caijingriliba.com/" frameborder="0" scrolling="yes" class="calendar-date" style="width:100%;height:800px;"></iframe>
+                    -->
                 </div>
             </div>
         </div>
@@ -603,19 +605,19 @@ export default {
         let total_width = parseInt(window.innerWidth);
         let total_height = parseInt(window.innerHeight);
         if(total_width < 1600){
-          $('.modal-content').width(1000);
+          $('#calenderModal .modal-content').width(1000);
           $('iframe').width(1000);
         }
         if(total_width < 1300){
-          $('.modal-content').width(800);
+          $('#calenderModal .modal-content').width(800);
           $('iframe').width(800);
         }
         if(total_height < 1000){
-          $('.modal-content').height(800);
+          $('#calenderModal .modal-content').height(800);
           $('iframe').height(700);
         }
         if(total_height < 800){
-          $('.modal-content').height(600);
+          $('#calenderModal .modal-content').height(600);
           $('iframe').height(500);
         }
        $("#calenderModal").modal('show');
@@ -631,20 +633,20 @@ export default {
 </script>
 
 <style scoped>
-.router-link-active{
-   text-decoration:none;
-}
+  .router-link-active{
+     text-decoration:none;
+  }
 
-.schedule ul{
-      margin: 0px;
-      padding: 0px;
-      width: 100%;
-      height:100%;
-      display: block;
-      clear: both;
-      text-align: center;
-      min-width:800px;
-}
+  .schedule ul{
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        height:100%;
+        display: block;
+        clear: both;
+        text-align: center;
+        min-width:800px;
+  }
 
 .schedule ul li{
       float: left;

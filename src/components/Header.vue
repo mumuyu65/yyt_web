@@ -223,7 +223,6 @@ export default {
   computed: mapGetters({
       resetPwd: 'getReset',
       isLogin:'getLogin',
-      //header:'getSkin'
   }),
   watch:{
     isLogin:'initLogin'

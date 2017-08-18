@@ -171,6 +171,8 @@ export default {
           userlevel:'',  //水军
           Nick:'',   //水军用户的昵称,
 
+          timer:'',  //定时器
+
           templeChatImgs:[],
 
           chatImgTitle:[{id:1,title:'礼物',active:false},{id:2,title:'自创',active:false},
@@ -183,15 +185,13 @@ export default {
           flag:'getFlag',
     }),
     watch:{
-        isLogin:'initChat',
+        isLogin:'changeUser',
         liveUrl:'changeChatRoom',
     },
     mounted (){
         this.initFace();  //初始化表情
 
         this.customer();   //客服助理
-
-        this.roomNo();    //房间号列表
 
         this.initChat();   //判断是否登录
     },
@@ -202,7 +202,6 @@ export default {
           Jsonp('https://api.weibo.com/2/emotions.json?source=1362404091',function (err, res) {
               if(res.code ==1){
                 that.chatFaces=res.data;
-                that.initChat();  //初始化聊天室
               }
             });
 
@@ -234,15 +233,10 @@ export default {
         },
 
         initChat (){
-            if(this.isLogin || window.localStorage.getItem("clf-user")){
-                this.user=JSON.parse(window.localStorage.getItem("clf-user"));
-
-                this.ConnSvr();  //聊天链接
-
-                this.UserLevel();  //用户等级
-
-                if(JSON.parse(window.localStorage.getItem("clf-user")).Flag !== -1){
-                  if(this.user.Skin){
+            if(window.localStorage.getItem("clf-user")){
+                if(parseInt(JSON.parse(window.localStorage.getItem("clf-user")).Flag)!== -1){
+                  this.user=JSON.parse(window.localStorage.getItem("clf-user"));
+                   if(this.user.Skin){
                         let skin_css = "../../static/"+this.user.Skin+".css";
 
                         $("#style_css").attr("href",skin_css);
@@ -251,6 +245,36 @@ export default {
 
                         $("#style_css").attr("href",skin_css);
                     }
+
+                    console.log("会员登录2.......");
+
+                    let params={
+                        begidx:0,
+                        counts:10
+                    };
+
+                    let that = this;
+
+                    api.roomNum(params).then(function(res){
+                        if(res.data.Code ==3){
+                            that.templateRoom = res.data.Data.Detail;
+                            api.userLevel().then(function(res){
+                               if (res.data.Code == 3) {
+                                    that.userLevels = res.data.Data;
+                                    //水军账号登录
+                                    if(that.user.Flag ==5){
+                                        that.isNavy();
+                                    }
+
+                                    that.ConnSvr();
+                                }
+                          }).catch(function(err){
+                              console.log(err);
+                            });
+                        }
+                    }).catch(function(err){
+                        console.log(err);
+                    });
                 }else{
                     if(window.localStorage.getItem('skin')){
                         let skin_css=JSON.parse(window.localStorage.getItem('skin'));
@@ -265,32 +289,61 @@ export default {
                         this.SkinSelect(this.Skins[0]);
                         this.toggleSkin();
                     }
+
+                    console.log("游客登录2.......");
+
+                    this.roomNo();  //用户等级
                 }
+            }else{
+                console.log("游客登录1.......");
 
-
+                this.roomNo();  //用户等级
             }
+        },
+
+        changeUser(){
+            if(this.isLogin){
+               this.user=JSON.parse(window.localStorage.getItem("clf-user"));
+               this.confirmUser();  //聊天链接
+               console.log("会员登录1.......");
+               let skin_css=this.user.Skin;
+               for(let i=0; i<8;i++){
+                    if(skin_css == this.Skins[i].title){
+                        this.SkinSelect(this.Skins[i]);
+                        this.toggleSkin();
+                    }
+                }
+            }
+        },
+
+        //游客登录
+        visitorLogin() {
+            let that = this;
+
+            api.visitorLogin().then(function(res) {
+                if(res.data.Code ==3){
+                    window.localStorage.setItem('clf-user',JSON.stringify(res.data.Data));
+                    that.user = res.data.Data;
+                    that.ConnSvr();  //聊天链接
+                    if(that.user.Skin){
+                        let skin_css = "../../static/"+that.user.Skin+".css";
+
+                        $("#style_css").attr("href",skin_css);
+                    }else{
+                        let skin_css = "../../static/"+that.Skins[0].title+".css";
+
+                        $("#style_css").attr("href",skin_css);
+                    }
+
+                }else{
+                    alert(res.data.Msg);
+                }
+            })
         },
 
         callQQ(qq) {
             let url = "tencent://message/?Menu=yes&amp;amp;uin=" + qq + "&amp;amp;Service=58&amp;amp;SigT=A7F6FEA02730C988560E6A29DD620C36E5D02A3C50894BFDDFA9AE24C72EA4E656447195EDF21AA25E56C81415A4E3E06394A554DD64F3F1A382F9455BCE1C9214192773F8AF6EBF516F0E7092D08806B703D054DC2F56A1F65106C78DF1021C883D86C37678EE2EDB615B9954A338A2B2CD7A840089AB4E&amp;amp;SigU=30E5D5233A443AB2727689328A4863A4534880EE96161430D2EA5140D343AB27F9CE70D1273A9F87C0C4EA780476BBB4EB0CD74D567304A9E32DB62FCEABADF3D6133AE3F86FDB82";
             window.location.href = url;
-        },
-
-
-        //用户等级
-        UserLevel (){
-          let that =this;
-          api.userLevel().then(function(res){
-               if (res.data.Code == 3) {
-                    that.userLevels = res.data.Data;
-                    //水军账号登录
-                    if(that.user.Flag ==5){
-                        that.isNavy();
-                    }
-                }
-          }).catch(function(err){
-              console.log(err);
-            });
         },
 
         //开启或关闭表情
@@ -437,6 +490,24 @@ export default {
             }));
         },
 
+         //用户等级
+        UserLevel (){
+          let that =this;
+          api.userLevel().then(function(res){
+               if (res.data.Code == 3) {
+                    that.userLevels = res.data.Data;
+                    //水军账号登录
+                    if(that.user.Flag ==5){
+                        that.isNavy();
+                    }
+
+                    that.visitorLogin();  //游客登录
+                }
+          }).catch(function(err){
+              console.log(err);
+            });
+        },
+
         //查询房间号
         roomNo(){
             let params={
@@ -449,6 +520,7 @@ export default {
                 if(res.data.Code ==3){
                     that.templateRoom = res.data.Data.Detail;
                     console.log(that.templateRoom);
+                    that.UserLevel();
                 }
             }).catch(function(err){
                 console.log(err);
@@ -457,7 +529,7 @@ export default {
 
         //进入房间
         enterRoom () {
-            //console.log(this.templateRoom[0]);
+            console.log(this.templateRoom);
             let body = parseInt(this.templateRoom[0].roomno);
             let pklen = body.length + 16;
             this.ws.send(JSON.stringify({
@@ -486,7 +558,6 @@ export default {
             }else{
                 alert("战队直播房间不存在。");
             }
-
         },
 
         //长链接
@@ -514,6 +585,8 @@ export default {
                         var timer = setInterval(function() {
                             that.heartbeat();
                          }, 20000);
+
+                         that.timer = timer;
                         that.enterRoom();  //进入房间
                         break;
                     case 24:
