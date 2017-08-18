@@ -246,7 +246,7 @@ export default {
                         $("#style_css").attr("href",skin_css);
                     }
 
-                    console.log("会员登录2.......");
+                    //console.log("会员登录2.......");
 
                     let params={
                         begidx:0,
@@ -290,12 +290,12 @@ export default {
                         this.toggleSkin();
                     }
 
-                    console.log("游客登录2.......");
+                    //console.log("游客登录2.......");
 
                     this.roomNo();  //用户等级
                 }
             }else{
-                console.log("游客登录1.......");
+                //console.log("游客登录1.......");
 
                 this.roomNo();  //用户等级
             }
@@ -305,7 +305,7 @@ export default {
             if(this.isLogin){
                this.user=JSON.parse(window.localStorage.getItem("clf-user"));
                this.confirmUser();  //聊天链接
-               console.log("会员登录1.......");
+               //console.log("会员登录1.......");
                let skin_css=this.user.Skin;
                for(let i=0; i<8;i++){
                     if(skin_css == this.Skins[i].title){
@@ -702,6 +702,7 @@ export default {
                         this.showChat(date, Data.username, Data.message, Data);
                         break;
                     }
+                    /*
                 case '2':
                         let roomName;
                         if(this.liveUrl == '0'){
@@ -711,6 +712,7 @@ export default {
                         }
                         this.showChat(date, Data.username, Data.message.inname + '进入'+roomName+'房间', Data);
                         break;
+                        */
                 case '3':
                     this.showChat(date, Data.username, Data.message.outname + '退出房间', Data);
                     break;
