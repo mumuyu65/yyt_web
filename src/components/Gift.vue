@@ -112,7 +112,6 @@ export default {
         alert("未登录,不可以发送礼物的哦!");
       }
     }
-
   }
 }
 </script>
