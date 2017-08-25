@@ -229,7 +229,6 @@ export default {
   },
   mounted(){
     this.initLogin();
-
   },
   methods: {
     initLogin(){
@@ -243,8 +242,6 @@ export default {
             this.userNick = user.Nick;
             this.userImg = env.baseUrl+'/cycj/head/head'+user.UserId;
             this.Sid = user.SessionId;
-        }else{
-            this.visitorLogin();   //游客登录
         }
     },
     //登录
@@ -468,17 +465,6 @@ export default {
           console.log(error);
         });
     },
-
-    //游客登录
-    visitorLogin() {
-        api.visitorLogin().then(function(res) {
-            if(res.data.Code ==3){
-                window.localStorage.setItem('clf-user',JSON.stringify(res.data.Data));
-            }else{
-                alert(res.data.Msg);
-            }
-        })
-    }
   }
 }
 </script>

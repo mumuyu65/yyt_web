@@ -175,6 +175,8 @@ export default {
 
           templeChatImgs:[],
 
+          timer_login:'',   //定时器
+
           chatImgTitle:[{id:1,title:'礼物',active:false},{id:2,title:'自创',active:false},
             {id:3,title:'逗你玩',active:false},{id:4,title:'欢喜兔',active:false},{id:5,title:'阿呆',active:false}],
         }
@@ -235,7 +237,7 @@ export default {
         initChat (){
             if(window.localStorage.getItem("clf-user")){
                 if(parseInt(JSON.parse(window.localStorage.getItem("clf-user")).Flag)!== -1){
-                  this.user=JSON.parse(window.localStorage.getItem("clf-user"));
+                   this.user=JSON.parse(window.localStorage.getItem("clf-user"));
                    if(this.user.Skin){
                         let skin_css = "../../static/"+this.user.Skin+".css";
 
@@ -245,6 +247,8 @@ export default {
 
                         $("#style_css").attr("href",skin_css);
                     }
+
+                    clearInterval(this.timer_login);
 
                     //console.log("会员登录2.......");
 
@@ -293,11 +297,19 @@ export default {
                     //console.log("游客登录2.......");
 
                     this.roomNo();  //用户等级
+
+                    this.timer_login = setInterval(function(){
+                        $("#loginModal").modal("show");
+                    },300000);
                 }
             }else{
                 //console.log("游客登录1.......");
 
                 this.roomNo();  //用户等级
+
+                this.timer_login = setInterval(function(){
+                    $("#loginModal").modal("show");
+                },300000);
             }
         },
 
@@ -306,6 +318,7 @@ export default {
                this.user=JSON.parse(window.localStorage.getItem("clf-user"));
                this.confirmUser();  //聊天链接
                //console.log("会员登录1.......");
+               clearInterval(this.timer_login);
                let skin_css=this.user.Skin;
                for(let i=0; i<8;i++){
                     if(skin_css == this.Skins[i].title){
