@@ -800,6 +800,8 @@ export default {
 
             let imgArr = value.indexOf("http");
 
+            let gift = value.indexOf('static');
+
             if (arr && imgArr == -1) {
                 for (let i = 0; i < arr.length; i++) {
                     for (let j in this.chatFaces) {
@@ -813,6 +815,8 @@ export default {
                 }
             }
             else if(imgArr !== -1 ){
+                value = '<img src="' + value + '"/>';
+            }else if(gift !== -1){
                 value = '<img src="' + value + '"/>';
             }
             //console.log(value);
