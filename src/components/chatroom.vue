@@ -332,8 +332,11 @@ export default {
         //游客登录
         visitorLogin() {
             let that = this;
+            let params={
+                platform:4
+            };
 
-            api.visitorLogin().then(function(res) {
+            api.visitorLogin(params).then(function(res) {
                 if(res.data.Code ==3){
                     window.localStorage.setItem('clf-user',JSON.stringify(res.data.Data));
                     that.user = res.data.Data;
