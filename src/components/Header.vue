@@ -1,12 +1,10 @@
 <template>
 <div>
-   <div class="header">
-        <!--
-        <router-link to="/"><img src="../../static/images/logo.png" class="logo" /></router-link>
-        -->
+   <div class="header" style="overflow:hidden; ">
+        <router-link to="/" style="width:auto; height:100%; "><img src="../../static/images/logo.png" class="logo" style="width:auto; height:100%; " /></router-link>
         <ul class="list-inline pull-right" style="line-height:40px;">
             <li style="margin-right:30px;">
-                <a href="https://yingdedao.com:10022/cycj/appfile/Clf.url" download="clf.url">
+                <a href="http://47.52.19.212:9000/yyt/appfile/yyt.url" download="yyt.url">
                     <img src="../../static/images/desktop.png" alt="" />
                     <h4>保存到桌面</h4>
                 </a>
@@ -229,8 +227,34 @@ export default {
   },
   mounted(){
     this.initLogin();
+
+    this.visitedDev();
+
+    this.IsPC();   //判断是否为pc端
+
+    this.checkLogin();   //判断用户是否在其他端登录过
   },
   methods: {
+    checkLogin(){
+        if(this.Sid){
+            let obj={
+                sid:this.Sid
+              };
+
+            let that = this;
+
+            axios.get(env.baseUrl+'/yyt/check', {params:obj})
+            .then(function (res) {
+              if(res.data.Code ==6){
+                alert('您的账号在其他地方登录，请重新登录！');
+                that.showLogin();
+              }
+            })
+            .catch(function (err) {
+              console.log(err);
+            });
+        }
+    },
     initLogin(){
         if(window.localStorage.getItem("clf-user") || this.isLogin){
             let user = JSON.parse(window.localStorage.getItem("clf-user"));
@@ -240,7 +264,7 @@ export default {
                 this.loginSuc = false;
             }
             this.userNick = user.Nick;
-            this.userImg = env.baseUrl+'/cycj/head/head'+user.UserId;
+            this.userImg = env.baseUrl+'/yyt/head/head'+user.UserId;
             this.Sid = user.SessionId;
         }
     },
@@ -262,6 +286,7 @@ export default {
         let params={
             account:this.user.account.trim(),
             pwd:this.user.pwd.trim(),
+            platform:2,
         };
 
         let that = this;
@@ -305,7 +330,7 @@ export default {
 
         if(this.Phone.trim()){
             this.registerTip= '发送中...';
-            $.post(env.baseUrl+'/cycj/vcode/get',params,function(res){
+            $.post(env.baseUrl+'/yyt/vcode/get',params,function(res){
                 if(res.Code ==3){
                     that.registerTip= '发送成功！';
                 }else{
@@ -362,7 +387,7 @@ export default {
 
         if(this.reset.phone.trim()){
             this.resetVcode = '发送中...';
-            $.post(env.baseUrl+'/cycj/vcode/get',params,function(res){
+            $.post(env.baseUrl+'/yyt/vcode/get',params,function(res){
                 if(res.Code ==3){
                     that.resetVcode= '发送成功！';
                 }else{
@@ -416,7 +441,7 @@ export default {
       let user = JSON.parse(window.localStorage.getItem("clf-user"));
       this.Nick = user.Nick;
 
-      this.modifyImg = env.baseUrl+'/cycj/head/head'+user.UserId;
+      this.modifyImg = env.baseUrl+'/yyt/head/head'+user.UserId;
 
       this.Intro = user.Intro;
     },
@@ -446,7 +471,7 @@ export default {
         data.append('nick',this.Nick);
         data.append('intro',this.Intro);
         let that = this;
-        axios.post(env.baseUrl+'/cycj/userinfo/update', data, {
+        axios.post(env.baseUrl+'/yyt/userinfo/update', data, {
             headers: {
                   'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -465,6 +490,31 @@ export default {
           console.log(error);
         });
     },
+
+    //判断用户的访问端
+    visitedDev(){
+        let visited = this.IsPC();
+        if(!visited){
+            window.location.href="http://admin.yyt666.com";
+        }
+
+        //数据传到后台
+    },
+
+    IsPC() {
+        let userAgentInfo = navigator.userAgent;
+        let Agents = ["Android", "iPhone",
+                    "SymbianOS", "Windows Phone",
+                    "iPad", "iPod"];
+        let flag = true;
+        for (let v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
   }
 }
 </script>
