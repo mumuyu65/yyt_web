@@ -11,16 +11,6 @@
             </li>
             <div class="divider"></div>
 
-            <!--
-
-            <li class="text-center">
-                <router-link to="/hangqing" exact>
-                    <img src="../../static/images/hangqing.png" alt="">
-                    <h6>行情</h6></router-link>
-            </li>
-            <div class="divider"></div>
-            -->
-
             <li class="text-center">
                 <a href="javascript:void(0)" @click="handlesuggestion()" v-if="!isLogin" id="handle_suggestion">
                     <img src="../../static/images/handle-icon.png" alt="">
@@ -284,12 +274,15 @@ export default {
         let that = this;
         api.periodQuery().then(function(res){
             if(res.data.Code ==3){
+              if(res.data.Data){
                 let templatObj= res.data.Data;
                 let tempPeriod=[];
                 for(let i =0 ; i<templatObj.length;i++){
                     tempPeriod.push(templatObj[i].period);
                 }
                 that.tempPeriod=that.sortPeriod(tempPeriod);
+              }
+
             }
         }).catch(function(err){
             console.log(err);

@@ -2,7 +2,6 @@
 <div class="chat" id="chat_inner">
     <ul class="list-inline">
         <li><h4 class="chat-title">实时聊天</h4></li>
-        <li><h4>倒计时:{{ totalTime }}</h4></li>
         <li v-show="isnavy" class="pull-right" style="margin:10px 20px 0 0">
             <span @click="changeFlag()" class="change-account">更改账号</span>
         </li>
@@ -539,7 +538,6 @@ export default {
             api.roomNum(params).then(function(res){
                 if(res.data.Code ==3){
                     that.templateRoom = res.data.Data;
-                    console.log(that.templateRoom);
                     that.UserLevel();
                 }
             }).catch(function(err){
@@ -549,7 +547,7 @@ export default {
 
         //进入房间
         enterRoom () {
-            console.log(this.templateRoom);
+            //console.log(this.templateRoom);
             let body = parseInt(this.templateRoom[0].roomno);
             let pklen = body.length + 16;
             this.ws.send(JSON.stringify({

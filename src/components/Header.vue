@@ -1,7 +1,7 @@
 <template>
 <div>
    <div class="header" style="overflow:hidden; ">
-        <router-link to="/" style="width:auto; height:100%; "><img src="../../static/images/logo.png" class="logo" style="width:auto; height:100%; " /></router-link>
+   <router-link to="/" style="width:auto; height:100%; text-decoration:none;color:#fff; font-weight:700 ;font-size:24px; line-height:40px; padding-left:20px;">壹言堂</router-link>
         <ul class="list-inline pull-right" style="line-height:40px;">
             <li style="margin-right:30px;">
                 <a href="http://47.52.19.212:9000/yyt/appfile/yyt.url" download="yyt.url">
@@ -16,7 +16,7 @@
             <li class="login_reg dropdown" v-show="loginSuc">
                 <img v-bind:src="userImg" class="img-circle" style="height:30px;"/>
                 <span class="dropdown-toggle" data-toggle="dropdown">{{userNick}}<span class="caret"></span></span>
-                <ol class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="min-width:0; top:92%; left:30px;">
+                <ol class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="min-width:0; top:92%; left:30px; border:1px solid #f00;">
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" style="cursor:pointer" @click="showPerson()">设置</a>
                     </li>
