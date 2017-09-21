@@ -232,7 +232,7 @@ export default {
 
     this.IsPC();   //判断是否为pc端
 
-    this.checkLogin();   //判断用户是否在其他端登录过
+    //this.checkLogin();   判断用户是否在其他端登录过
   },
   methods: {
     checkLogin(){

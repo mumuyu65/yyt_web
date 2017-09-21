@@ -2,6 +2,7 @@
 <div class="chat" id="chat_inner">
     <ul class="list-inline">
         <li><h4 class="chat-title">实时聊天</h4></li>
+        <li><h4>倒计时:{{ totalTime }}</h4></li>
         <li v-show="isnavy" class="pull-right" style="margin:10px 20px 0 0">
             <span @click="changeFlag()" class="change-account">更改账号</span>
         </li>
@@ -20,15 +21,6 @@
             </div>
         </div>
     </div>
-
-    <!--
-    <ul class="list-inline" style="margin:10px 0;">
-        <li class="chat-qq">申请1对1</li>
-        <li class="chat-qq">转户/开户</li>
-        <li class="chat-qq">升级权限</li>
-        <li class="chat-qq">错单解读</li>
-    </ul>
-    -->
     <div style="position:fixed; width:350px; height:120px;right:10px; bottom:20px;">
         <div style="width:100%;">
             <!-- 高级助理 -->
@@ -171,11 +163,13 @@ export default {
           userlevel:'',  //水军
           Nick:'',   //水军用户的昵称,
 
-          timer:'',  //定时器
+          timer:0,  //定时器
 
           templeChatImgs:[],
 
-          timer_login:'',   //定时器
+          timer_login:0,   //定时器
+
+          totalTime:1800,  //倒计时
 
           chatImgTitle:[{id:1,title:'礼物',active:false},{id:2,title:'自创',active:false},
             {id:3,title:'逗你玩',active:false},{id:4,title:'欢喜兔',active:false},{id:5,title:'阿呆',active:false}],
@@ -298,17 +292,27 @@ export default {
 
                     this.roomNo();  //用户等级
 
+                    let that = this;
+
                     this.timer_login = setInterval(function(){
                         $("#loginModal").modal("show");
-                    },300000);
+                        that.totalTime--;
+                        console.log(that.totalTime);
+                    },1800000);
                 }
             }else{
                 //console.log("游客登录1.......");
 
                 this.roomNo();  //用户等级
 
+                let that = this;
+
                 this.timer_login = setInterval(function(){
                     $("#loginModal").modal("show");
+
+                    that.totalTime--;
+
+                    console.log(that.totalTime);
                 },300000);
             }
         },

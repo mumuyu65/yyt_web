@@ -40,6 +40,7 @@ export default {
         counts:10
       };
       api.getZhibo(params).then(function(res){
+        console.log(res.data);
         if(res.data.Code ==3){
           let templateLive = res.data.Data.Detail;
 
