@@ -23,7 +23,8 @@ export default {
         api.activityZone().then(function(res){
             //console.log(res.data);
             if(res.data.Code ==3){
-                that.activity=res.data.Data[0].imgurl;
+
+               // that.activity=res.data.Data[0].imgurl;
             }
         }).catch(function(err){
           console.log(err);

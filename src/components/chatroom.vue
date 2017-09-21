@@ -538,7 +538,7 @@ export default {
             let that = this;
             api.roomNum(params).then(function(res){
                 if(res.data.Code ==3){
-                    that.templateRoom = res.data.Data.Detail;
+                    that.templateRoom = res.data.Data;
                     console.log(that.templateRoom);
                     that.UserLevel();
                 }
@@ -583,7 +583,7 @@ export default {
         //长链接
         ConnSvr (){
             var that = this;
-            that.ws = new WebSocket("ws://61.147.124.143:10015/sub");
+            that.ws = new WebSocket("ws://47.52.19.212:10025/sub");
 
             that.ws.onopen = function() {
                 console.log("conn succeed.");
