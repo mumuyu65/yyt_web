@@ -247,8 +247,6 @@ export default {
 
                     window.localStorage.removeItem("deadlineTimer");
 
-                    this.testLogin();
-
                     //console.log("会员登录2.......");
 
                     let params={
@@ -394,8 +392,6 @@ export default {
                $("#count_down").parent().css("display",'none');
 
                window.localStorage.removeItem("deadlineTimer");
-
-               this.testlogin();
 
                let skin_css=this.user.Skin;
                for(let i=0; i<8;i++){
