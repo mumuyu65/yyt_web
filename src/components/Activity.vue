@@ -1,16 +1,20 @@
 <template>
   <div class="activity">
-      <div class="price">
-         <ol id="myTab" class="list-inline" style="width:100%;">
-              <li v-for="(tab,index) in tabs" >
-                <a @click="toggle(index,tab.view)" :class="{active:active == index}">
-                  <img v-bind:src="tab.image"  alt="" />{{tab.title}}
-                </a>
-              </li>
-          </ol>
-      </div>
       <div id="myTabContent" class="tab-content">
-         <component :is="currentView"></component>
+        <div id="myCarousel" class="carousel slide">
+          <!-- 轮播（Carousel）项目 -->
+          <div class="carousel-inner" id="ads">
+
+          </div>
+
+          <!-- 轮播（Carousel）导航 -->
+          <a class="carousel-control left" href="#myCarousel"
+              data-slide="prev" style="font-size:85px; top:30%;">&lsaquo;
+          </a>
+          <a class="carousel-control right" href="#myCarousel" style="font-size:85px; top:30%;"
+              data-slide="next">&rsaquo;
+          </a>
+        </div>
       </div>
   </div>
 </template>
@@ -18,12 +22,6 @@
 <script>
 
 import Productsintro from '@/pages/productsintro'
-
-import Download from '@/pages/download'
-
-import Teamlive from '@/pages/teamlive'
-
-import Activityzone from '@/pages/activityzone'
 
 import API from '@/api/API'
 //实例化api
@@ -35,71 +33,33 @@ export default {
   name: 'activity',
   data () {
     return {
-      active: 0,
-      currentView: 'Activityzone',
-      /*
-      tabs: [
-         {
-          view: 'Productsintro',
-          image:'../../static/images/product-icon.png',
-          title:'产品介绍'
-         },
-         {
-          view: 'Download',
-          image:'../../static/images/xiazai.png',
-          title:'下载中心'
-         },
-         {
-          view: 'Teamlive',
-          image:'../../static/images/jinrong-icon.png',
-          title:'战队直播'
-         },
-         {
-          view: 'Activityzone',
-          image:'../../static/images/zhibo-icon.png',
-          title:'活动专区'
-         }
-       ]
-       */
-       tabs: [
-       {
-          view: 'Activityzone',
-          image:'../../static/images/zhibo-icon.png',
-          title:'活动专区'
-         },
-         {
-          view: 'Teamlive',
-          image:'../../static/images/jinrong-icon.png',
-          title:'战队直播'
-         },
-         {
-          view: 'Download',
-          image:'../../static/images/xiazai.png',
-          title:'下载中心'
-         }
-       ]
+        ads:[],
     }
   },
-  components:{ Productsintro, Download, Teamlive, Activityzone },
+  mounted(){
+    this.initData();
+  },
   methods: {
-    toggle(i, v){
-       if(v == 'Teamlive'){
-          if(window.localStorage.getItem("clf-user")){
-              let templateLevel = JSON.parse(window.localStorage.getItem("clf-user")).Level;
-              if(parseInt(templateLevel)>=1){
-                this.active = i;
-                this.currentView = v;
-                this.$store.dispatch('changeLive',1);
-              }else{
-                alert("普通用户暂不可以观看战队直播！");
-              }
-          }else{
-            alert("未登录，不可以进入战队直播！");
+    initData(){
+        let that = this;
+        api.adsQuery().then(function(res){
+          let Data = res.data.Data[0].imgurl;
+
+          let data_arr = Data.split(";");
+
+          for(let i =0; i<data_arr.length-1;i++){
+              let item = '<div class="item" ><img src="'+data_arr[i]+'" style="width:100%; height:100%;" /></div>';
+
+              $("#ads").append(item);
           }
-       }else{
-         this.active = i;
-         this.currentView = v;
-       }
+
+          $("#ads .item").eq(0).addClass("active");
+
+          $('#myCarousel').carousel({ interval: 4000 });
+
+        }).catch(function(err){
+          console.log(err);
+        });
     }
   }
 }

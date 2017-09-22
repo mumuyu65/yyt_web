@@ -42,10 +42,10 @@
       </div>
     </div>
 
-     <!-- 客服 -->
+    <!-- 客服 -->
      <div class="modal fade" id="customerModal" tabindex="-1" role="dialog"
        aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
+          <div class="modal-dialog" style="margin: 20% auto;">
               <div class="modal-content">
                   <div class="modal-body" style="padding:20px 50px;">
                     <div class="media">
@@ -131,7 +131,7 @@ export default {
 
           $("#player").height(total_height*0.5);
 
-          $("#myTabContent").height(total_height*0.4);
+          $("#myTabContent").height(total_height*0.5);
         });
     },
 
@@ -148,7 +148,7 @@ export default {
 
       $("#player").height(total_height*0.5);
 
-      $("#myTabContent").height(total_height*0.4);
+      $("#myTabContent").height(total_height*0.5);
 
       $("#chat_inner .chat-inner").height(total_height-250);
     },

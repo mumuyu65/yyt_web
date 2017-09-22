@@ -1,6 +1,6 @@
 <template>
 <div>
-   <div class="header" style="overflow:hidden; ">
+   <div class="header">
    <router-link to="/" style="width:auto; height:100%; text-decoration:none;color:#fff; font-weight:700 ;font-size:24px; line-height:40px; padding-left:20px;">壹言堂</router-link>
         <ul class="list-inline pull-right" style="line-height:40px;">
             <li style="margin-right:30px;">
@@ -16,7 +16,7 @@
             <li class="login_reg dropdown" v-show="loginSuc">
                 <img v-bind:src="userImg" class="img-circle" style="height:30px;"/>
                 <span class="dropdown-toggle" data-toggle="dropdown">{{userNick}}<span class="caret"></span></span>
-                <ol class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="min-width:0; top:92%; left:30px; border:1px solid #f00;">
+                <ol class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="min-width:0; top:92%; left:30px;">
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" style="cursor:pointer" @click="showPerson()">设置</a>
                     </li>
@@ -301,7 +301,7 @@ export default {
                     that.Sid = res.data.Data.SessionId;
                     that.$store.dispatch('changeLogin',true);
 
-                    $("#handle_suggestion").display("none");
+                    $("#handle_suggestion").css('display',"none");
 
                     that.$store.dispatch('changeFlag',res.data.Data.Flag);
                 }else{

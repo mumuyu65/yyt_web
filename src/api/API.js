@@ -211,6 +211,11 @@ class API {
         return axios.post('/yyt/schedule/period', {}, config);
     }
 
+    adsQuery(param) {
+        config.data = param;
+        return axios.post('/yyt/activity/query', {}, config);
+    }
+
 
 }
 export default API;

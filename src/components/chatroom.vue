@@ -243,6 +243,12 @@ export default {
 
                     clearInterval(this.timer_login);
 
+                    $("#count_down").parent().css("display",'none');
+
+                    window.localStorage.removeItem("deadlineTimer");
+
+                    this.testLogin();
+
                     //console.log("会员登录2.......");
 
                     let params={
@@ -293,11 +299,27 @@ export default {
 
                     let that = this;
 
-                    this.timer_login = setInterval(function(){
-                        $("#loginModal").modal("show");
-                        that.totalTime--;
-                        console.log(that.totalTime);
-                    },1800000);
+                    if(window.localStorage.getItem("deadlineTimer")){
+                        let distanceTime = window.localStorage.getItem("deadlineTimer")-new Date().getTime();
+
+                        this.timer_login = setInterval(function(){
+                            $("#count_down").text(that.timeStamp(distanceTime));
+
+                            distanceTime = distanceTime -1000;
+
+                            if(distanceTime<0){
+                                $("#loginModal").modal("show");
+
+                                clearInterval(that.timer_login);
+
+                                $("#count_down").parent().css("display",'none');
+
+                                that.testLogin();
+
+                                window.localStorage.removeItem("deadlineTimer");
+                            }
+                        },1000);
+                    }
                 }
             }else{
                 //console.log("游客登录1.......");
@@ -306,14 +328,60 @@ export default {
 
                 let that = this;
 
-                this.timer_login = setInterval(function(){
-                    $("#loginModal").modal("show");
+                let countDown = new Date().getTime()+ 1800000;
 
-                    that.totalTime--;
+                console.log(countDown);
 
-                    console.log(that.totalTime);
-                },300000);
+                window.localStorage.setItem("deadlineTimer",countDown);
+
+                let TotalCount = 1800000;
+
+                this.timer_login= setInterval(function(){
+                    $("#count_down").text(that.timeStamp(TotalCount));
+
+                    TotalCount = TotalCount -1000;
+
+                    if(TotalCount<0){
+
+                        $("#loginModal").modal("show");
+
+                        clearInterval(that.timer_login);
+
+                        $("#count_down").parent().css("display",'none');
+
+                        window.localStorage.removeItem("deadlineTimer");
+
+                        that.testLogin();
+                    }
+                },1000);
             }
+        },
+
+        testLogin(){
+            if(parseInt(JSON.parse(window.localStorage.getItem("clf-user")).Flag)== -1){
+                this.testlogin = setInterval(function(){
+                    $("#loginModal").modal("show");
+                },10000);
+            }else{
+                $("#loginModal").modal("show");
+            }
+        },
+
+        timeStamp(tm){
+            //获取一个事件戳
+            var time = new Date(tm);
+
+            var H = time.getHours();
+
+            var M = time.getMinutes();
+
+            var S = time.getSeconds();
+            //返回拼接信息
+            return '00：' + this.add(M)+ '：' + this.add(S);
+        },
+
+        add(m) {
+            return m < 10 ? '0' + m : m
         },
 
         changeUser(){
@@ -322,6 +390,13 @@ export default {
                this.confirmUser();  //聊天链接
                //console.log("会员登录1.......");
                clearInterval(this.timer_login);
+
+               $("#count_down").parent().css("display",'none');
+
+               window.localStorage.removeItem("deadlineTimer");
+
+               this.testlogin();
+
                let skin_css=this.user.Skin;
                for(let i=0; i<8;i++){
                     if(skin_css == this.Skins[i].title){

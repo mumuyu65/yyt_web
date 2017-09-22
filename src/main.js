@@ -4,7 +4,7 @@ import App from './App'
 import router from './router'
 import $ from 'jquery'
 import './assets/bootstrap/css/bootstrap.min.css'
-import './assets/bootstrap/js/bootstrap.min'
+import './assets/bootstrap/js/bootstrap.min.js'
 
 import store from './store/store'
 

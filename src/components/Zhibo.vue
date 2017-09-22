@@ -1,7 +1,11 @@
 <template>
-  <div>
+  <div style="position:relative;">
     <div id="player" class="player" v-if="!clanPlayer"></div>
     <div id="clanPlayer" class="player" v-if="clanPlayer"></div>
+        <!-- 倒计时 -->
+    <div style="position:absolute; top:0; right:20px; ">
+      <h4>您的剩余观看时间: <span id="count_down"></span></h4>
+    </div>
   </div>
 </template>
 

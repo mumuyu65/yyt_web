@@ -60,6 +60,7 @@ a:visited,a:link,a:focus{
     height: auto;
     border-right: 1px solid #4b4b4b;
     background-color:transparent;
+    z-index:2;
 }
 
 .daozhibo .sidebar .user-logo{
