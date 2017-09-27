@@ -7,13 +7,14 @@
 
           </div>
 
-          <!-- 轮播（Carousel）导航 -->
+          <!-- 轮播（Carousel）导航
           <a class="carousel-control left" href="#myCarousel"
               data-slide="prev" style="font-size:85px; top:30%;">&lsaquo;
           </a>
           <a class="carousel-control right" href="#myCarousel" style="font-size:85px; top:30%;"
               data-slide="next">&rsaquo;
           </a>
+          -->
         </div>
       </div>
   </div>

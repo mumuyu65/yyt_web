@@ -129,9 +129,9 @@ export default {
 
           $("#zhibo").width(total_width-740);
 
-          $("#player").height(total_height*0.6);
+          $("#player").height(total_height*0.7);
 
-          $("#myTabContent").height(total_height*0.4);
+          $("#myTabContent").height(total_height*0.3);
         });
     },
 
@@ -146,9 +146,9 @@ export default {
 
       $("#zhibo").width(total_width-740);
 
-      $("#player").height(total_height*0.6);
+      $("#player").height(total_height*0.7);
 
-      $("#myTabContent").height(total_height*0.4);
+      $("#myTabContent").height(total_height*0.3);
 
       $("#chat_inner .chat-inner").height(total_height-250);
     },
