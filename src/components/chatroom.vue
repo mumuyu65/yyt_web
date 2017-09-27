@@ -328,8 +328,6 @@ export default {
 
                 let countDown = new Date().getTime()+ 1800000;
 
-                console.log(countDown);
-
                 window.localStorage.setItem("deadlineTimer",countDown);
 
                 let TotalCount = 1800000;
@@ -359,7 +357,7 @@ export default {
             if(parseInt(JSON.parse(window.localStorage.getItem("clf-user")).Flag)== -1){
                 this.testlogin = setInterval(function(){
                     $("#loginModal").modal("show");
-                },10000);
+                },300000);
             }else{
                 $("#loginModal").modal("show");
             }
