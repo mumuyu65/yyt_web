@@ -6,12 +6,20 @@
 .daozhibo .header{
     width:100%;
     height:40px;
+    line-height:40px;
     padding-right:25px;
     background:#804a5c;
 }
 
+.news-type>li{
+    color:#804a5c;
+    cursor:pointer;
+}
+
 .news-type>li.active{
     background-color: #804a5c;
+    color:#fff;
+    padding:5px 10px;
 }
 
 .activity .price li a.active{

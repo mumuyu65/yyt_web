@@ -95,7 +95,7 @@ export default {
         {id:8,qq:'1957575895',nick:'露露'},
         {id:9,qq:'412383149',nick:'丹丹'}
       ],
-      qqShrink:false,
+      qqShrink:true,
 
       templateQQ:'',
     }
@@ -133,9 +133,9 @@ export default {
 
           $("#zhibo").width(total_width-650);
 
-          $("#player").height(total_height*0.7);
+          $("#player").height(total_height*0.68);
 
-          $("#myTabContent").height(total_height*0.3);
+          $("#myTabContent").height(total_height*0.32);
         });
     },
 
@@ -150,9 +150,9 @@ export default {
 
       $("#zhibo").width(total_width-650);
 
-      $("#player").height(total_height*0.7);
+      $("#player").height(total_height*0.68);
 
-      $("#myTabContent").height(total_height*0.3);
+      $("#myTabContent").height(total_height*0.32);
 
       $("#chat_inner .chat-inner").height(total_height-250);
     },

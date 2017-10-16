@@ -1,6 +1,6 @@
 <template>
 <div class="chat" id="chat_inner">
-    <ul class="list-inline">
+    <ul class="list-inline" style="margin-left:20px;">
         <li><h4 class="chat-title">实时聊天</h4></li>
         <li v-show="isnavy" class="pull-right" style="margin:10px 20px 0 0">
             <span @click="changeFlag()" class="change-account">更改账号</span>
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div style="position:fixed; width:560px; height:120px;right:10px; bottom:20px;">
+    <div style="position:fixed; width:575px; height:120px;right:-20px; bottom:20px;">
         <div style="width:100%;">
             <!-- 高级助理 -->
             <ul class="list-inline" style="margin:10px 0;">
@@ -148,15 +148,14 @@ export default {
           customers:[],   //客服助理
           showSkin:false,   //换肤
           templateRoom:'',  //直播房间号
-          Skins:[
-                 {id:1,value:'#e61f1c',isSelected:false,title:'red'},
-                 {id:2,value:'#e52b50',isSelected:false,title:'pink'},
-                 {id:3,value:'#487dbf',isSelected:false,title:'light_blue'},
-                 {id:4,value:'#636d7a',isSelected:false,title:'grey'},
-                 {id:5,value:'#8043e1',isSelected:false,title:'purple'},
-                 {id:6,value:'#fbc324',isSelected:false,title:'yellow'},
-                 {id:7,value:'#804a5c',isSelected:false,title:'brown'},
-                 {id:1,value:'#31577a',isSelected:false,title:'blue'}],
+          Skins:[{id:1,value:'#eaa832',isSelected:false,title:'gold'},
+                 {id:2,value:'#e61f1c',isSelected:false,title:'red'},
+                 {id:3,value:'#e52b50',isSelected:false,title:'pink'},
+                 {id:4,value:'#487dbf',isSelected:false,title:'light_blue'},
+                 {id:5,value:'#636d7a',isSelected:false,title:'grey'},
+                 {id:6,value:'#8043e1',isSelected:false,title:'purple'},
+                 {id:8,value:'#804a5c',isSelected:false,title:'brown'},
+                 {id:7,value:'#31577a',isSelected:false,title:'blue'}],
           isnavy:false,   //水军账号
           navys:[],   //水军身份的列表
           userlevel:'',  //水军

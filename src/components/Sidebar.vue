@@ -23,10 +23,10 @@
             </li>
             <div class="divider"></div>
             <li class="text-center">
-                <router-link to="/teacherrecommand" exact>
+                <a href="javascript:void(0)" id="classes_suggestion" @click="classesSuggestion()">
                     <img src="../../static/images/zhuanjia-icon.png" alt="">
-                    <h6>老师观点</h6>
-                </router-link>
+                    <h6>学习课件</h6>
+                </a>
             </li>
             <div class="divider"></div>
             <li class="text-center">
@@ -302,6 +302,64 @@
         </div>
    </div>
 
+   <!-- 学习课件 -->
+   <div class="modal fade" id="classesLearnModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding:30px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                         <h4 class="border-title"><span style="margin-left:10px;" class="login-title">学习课件</span></h4>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-inline news-type">
+                      <li v-for="item in mainTitle" @click="showContent(item)" v-bind:class="{'active':item.isActive}">
+                        {{ item.title}}
+                      </li>
+                    </ul>
+                    <!-- 展示 -->
+                    <ol class="list-unstyled" v-if="showTeacher"style="min-height:300px;">
+                      <li v-for="report in classes " class="report-item">
+                          <div class="media">
+                              <a class="media-left">
+                                  <img v-bind:src="report.cover_url" style="height:70px; width:100px;"/>
+                              </a>
+                              <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a>{{report.title}}</a>
+                                </h4>
+                                <h5>更新日期:{{report.unix | dateStamp }}</h5>
+                                <h6>老师:  {{report.owner}}</h6>
+                                <a v-bind:href="report.annex_url" v-if="report.annex_url"><button class="btn btn-danger">下载附件</button></a>
+                              </div>
+                              <div v-html="report.intro" style="margin-top:20px; color:#333;"></div>
+                          </div>
+                      </li>
+                    </ol>
+
+                    <ol class="list-unstyled" v-if="!showTeacher">
+                      <li v-for="report in all_teachers " class="report-item">
+                          <div class="media">
+                              <a class="media-left">
+                                  <img v-bind:src="report.headurl" style="height:100px; width:130px;"/>
+                              </a>
+                              <div class="media-body">
+                                <h4 class="media-heading" style="color:#333;">
+                                    昵称:{{report.nick}}
+                                </h4>
+                              </div>
+                              <div v-html="report.intro" style="margin-top:20px; color:#333;"></div>
+                          </div>
+                      </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+   </div>
 </div>
 </template>
 
@@ -329,12 +387,23 @@ export default {
       economicEndNews:[],
       endBegidx:0,
       socketReportEndType:0,
+
+      mainTitle:[
+          { id:1,title:'基础课件',isActive:false},
+          { id:2,title:'高级课件',isActive:false},
+          { id:3,title:'讲师风采',isActive:false}
+        ],
+      classes:[],
+      showTeacher:true,
+      all_teachers:[],
     }
   },
   mounted (){
     this.init();
 
     this.queryPeriod();  //查询时间段
+
+    this.showContent(this.mainTitle[0]);
   },
   computed: mapGetters({
       user: 'getUser',
@@ -862,6 +931,61 @@ export default {
           console.log(err);
         });
     },
+
+    //学习课件
+    classesSuggestion(){
+      $("#classesLearnModal").modal('show');
+    },
+
+    showContent(item){
+        for(let i=0; i<3; i++){
+          this.mainTitle[i].isActive = false;
+        }
+
+        item.isActive = true;
+
+        if(item.id == 3){
+            this.showTeachers();
+            this.showTeacher = false;
+        }else{
+           let that= this;
+           this.showTeacher= true;
+           let params={
+            flag:item.id,
+            begidx:0,
+            counts:100,
+          };
+          api.classes(params).then(function(res){
+              if(res.data.Code ==3){
+                that.classes = res.data.Data;
+              }
+              else{
+                alert(res.data.Msg);
+              }
+          }).catch(function(err){
+              console.log(err);
+          });
+        }
+    },
+
+    showTeachers(){
+        let params={
+          flag:1,
+          counts:100
+        };
+
+        let that = this;
+
+        api.teachers(params).then(function(res){
+            if(res.data.Code ==3){
+                that.all_teachers = res.data.Data.Detail;
+            }else{
+              alert(res.data.Data.Msg);
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
+    },
   }
 }
 </script>
@@ -946,5 +1070,9 @@ export default {
     display:block;
     width:170px;
 }
+
+  .news-type{
+      margin-bottom:10px;
+  }
 
 </style>

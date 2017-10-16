@@ -1,7 +1,7 @@
 <template>
 <div>
    <div class="header">
-   <router-link to="/" style="width:auto; height:100%; text-decoration:none;color:#fff; font-weight:700 ;font-size:24px; line-height:40px; padding-left:20px;">壹言堂</router-link>
+   <a href="javascript:void(0)" style="width:auto; height:100%; text-decoration:none;color:#fff; font-weight:700 ;font-size:24px; line-height:40px; padding-left:20px;">壹言堂</router-link>
         <ul class="list-inline pull-right" style="line-height:40px;">
             <li style="margin-right:30px;">
                 <a href="http://47.52.19.212:9000/yyt/appfile/yyt.url" download="yyt.url">
@@ -26,6 +26,7 @@
                 </ol>
             </li>
         </ul>
+        </a>
    </div>
    <!-- 登录和找回密码 -->
    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
