@@ -4,10 +4,10 @@
         <ul class="list-unstyled">
             <div class="divider"></div>
             <li class="text-center">
-              <router-link to="/" exact>
+              <a href="javascript:void(0)" id="socket_suggestion" @click="socketSuggestion()">
                 <img src="../../static/images/news-icon.png" alt="">
-                <h6>新闻资讯</h6>
-                </router-link>
+                <h6>核心内参</h6>
+                </a>
             </li>
             <div class="divider"></div>
 
@@ -30,25 +30,6 @@
             </li>
             <div class="divider"></div>
             <li class="text-center">
-                <router-link to="/classes" exact>
-                    <img src="../../static/images/classes.png"  alt="">
-                    <h6>学习课件</h6>
-                </router-link>
-            </li>
-            <div class="divider"></div>
-
-            <!--
-
-            <li class="text-center">
-              <router-link to="/smallgame" exact>
-                  <img src="../../static/images/youxi-icon.png" alt="">
-                  <h6>小游戏</h6>
-              </router-link>
-            </li>
-            <div class="divider"></div>
-
-            -->
-            <li class="text-center">
                 <a href="javascript:void(0)" @click="calendarDate()" v-bind:class="calenderShow">
                 <img src="../../static/images/calendar-icon.png" alt="">
                 <h6>财经日历</h6></a>
@@ -58,6 +39,13 @@
                 <a href="javascript:void(0)" @click="ClassesArrage()" v-bind:class="classArrange">
                     <img src="../../static/images/kechengzhongxin-icon.png"  alt="">
                     <h6>课程安排</h6>
+                </a>
+            </li>
+            <div class="divider"></div>
+            <li class="text-center">
+                <a href="javascript:void(0)" @click="socket_end()">
+                    <img src="../../static/images/classes.png"  alt="">
+                    <h6>股市收评</h6>
                 </a>
             </li>
             <div class="divider"></div>
@@ -235,6 +223,85 @@
             </div>
         </div>
    </div>
+
+   <!-- 股市早报 -->
+   <div class="modal fade" id="socketModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding:30px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                         <h4 class="border-title"><span style="margin-left:10px;" class="login-title">股市早报</span></h4>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                  <ol class="list-unstyled">
+                    <li v-for="report in economicNews " class="report-item">
+                        <div class="media text-center">
+                            <img v-bind:src="report.imgurl" style="height:100px;" v-if="report.imgurl"/>
+                            <div class="media-body">
+                              <h4 class="media-heading" style="margin:10px 0; color:#333;">
+                                  {{report.title}}
+                              </h4>
+                              <h5 class="text-center" style="color:#333;">{{report.unix | dateStamp }}</h5>
+                            </div>
+                            <div v-html="report.content"></div>
+                        </div>
+                    </li>
+                    <li class="pull-left" v-show="prev"  @click="prevNews()">
+                      <h5 style="color:#f00; cursor:pointer;">上一条</h5>
+                    </li>
+                    <li class="pull-right" v-show="next"  @click="nextNews()">
+                      <h5 style="color:#f00; cursor:pointer;">下一条</h5>
+                    </li>
+                </ol>
+                </div>
+            </div>
+        </div>
+   </div>
+
+   <!-- 股市收评 -->
+   <div class="modal fade" id="socketEndModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding:30px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                         <h4 class="border-title"><span style="margin-left:10px;" class="login-title">股市收评</span></h4>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                  <ol class="list-unstyled">
+                    <li v-for="report in economicEndNews " class="report-item">
+                        <div class="media text-center">
+                            <img v-bind:src="report.imgurl" style="height:100px;" v-if="report.imgurl"/>
+                            <div class="media-body">
+                              <h4 class="media-heading" style="margin:10px 0; color:#333;">
+                                  {{report.title}}
+                              </h4>
+                              <h5 class="text-center" style="color:#333;">{{report.unix | dateStamp }}</h5>
+                            </div>
+                            <div v-html="report.content"></div>
+                        </div>
+                    </li>
+                    <li class="pull-left" v-show="prev"  @click="prevNews()">
+                      <h5 style="color:#f00; cursor:pointer;">上一条</h5>
+                    </li>
+                    <li class="pull-right" v-show="next"  @click="nextNews()">
+                      <h5 style="color:#f00; cursor:pointer;">下一条</h5>
+                    </li>
+                </ol>
+                </div>
+            </div>
+        </div>
+   </div>
+
 </div>
 </template>
 
@@ -253,6 +320,15 @@ export default {
       classArrange:'',
       calenderShow:'',
       tempPeriod:[],
+      economicNews:[],
+      Begidx:0,
+      socketReportType:0,
+      prev:false,
+      next:false,
+
+      economicEndNews:[],
+      endBegidx:0,
+      socketReportEndType:0,
     }
   },
   mounted (){
@@ -263,10 +339,141 @@ export default {
   computed: mapGetters({
       user: 'getUser',
   }),
+  filters:{
+    dateStamp:function(value){
+        //获取一个事件戳
+         var time = new Date(value*1000);
+         //获取年份信息
+         var y = time.getFullYear();
+         //获取月份信息，月份是从0开始的
+         var m = (time.getMonth()+1)<10?('0'+(time.getMonth()+1)):(time.getMonth()+1);
+         //获取天数信息
+         //获取天数信息
+         var d = (time.getDate())<10?('0'+time.getDate()):time.getDate();
+
+         var H=(time.getHours())<10?('0'+time.getHours()):time.getHours();
+
+         var M=(time.getMinutes())<10?('0'+time.getMinutes()):time.getMinutes();
+         //返回拼接信息
+         return y+'-'+m + '-' + d+'    '+H+":"+M;
+    },
+  },
   methods:{
     init (){
       if(window.localStorage.getItem("clf-user")){
         }
+
+        let that = this;
+
+        api.getNewsType().then(function(res){
+            if(res.data.Code ==3){
+                let templateObj = res.data.Data.Detail;
+                for(let i=0; i<templateObj.length;i++){
+                  if(templateObj[i].text = '股市早报'){
+                    that.socketReportType = templateObj[i].type;
+                  }
+
+                  if(templateObj[i].text = '股市收评'){
+                    that.socketReportEndType = templateObj[i].type;
+                  }
+                }
+                 that.socketReport();
+
+                 that.socketEndReport();
+            }
+        }).catch(function(err){
+          console.log(err);
+        });
+    },
+
+    //股市早报
+    socketReport(){
+      let params={
+        begidx:this.Begidx,
+        counts:1,
+        type:this.socketReportType
+      };
+
+      let that = this;
+
+      api.getNews(params).then(function(res){
+          if(res.data.Code ==3){
+              //console.log(res.data);
+              if(parseInt(res.data.Data.Total)>1){
+                that.next = true;
+              }else{
+                that.next = false;
+              }
+              that.economicNews = res.data.Data.Detail;
+          }else{
+            alert(res.data.Msg);
+          }
+      }).catch(function(err){
+          console.log(err);
+        });
+    },
+
+    nextNews(){
+      this.Begidx += 1;
+
+      this.News();
+    },
+
+    prevNews(){
+      this.Begidx -= 1;
+
+      this.News();
+    },
+
+    News(){
+      let params={
+        begidx:this.Begidx,
+        counts:1,
+        type:this.socketReportType
+      };
+
+      let that = this;
+
+      api.getNews(params).then(function(res){
+          if(res.data.Code ==3){
+              if(parseInt(res.data.Data.Total)-that.Begidx == 1){
+                that.next = false;
+                that.prev = true;
+              }else if(that.Begidx == 0){
+                that.next = true;
+                that.prev = false;
+              }else{
+                that.next = true;
+                that.prev = true;
+              }
+              that.economicNews = res.data.Data.Detail;
+          }else{
+            alert(res.data.Msg);
+          }
+      }).catch(function(err){
+          console.log(err);
+        });
+    },
+
+    prevNews(){
+      this.Begidx -=1;
+      let params={
+        begidx:this.Begidx,
+        counts:1,
+        type:this.socketReportType
+      };
+
+      let that = this;
+
+      api.getNews(params).then(function(res){
+          if(res.data.Code ==3){
+              that.economicNews = res.data.Data.Detail;
+          }else{
+            alert(res.data.Msg);
+          }
+      }).catch(function(err){
+          console.log(err);
+        });
     },
 
     //查询时间段
@@ -618,6 +825,42 @@ export default {
     closeCalendar(){
       $("#calenderModal").modal('hide');
       this.calenderShow='';
+    },
+
+    //股市早评
+    socketSuggestion(){
+      $("#socketModal").modal('show');
+    },
+
+    //股市收评
+    socket_end(){
+      $("#socketEndModal").modal('show');
+    },
+
+    socketEndReport(){
+      let params={
+        begidx:this.endBegidx,
+        counts:1,
+        type:this.socketReportEndType
+      };
+
+      let that = this;
+
+      api.getNews(params).then(function(res){
+          if(res.data.Code ==3){
+              //console.log(res.data);
+              if(parseInt(res.data.Data.Total)>1){
+                that.next = true;
+              }else{
+                that.next = false;
+              }
+              that.economicEndNews = res.data.Data.Detail;
+          }else{
+            alert(res.data.Msg);
+          }
+      }).catch(function(err){
+          console.log(err);
+        });
     },
   }
 }

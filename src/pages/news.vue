@@ -66,6 +66,7 @@ export default {
         let that = this;
 
         api.getNewsType().then(function(res){
+            console.log(res);
             if(res.data.Code ==3){
                 let templateObj = res.data.Data.Detail;
 
@@ -103,7 +104,7 @@ export default {
       let that = this;
 
       api.getNews(params).then(function(res){
-          //console.log(res.data);
+          console.log(res.data);
           if(res.data.Code ==3){
               that.economicNews = res.data.Data.Detail;
           }else{

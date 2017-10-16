@@ -4,6 +4,7 @@
     <sider-bar></sider-bar>
     <div class="content">
       <ol class="list-inline" style="width:100%;height:100%;">
+        <!--
         <li class="pull-left">
             <div class="main">
               <div class="zj-list" v-bind:class="{active:sidebarShrink}" id="zj_list">
@@ -11,14 +12,17 @@
               </div>
             </div>
         </li>
+        -->
         <li class="pull-left">
           <div class="zhibo text-center" id="zhibo" style="background-color:#000; width:100%;">
               <zhibo></zhibo>
               <activity></activity>
           </div>
         </li>
+        <!--
         <li class="shrink" @click="toggleShrink()" v-bind:class="{active:sidebarShrink}">
         </li>
+        -->
         <li>
           <chat-room></chat-room>
         </li>
@@ -127,7 +131,7 @@ export default {
 
           let total_width = parseInt(window.innerWidth);
 
-          $("#zhibo").width(total_width-740);
+          $("#zhibo").width(total_width-650);
 
           $("#player").height(total_height*0.7);
 
@@ -144,7 +148,7 @@ export default {
 
       $("#zj_list .inner-container").height(total_height+1);
 
-      $("#zhibo").width(total_width-740);
+      $("#zhibo").width(total_width-650);
 
       $("#player").height(total_height*0.7);
 
