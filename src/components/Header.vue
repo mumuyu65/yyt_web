@@ -14,7 +14,9 @@
                 <span @click="showRegister()">注册</span>
             </li>
             <li class="login_reg dropdown" v-show="loginSuc">
-                <img v-bind:src="userImg" class="img-circle" style="height:30px;"/>
+                <div style="width:30px; height:30px; border-radius:50%; display:inline-block; overflow:hidden; vertical-align:middle;">
+                    <img v-bind:src="userImg" class="img-responsive" />
+                </div>
                 <span class="dropdown-toggle" data-toggle="dropdown">{{userNick}}<span class="caret"></span></span>
                 <ol class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="min-width:0; top:92%; left:30px;">
                     <li role="presentation">
