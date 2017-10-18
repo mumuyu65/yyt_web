@@ -19,6 +19,47 @@
         </ul>
     </div>
     </div>
+
+    <div id="handleSuggestionTable" class="active">
+        <table width="100%" border="0" >
+              <thead>
+                  <th class="text-center zhiboRoom">商品</th>
+                  <th class="text-center zhiboRoom">麦上/麦下</th>
+                  <th class="text-center zhiboRoom">仓位</th>
+                  <th class="text-center zhiboRoom">开仓价</th>
+                  <th class="text-center zhiboRoom">止盈价</th>
+                  <th class="text-center zhiboRoom">止损价</th>
+                  <th class="text-center zhiboRoom">结果</th>
+                  <th class="text-center zhiboRoom">老师</th>
+                  <th class="text-center zhiboRoom">方向</th>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>原油</td>
+                      <td>麦上</td>
+                      <td>222</td>
+                      <td>110</td>
+                      <td>115</td>
+                      <td>100</td>
+                      <td>建仓单</td>
+                      <td>
+                          小羽老师
+                      </td>
+                      <td>
+                        <button class="btn download_file">买入</button>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" class="text-left">
+                        注：投资有风险，交易需谨慎，严格控制仓位，操作建议仅供参考
+                    </td>
+                    <td colspan="3" class="text-right">
+                      10秒 <a href="javascript:void(0)" style="color:#fff;" @click="closeSuggestion()">关闭</a>
+                    </td>
+                  </tr>
+              </tbody>
+        </table>
+    </div>
   </div>
 </template>
 
@@ -119,6 +160,38 @@ export default {
         alert("直播地址不存在！");
       }
     },
+
+    closeSuggestion(){
+        $("#handleSuggestionTable").removeClass("active");
+    }
   }
 }
 </script>
+
+<style scoped>
+  #handleSuggestionTable.active{
+     background: rgba(255, 255, 255, 0.0980392);
+     position:fixed;
+     top:60px;
+     left:70px;
+     z-index:8000;
+     padding:20px;
+     transition:top 2.0s;
+     -moz-transition:top 2.0s;
+      -webkit-transition:top 2.0s;
+      -o-transition:top 2.0s;
+  }
+
+  #handleSuggestionTable{
+    transition:top 2.0s;
+    -moz-transition:top 2.0s;
+    -webkit-transition:top 2.0s;
+    -o-transition:top 2.0s;
+    top:-200px;
+  }
+
+
+  #handleSuggestionTable th,#handleSuggestionTable td{
+      padding:1rem 1.5rem;
+   }
+</style>
