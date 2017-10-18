@@ -11,9 +11,15 @@
     background:#fbc324;
 }
 
+.download_file{
+    background-color:#fbc324;
+    border:transparent;
+}
+
 .news-type>li{
     color:#fbc324;
     cursor:pointer;
+    margin-right:20px;
 }
 
 .news-type>li.active{

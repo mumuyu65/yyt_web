@@ -11,9 +11,15 @@
     background:#804a5c;
 }
 
+.download_file{
+    background-color:#804a5c;
+    border:transparent;
+}
+
 .news-type>li{
     color:#804a5c;
     cursor:pointer;
+    margin-right:20px;
 }
 
 .news-type>li.active{

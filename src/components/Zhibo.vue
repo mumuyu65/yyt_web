@@ -6,6 +6,20 @@
     <div style="position:absolute; top:0; right:20px; ">
       <h4>您的剩余观看时间: <span id="count_down"></span></h4>
     </div>
+    <div style="position:fixed; top:2px; left:110px;">
+      <div class="dropdown">
+        <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
+          style="background-color:#fff; border-radius:20px;">
+            <span style="color:#eaa832; font-size:16px;">{{selected.title}}
+            <span class="caret"></span></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation" v-for="live in optionsLive">
+                <a role="menuitem" tabindex="-1" href="javascript:void(0)" style="color:#eaa832; font-size:16px;">{{live.title}}</a>
+            </li>
+        </ul>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -24,6 +38,8 @@ export default {
     return{
       zhiboLives:[],
       clanPlayer:false,
+      optionsLive:[],
+      selected:'',
     }
   },
   computed: mapGetters({
@@ -44,17 +60,19 @@ export default {
         counts:10
       };
       api.getZhibo(params).then(function(res){
+        console.log(res.data);
         if(res.data.Code ==3){
           let templateLive = res.data.Data;
 
           that.zhiboLives =  templateLive;
 
           if(templateLive){
+            that.optionsLive = templateLive;
             let url; //直播地址
             for(let i=0; i<templateLive.length;i++){
-              if(templateLive[i].type == 0){
-                   url =templateLive[i].liveurl.trim();
-              }
+               url =templateLive[0].liveurl.trim();
+
+               that.selected = templateLive[0];
             }
              that.player(url,'player');
           }else{

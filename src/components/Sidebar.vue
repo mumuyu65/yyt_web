@@ -240,22 +240,22 @@
                 <div class="modal-body">
                   <ol class="list-unstyled">
                     <li v-for="report in economicNews " class="report-item">
-                        <div class="media text-center">
-                            <img v-bind:src="report.imgurl" style="height:100px;" v-if="report.imgurl"/>
+                        <div class="media">
                             <div class="media-body">
-                              <h4 class="media-heading" style="margin:10px 0; color:#333;">
-                                  {{report.title}}
-                              </h4>
-                              <h5 class="text-center" style="color:#333;">{{report.unix | dateStamp }}</h5>
+                              <ul class="list-inline">
+                                  <li style="vertical-align:middle;">
+                                    <h4 class="media-heading" style="margin:10px 0; color:#333;">
+                                    标题：{{report.title}}
+                                    </h4>
+                                    <h5 class="text-center" style="color:#333;">时间:{{report.unix | dateStamp }}</h5>
+                                  </li>
+                                  <li>
+                                     <a v-bind:href="report.imgurl" target="_self" class="btn download_file" style="color:#fff;">下载附件</a>
+                                  </li>
+                              </ul>
                             </div>
-                            <div v-html="report.content"></div>
                         </div>
-                    </li>
-                    <li class="pull-left" v-show="prev"  @click="prevNews()">
-                      <h5 style="color:#f00; cursor:pointer;">上一条</h5>
-                    </li>
-                    <li class="pull-right" v-show="next"  @click="nextNews()">
-                      <h5 style="color:#f00; cursor:pointer;">下一条</h5>
+                        <hr />
                     </li>
                 </ol>
                 </div>
@@ -279,22 +279,23 @@
                 <div class="modal-body">
                   <ol class="list-unstyled">
                     <li v-for="report in economicEndNews " class="report-item">
-                        <div class="media text-center">
-                            <img v-bind:src="report.imgurl" style="height:100px;" v-if="report.imgurl"/>
+                        <div class="media">
                             <div class="media-body">
-                              <h4 class="media-heading" style="margin:10px 0; color:#333;">
-                                  {{report.title}}
-                              </h4>
-                              <h5 class="text-center" style="color:#333;">{{report.unix | dateStamp }}</h5>
+                              <ul class="list-inline">
+                                  <li style="vertical-align:middle;">
+                                    <h4 style="color:#333;">
+                                    标题：{{report.title}}
+                                    </h4>
+                                    <h4 style="color:#333;">时间：{{report.unix | dateStamp }}</h4>
+                                  </li>
+                                  <li>
+                                     <a v-bind:href="report.imgurl" target="_self" class="btn download_file"
+                                     style="color:#fff; margin-left:100px;">下载附件</a>
+                                  </li>
+                              </ul>
                             </div>
-                            <div v-html="report.content"></div>
+                            <hr />
                         </div>
-                    </li>
-                    <li class="pull-left" v-show="prev"  @click="prevNews()">
-                      <h5 style="color:#f00; cursor:pointer;">上一条</h5>
-                    </li>
-                    <li class="pull-right" v-show="next"  @click="nextNews()">
-                      <h5 style="color:#f00; cursor:pointer;">下一条</h5>
                     </li>
                 </ol>
                 </div>
@@ -326,17 +327,19 @@
                       <li v-for="report in classes " class="report-item">
                           <div class="media">
                               <a class="media-left">
-                                  <img v-bind:src="report.cover_url" style="height:70px; width:100px;"/>
+                                  <div style="width:108px;height:108px;">
+                                      <img v-bind:src="report.cover_url" class="img-responsive"/>
+                                  </div>
                               </a>
                               <div class="media-body">
                                 <h4 class="media-heading">
                                     <a>{{report.title}}</a>
                                 </h4>
-                                <h5>更新日期:{{report.unix | dateStamp }}</h5>
-                                <h6>老师:  {{report.owner}}</h6>
-                                <a v-bind:href="report.annex_url" v-if="report.annex_url"><button class="btn btn-danger">下载附件</button></a>
+                                <h5 style="color:#333;">更新日期:{{report.unix | dateStamp }}</h5>
+                                <h6 style="color:#333;">老师:  {{report.owner}}</h6>
+                                <a v-bind:href="report.annex_url" v-if="report.annex_url">
+                                <button class="btn btn-danger" style="background-color:#eaa832; border:transparent;">下载附件</button></a>
                               </div>
-                              <div v-html="report.intro" style="margin-top:20px; color:#333;"></div>
                           </div>
                       </li>
                     </ol>
@@ -345,14 +348,15 @@
                       <li v-for="report in all_teachers " class="report-item">
                           <div class="media">
                               <a class="media-left">
-                                  <img v-bind:src="report.headurl" style="height:100px; width:130px;"/>
+                                  <div style="width:108px;height:108px;">
+                                      <img v-bind:src="report.headurl" class="img-responsive"/>
+                                  </div>
                               </a>
                               <div class="media-body">
-                                <h4 class="media-heading" style="color:#333;">
+                                <h4 class="media-heading" style="color:#333; margin-top:30px;">
                                     昵称:{{report.nick}}
                                 </h4>
                               </div>
-                              <div v-html="report.intro" style="margin-top:20px; color:#333;"></div>
                           </div>
                       </li>
                     </ol>
@@ -428,6 +432,7 @@ export default {
     },
   },
   methods:{
+    //初始化
     init (){
       if(window.localStorage.getItem("clf-user")){
         }
@@ -437,43 +442,44 @@ export default {
         api.getNewsType().then(function(res){
             if(res.data.Code ==3){
                 let templateObj = res.data.Data.Detail;
+
                 for(let i=0; i<templateObj.length;i++){
                   if(templateObj[i].text = '股市早报'){
                     that.socketReportType = templateObj[i].type;
+
                   }
 
                   if(templateObj[i].text = '股市收评'){
                     that.socketReportEndType = templateObj[i].type;
+                    console.log(templateObj[i]);
                   }
                 }
-                 that.socketReport();
 
-                 that.socketEndReport();
+                that.socketReport();
+
+                that.socketEndReport();
             }
         }).catch(function(err){
           console.log(err);
         });
     },
 
-    //股市早报
+    //股市早报初始数据
     socketReport(){
       let params={
         begidx:this.Begidx,
-        counts:1,
+        counts:10,
         type:this.socketReportType
       };
 
       let that = this;
 
+      console.log("股市早报");
+
       api.getNews(params).then(function(res){
           if(res.data.Code ==3){
-              //console.log(res.data);
-              if(parseInt(res.data.Data.Total)>1){
-                that.next = true;
-              }else{
-                that.next = false;
-              }
-              that.economicNews = res.data.Data.Detail;
+            that.economicNews = res.data.Data.Detail;
+            //console.log(res.data.Data);
           }else{
             alert(res.data.Msg);
           }
@@ -482,18 +488,21 @@ export default {
         });
     },
 
+    //下一条
     nextNews(){
       this.Begidx += 1;
 
       this.News();
     },
 
+    //上一条
     prevNews(){
       this.Begidx -= 1;
 
       this.News();
     },
 
+    //股市早报
     News(){
       let params={
         begidx:this.Begidx,
@@ -523,28 +532,6 @@ export default {
           console.log(err);
         });
     },
-
-    prevNews(){
-      this.Begidx -=1;
-      let params={
-        begidx:this.Begidx,
-        counts:1,
-        type:this.socketReportType
-      };
-
-      let that = this;
-
-      api.getNews(params).then(function(res){
-          if(res.data.Code ==3){
-              that.economicNews = res.data.Data.Detail;
-          }else{
-            alert(res.data.Msg);
-          }
-      }).catch(function(err){
-          console.log(err);
-        });
-    },
-
     //查询时间段
     queryPeriod(){
         let that = this;
@@ -582,6 +569,7 @@ export default {
         return tempPeriod;
     },
 
+    //课程表安排
     ClassesArrage(){
       $("#classesModal").modal('show');
       this.classArrange = 'router-link-active';
@@ -600,7 +588,9 @@ export default {
 
             let items= res.data.Data;
 
-            for(let i =0; i<items.length;i++){
+            if(items){
+               let len = items.length;
+              for(let i =0; i<len;i++){
                 switch(items[i].dayofweek){
                     case '周一':
                         var pointName;
@@ -834,7 +824,6 @@ export default {
                         }
                         DataSource[6].course.push({teacherName:items[i].lecturer,pointName:pointName,pointTime:items[i].period,id:items[i].id}); break;
                 }
-
             }
             $.each(DataSource,function(i,n){//遍历数据源 填充课程表信息
                     $.each(n.course,function(j,k){
@@ -842,6 +831,7 @@ export default {
                         $(".schedule ul[name='point"+k.pointName+"'] li").eq(n.weekday).html("<input type='text' style='display:none; width:80px; vertical-align:top;'/><span class='text' style='cursor:pointer;'>"+k.teacherName+"</span>");
                     });
             });
+            }
           }else{
             alert(res.data.Msg);
           }
@@ -850,6 +840,7 @@ export default {
       });
     },
 
+    //操作建议
     handlesuggestion(){
       if(window.localStorage.getItem("clf-user")){
         let Flag =JSON.parse(window.localStorage.getItem("clf-user")).Flag;
@@ -909,20 +900,17 @@ export default {
     socketEndReport(){
       let params={
         begidx:this.endBegidx,
-        counts:1,
+        counts:10,
         type:this.socketReportEndType
       };
 
       let that = this;
 
+      console.log('股市收评',params);
+
       api.getNews(params).then(function(res){
           if(res.data.Code ==3){
-              //console.log(res.data);
-              if(parseInt(res.data.Data.Total)>1){
-                that.next = true;
-              }else{
-                that.next = false;
-              }
+              console.log(res.data);
               that.economicEndNews = res.data.Data.Detail;
           }else{
             alert(res.data.Msg);
@@ -957,6 +945,7 @@ export default {
           };
           api.classes(params).then(function(res){
               if(res.data.Code ==3){
+                //console.log(res.data.Data);
                 that.classes = res.data.Data;
               }
               else{
