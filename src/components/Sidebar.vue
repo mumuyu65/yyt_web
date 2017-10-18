@@ -444,14 +444,13 @@ export default {
                 let templateObj = res.data.Data.Detail;
 
                 for(let i=0; i<templateObj.length;i++){
-                  if(templateObj[i].text = '股市早报'){
+                  if(templateObj[i].text == '股市早报'){
                     that.socketReportType = templateObj[i].type;
 
                   }
 
-                  if(templateObj[i].text = '股市收评'){
+                  if(templateObj[i].text =='股市收评'){
                     that.socketReportEndType = templateObj[i].type;
-                    console.log(templateObj[i]);
                   }
                 }
 
