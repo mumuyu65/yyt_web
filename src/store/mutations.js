@@ -33,4 +33,8 @@ export default {
         CHANGE_FLAG(state, value) {
             state.userFlag = value;
         },
+
+        CHANGE_ROOM(state, value) {
+        state.roomNo = value;
+        },
 }

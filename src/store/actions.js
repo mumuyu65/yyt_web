@@ -47,3 +47,10 @@ export const changeFlag = ({
 }, value) => {
     commit('CHANGE_FLAG', value)
 }
+
+//更改房间号
+export const changeRoom = ({
+    commit
+}, value) => {
+    commit('CHANGE_ROOM', value)
+}

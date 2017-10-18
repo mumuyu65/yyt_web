@@ -1,7 +1,6 @@
 <template>
   <div style="position:relative;">
-    <div id="player" class="player" v-if="!clanPlayer"></div>
-    <div id="clanPlayer" class="player" v-if="clanPlayer"></div>
+    <div id="player" class="player"></div>
         <!-- 倒计时 -->
     <div style="position:absolute; top:0; right:20px; ">
       <h4>您的剩余观看时间: <span id="count_down"></span></h4>
@@ -15,7 +14,7 @@
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li role="presentation" v-for="live in optionsLive">
-                <a role="menuitem" tabindex="-1" href="javascript:void(0)" style="color:#eaa832; font-size:16px;">{{live.title}}</a>
+                <a role="menuitem" tabindex="-1" href="javascript:void(0)" @click="changeLiveResouce(live)" style="color:#eaa832; font-size:16px;">{{live.title}}</a>
             </li>
         </ul>
     </div>
@@ -40,6 +39,7 @@ export default {
       clanPlayer:false,
       optionsLive:[],
       selected:'',
+      ObjectPlayer:'',
     }
   },
   computed: mapGetters({
@@ -60,23 +60,20 @@ export default {
         counts:10
       };
       api.getZhibo(params).then(function(res){
-        console.log(res.data);
         if(res.data.Code ==3){
-          let templateLive = res.data.Data;
+          if(res.data.Data){
+            let templateLive = res.data.Data;
 
-          that.zhiboLives =  templateLive;
+            that.zhiboLives =  templateLive;
 
-          if(templateLive){
-            that.optionsLive = templateLive;
-            let url; //直播地址
-            for(let i=0; i<templateLive.length;i++){
-               url =templateLive[0].liveurl.trim();
-
-               that.selected = templateLive[0];
-            }
-             that.player(url,'player');
+            if(templateLive){
+              let url; //直播地址
+               that.optionsLive = templateLive;
+               that.selected = that.optionsLive[0];
+               that.player();
           }else{
             alert('直播地址不存在！');
+          }
           }
         }else {
               alert("无法请求到直播地址......");
@@ -86,24 +83,10 @@ export default {
       });
     },
 
-    //直播地址不存在！
-    changeLive(){
-      let url;
-      for(let i=0; i<this.zhiboLives.length;i++){
-        if(this.zhiboLives[i].type == 1){
-             url=this.zhiboLives[i].liveurl.trim();
-             this.player(url,'clanPlayer');
-             this.clanPlayer = !this.clanPlayer;
-        }else{
-          alert('战队直播视频地址不存在！');
-        }
-      }
-    },
-
-    player(url,playerId){
+    player(){
       let objectPlayer = new Player.aodianPlayer({
-        container: playerId, //播放器容器ID，必要参数
-        rtmpUrl:url, //控制台开通的APP rtmp地址，必要参数
+        container: 'player', //播放器容器ID，必要参数
+        rtmpUrl:this.selected.liveurl, //控制台开通的APP rtmp地址，必要参数
         width: '100%', //播放器宽度，可用数字、百分比等
         height: '100%', //播放器高度，可用数字、百分比等
         autostart: true, //是否自动播放，默认为false
@@ -113,6 +96,23 @@ export default {
         controlbardisplay: 'enable', //是否显示控制栏，值为：disable、enable默认为disable。
         isfullscreen: true, //是否双击全屏，默认为true
       });
+
+      this.ObjectPlayer = objectPlayer;
+    },
+
+    //更换直播地址
+    changeLiveResouce(item){
+      this.selected = item;
+      if(item.liveurl.trim()){
+        this.ObjectPlayer.changePlayer(item.liveurl);
+
+        this.$store.dispatch('changeRoom',item.roomno);
+
+        window.localStorage.setItem("roomNo",item.roomno);
+
+      }else{
+        alert("直播地址不存在！");
+      }
     },
   }
 }

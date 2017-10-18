@@ -14,3 +14,5 @@ export const getSkin = state => state.resetSkin
 export const getLive = state => state.liveurl
 
 export const getFlag = state => state.userFlag
+
+export const getRoomNo = state => state.roomNo

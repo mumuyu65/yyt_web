@@ -905,11 +905,11 @@ export default {
 
       let that = this;
 
-      console.log('股市收评',params);
+      //console.log('股市收评',params);
 
       api.getNews(params).then(function(res){
           if(res.data.Code ==3){
-              console.log(res.data);
+              //console.log(res.data);
               that.economicEndNews = res.data.Data.Detail;
           }else{
             alert(res.data.Msg);

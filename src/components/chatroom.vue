@@ -171,16 +171,20 @@ export default {
 
           chatImgTitle:[{id:1,title:'礼物',active:false},{id:2,title:'自创',active:false},
             {id:3,title:'逗你玩',active:false},{id:4,title:'欢喜兔',active:false},{id:5,title:'阿呆',active:false}],
+
+          templateRoomNo:'',
         }
     },
     computed: mapGetters({
           isLogin:'getLogin',
           liveUrl:'getLive',
           flag:'getFlag',
+          RoomNo:'getRoomNo',
     }),
     watch:{
         isLogin:'changeUser',
         liveUrl:'changeChatRoom',
+        RoomNo:'changeRoomNo',
     },
     mounted (){
         this.initFace();  //初始化表情
@@ -290,17 +294,20 @@ export default {
                         this.toggleSkin();
                     }
 
-                    //console.log("游客登录2.......");
+                    console.log("游客登录2.......");
 
                     this.roomNo();  //用户等级
 
                     let that = this;
+
 
                     if(window.localStorage.getItem("deadlineTimer")){
                         let distanceTime = window.localStorage.getItem("deadlineTimer")-new Date().getTime();
 
                         this.timer_login = setInterval(function(){
                             $("#count_down").text(that.timeStamp(distanceTime));
+
+                            //console.log('倒计时',that.timeStamp(distanceTime));
 
                             distanceTime = distanceTime -1000;
 
@@ -333,6 +340,8 @@ export default {
 
                 this.timer_login= setInterval(function(){
                     $("#count_down").text(that.timeStamp(TotalCount));
+
+                    //console.log('倒计时',that.timeStamp(TotalCount));
 
                     TotalCount = TotalCount -1000;
 
@@ -514,6 +523,7 @@ export default {
             }
             return false;
         },
+
         //客服助理
         customer(){
             let that = this;
@@ -606,6 +616,9 @@ export default {
             api.roomNum(params).then(function(res){
                 if(res.data.Code ==3){
                     that.templateRoom = res.data.Data;
+
+                    that.templateRoomNo = that.templateRoom[0].roomno;
+
                     that.UserLevel();
                 }
             }).catch(function(err){
@@ -613,10 +626,20 @@ export default {
             });
         },
 
+        //更改房间号
+        changeRoomNo(item){
+            this.templateRoomNo = item;
+            this.enterRoom();
+        },
+
         //进入房间
         enterRoom () {
-            //console.log(this.templateRoom);
-            let body = parseInt(this.templateRoom[0].roomno);
+            let body;
+            if(window.localStorage.getItem("roomNo")){
+                body = window.localStorage.getItem("roomNo");
+            }else{
+                body = this.templateRoomNo;
+            }
             let pklen = body.length + 16;
             this.ws.send(JSON.stringify({
                 'pklen': pklen,
@@ -672,7 +695,7 @@ export default {
                             that.heartbeat();
                          }, 20000);
 
-                         that.timer = timer;
+                        that.timer = timer;
                         that.enterRoom();  //进入房间
                         break;
                     case 24:
@@ -689,6 +712,7 @@ export default {
                         let rcvbody_28 = data.body;
                         let data_28 = JSON.parse(JSON.stringify(rcvbody_28));
                         console.log("进入房间后的反馈信息", data_28);
+                        alert(data_28.msg);
                         if (data_28.code == 100) {
                             let roomId = data_28.data.roomid;
                             that.roomID = roomId;
