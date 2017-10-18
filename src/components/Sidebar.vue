@@ -14,7 +14,7 @@
             <li class="text-center">
                 <a href="javascript:void(0)" @click="handlesuggestion()" id="handle_suggestion">
                     <img src="../../static/images/handle-icon.png" alt="">
-                    <h6>操作建议</h6>
+                    <h6>讲师观点</h6>
                 </a>
             </li>
             <div class="divider"></div>
