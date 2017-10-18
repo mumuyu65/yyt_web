@@ -432,6 +432,10 @@ export default {
                 alert("退出成功!");
                 window.localStorage.removeItem("clf-user");
                 window.location.reload();
+            }else if(res.data.Code ==6){
+                alert(res.data.Msg);
+                window.localStorage.removeItem("clf-user");
+                window.location.reload();
             }
         }).catch(function(err){
             console.log(err);

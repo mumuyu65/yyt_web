@@ -16,6 +16,10 @@
     border:transparent;
 }
 
+.zhiboRoom{
+    color:#487dbf;
+}
+
 .news-type>li{
     color:#487dbf;
     cursor:pointer;

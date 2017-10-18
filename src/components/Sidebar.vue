@@ -473,8 +473,6 @@ export default {
 
       let that = this;
 
-      console.log("股市早报");
-
       api.getNews(params).then(function(res){
           if(res.data.Code ==3){
             that.economicNews = res.data.Data.Detail;

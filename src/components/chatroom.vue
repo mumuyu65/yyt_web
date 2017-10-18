@@ -307,20 +307,21 @@ export default {
                         this.timer_login = setInterval(function(){
                             $("#count_down").text(that.timeStamp(distanceTime));
 
-                            //console.log('倒计时',that.timeStamp(distanceTime));
-
                             distanceTime = distanceTime -1000;
 
                             if(distanceTime<0){
+
                                 $("#loginModal").modal("show");
 
                                 clearInterval(that.timer_login);
 
-                                $("#count_down").parent().css("display",'none');
-
                                 that.testLogin();
 
-                                window.localStorage.removeItem("deadlineTimer");
+                                let countDown = new Date().getTime()+ 1800000;
+
+                                window.localStorage.setItem("deadlineTimer",countDown);
+
+                                that.initChat();
                             }
                         },1000);
                     }
@@ -351,9 +352,11 @@ export default {
 
                         clearInterval(that.timer_login);
 
-                        $("#count_down").parent().css("display",'none');
+                        let countDown = new Date().getTime()+ 1800000;
 
-                        window.localStorage.removeItem("deadlineTimer");
+                        window.localStorage.setItem("deadlineTimer",countDown);
+
+                        that.initChat();
 
                         that.testLogin();
                     }
@@ -636,9 +639,9 @@ export default {
         enterRoom () {
             let body;
             if(window.localStorage.getItem("roomNo")){
-                body = window.localStorage.getItem("roomNo");
+                body = parseInt(window.localStorage.getItem("roomNo"));
             }else{
-                body = this.templateRoomNo;
+                body = parseInt(this.templateRoomNo);
             }
             let pklen = body.length + 16;
             this.ws.send(JSON.stringify({
@@ -689,14 +692,35 @@ export default {
                         break;
                     case 8:
                         let rcvbody_8 = data.body;
-                        console.log("用户认证成功!");
-                        // 启动计时器发送心跳包
-                        var timer = setInterval(function() {
-                            that.heartbeat();
-                         }, 20000);
 
-                        that.timer = timer;
-                        that.enterRoom();  //进入房间
+                        if(rcvbody_8.code == 100){
+                            console.log("用户认证成功!");
+
+                            // 启动计时器发送心跳包
+                            var timer = setInterval(function() {
+                                that.heartbeat();
+                             }, 20000);
+
+                            that.timer = timer;
+
+                            that.enterRoom();  //进入房间
+
+                        }else if(rcvbody_8.code == 101){
+                            console.log("用户认证失败!");
+
+                            if(that.user.Flag == -1){
+
+                                that.visitorLogin();
+
+                            }else if(that.user.Flag == 0){
+                                window.localStorage.removeItem("clf-user");
+
+                                window.location.reload();
+
+                                alert("登录已过期，请重新登录！");
+                            }
+
+                        }
                         break;
                     case 24:
                         let rcvbody_24 = data.body;
@@ -894,7 +918,7 @@ export default {
 
         //文字始终置顶
         scrollTop (){
-    //       let t = document.getElementById('chat_inner');
+    //      let t = document.getElementById('chat_inner');
             let t = document.getElementsByClassName('chat-inner')[0];
             let shit = t.scrollHeight;
             setTimeout(function(){

@@ -9,12 +9,12 @@
       <div class="dropdown">
         <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
           style="background-color:#fff; border-radius:20px;">
-            <span style="color:#eaa832; font-size:16px;">{{selected.title}}
+            <span class="zhiboRoom" style="font-size:16px;">{{selected.title}}
             <span class="caret"></span></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li role="presentation" v-for="live in optionsLive">
-                <a role="menuitem" tabindex="-1" href="javascript:void(0)" @click="changeLiveResouce(live)" style="color:#eaa832; font-size:16px;">{{live.title}}</a>
+                <a role="menuitem" class="zhiboRoom" tabindex="-1" href="javascript:void(0)" @click="changeLiveResouce(live)" style="font-size:16px;">{{live.title}}</a>
             </li>
         </ul>
     </div>
@@ -69,7 +69,11 @@ export default {
             if(templateLive){
               let url; //直播地址
                that.optionsLive = templateLive;
-               that.selected = that.optionsLive[0];
+               if(window.localStorage.getItem("zhiboName")){
+                  that.selected = JSON.parse(window.localStorage.getItem("zhiboName"));
+               }else{
+                  that.selected = that.optionsLive[0];
+               }
                that.player();
           }else{
             alert('直播地址不存在！');
@@ -103,6 +107,7 @@ export default {
     //更换直播地址
     changeLiveResouce(item){
       this.selected = item;
+      window.localStorage.setItem("zhiboName",JSON.stringify(item));
       if(item.liveurl.trim()){
         this.ObjectPlayer.changePlayer(item.liveurl);
 
