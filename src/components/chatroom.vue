@@ -302,6 +302,7 @@ export default {
 
 
                     if(window.localStorage.getItem("deadlineTimer")){
+
                         let distanceTime = window.localStorage.getItem("deadlineTimer")-new Date().getTime();
 
                         this.timer_login = setInterval(function(){
@@ -317,11 +318,11 @@ export default {
 
                                 that.testLogin();
 
+                                $("#count_down").parent().css("display",'none');
+
                                 let countDown = new Date().getTime()+ 1800000;
 
                                 window.localStorage.setItem("deadlineTimer",countDown);
-
-                                that.initChat();
                             }
                         },1000);
                     }
@@ -356,9 +357,9 @@ export default {
 
                         window.localStorage.setItem("deadlineTimer",countDown);
 
-                        that.initChat();
-
                         that.testLogin();
+
+                        $("#count_down").parent().css("display",'none');
                     }
                 },1000);
             }

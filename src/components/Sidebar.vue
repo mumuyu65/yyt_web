@@ -12,14 +12,10 @@
             <div class="divider"></div>
 
             <li class="text-center">
-                <a href="javascript:void(0)" @click="handlesuggestion()" v-if="!isLogin" id="handle_suggestion">
+                <a href="javascript:void(0)" @click="handlesuggestion()" id="handle_suggestion">
                     <img src="../../static/images/handle-icon.png" alt="">
                     <h6>操作建议</h6>
                 </a>
-                <router-link to="/handlesuggestion" v-if="isLogin" exact>
-                    <img src="../../static/images/handle-icon.png" alt="">
-                    <h6>操作建议</h6>
-                </router-link>
             </li>
             <div class="divider"></div>
             <li class="text-center">
@@ -360,6 +356,26 @@
                           </div>
                       </li>
                     </ol>
+                </div>
+            </div>
+        </div>
+   </div>
+
+   <!-- 操作建议 -->
+   <div class="modal fade" id="handleSuggestionModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding:30px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" >
+                         <h4 class="border-title"><span style="margin-left:10px;" class="login-title">讲师观点</span></h4>
+                    </h4>
+                </div>
+                <div class="modal-body">
+
                 </div>
             </div>
         </div>
@@ -839,15 +855,7 @@ export default {
 
     //操作建议
     handlesuggestion(){
-      if(window.localStorage.getItem("clf-user")){
-        let Flag =JSON.parse(window.localStorage.getItem("clf-user")).Flag;
-        if(Flag == -1){
-          this.isLogin=false ;
-          alert("亲爱的用户，登录后才可查看此部分内容！");
-        }else{
-          this.isLogin=true ;
-        }
-      }
+      $("#handleSuggestionModal").modal("show");
     },
 
     closeArrange(){
