@@ -233,27 +233,28 @@
                          <h4 class="border-title"><span style="margin-left:10px;" class="login-title">股市早报</span></h4>
                     </h4>
                 </div>
-                <div class="modal-body">
-                  <ol class="list-unstyled"  style="min-height:500px;">
-                    <li v-for="report in economicNews " class="report-item">
-                        <div class="media">
-                            <div class="media-body">
-                              <ul class="list-inline">
-                                  <li style="vertical-align:middle;">
-                                    <h4 class="media-heading" style="margin:10px 0; color:#333;">
-                                    标题：{{report.title}}
-                                    </h4>
-                                    <h5 class="text-center" style="color:#333;">时间:{{report.unix | dateStamp }}</h5>
-                                  </li>
-                                  <li>
-                                     <a v-bind:href="report.imgurl" target="_self" class="btn download_file" style="color:#fff;">下载附件</a>
-                                  </li>
-                              </ul>
-                            </div>
-                        </div>
-                        <hr />
-                    </li>
-                </ol>
+                <div class="modal-body productsTable">
+                  <!-- table展示区域  -->
+                  <table class="text-center" border="1" width="100%" >
+                      <thead>
+                          <th  class="text-center">创建时间</th>
+                          <th  class="text-center">标题</th>
+                          <th  class="text-center">操作</th>
+                      </thead>
+                      <tbody v-show="!nodata">
+                          <tr v-for="report in economicNews ">
+                              <td>{{report.unix | dateStamp }}</td>
+                              <td>{{report.title}}</td>
+                              <td><a v-bind:href="report.imgurl" target="_self" class="btn download_file" style="color:#fff;">下载附件</a></td>
+                          </tr>
+                      </tbody>
+                      <tfoot v-show="nodata">
+                          <tr>
+                              <td colspan="11">暂无数据</td>
+                          </tr>
+                      </tfoot>
+                  </table>
+                  <div id="socket_early_pagnation"></div>
                 </div>
             </div>
         </div>
@@ -374,7 +375,7 @@
                          <h4 class="border-title"><span style="margin-left:10px;" class="login-title">讲师观点</span></h4>
                     </h4>
                 </div>
-                <div class="modal-body" id="productsTable">
+                <div class="modal-body productsTable" id="productsTable">
                   <!-- table展示区域  -->
                   <table class="text-center" border="1" width="100%" >
                       <thead>
@@ -423,6 +424,8 @@ import API from '@/api/API'
 //实例化api
 const api = new API();
 
+import '@/assets/pagnation/bootstrap-paginator.js';
+
 export default {
   name: 'sidebar',
   data(){
@@ -452,6 +455,8 @@ export default {
 
       templateInfos:[],   //讲师观点
       nodata:false,
+
+      socketEarlyBegIdx:0,  //股市早报
     }
   },
   mounted (){
@@ -528,7 +533,38 @@ export default {
       api.getNews(params).then(function(res){
           if(res.data.Code ==3){
             that.economicNews = res.data.Data.Detail;
-            //console.log(res.data.Data);
+            let TotalNum = parseInt(res.data.Data.Total);
+            if(TotalNum>10){
+                //分页
+                var options = {
+                   currentPage: 1,
+                   totalPages: parseInt(TotalNum /10) + 1,
+                   onPageClicked: function (e, originalEvent, type, page) {
+                       switch (type) {
+                           case 'first':
+                               that.socketEarlyContent(0);
+                               break;
+                           case 'page':
+                               that.socketEarlyBegIdx = (page - 1) * 10;
+                               that.socketEarlyContent(that.socketEarlyBegIdx,0);
+                               break;
+                           case 'next':
+                               that.socketEarlyBegIdx  += 10;
+                               that.socketEarlyContent(that.socketEarlyBegIdx,0);
+                               break;
+                           case 'last':
+                               that.socketEarlyBegIdx = TotalNum - TotalNum % 10;
+                               that.socketEarlyContent(that.socketEarlyBegIdx,0);
+                               break;
+                           case 'prev':
+                               that.socketEarlyBegIdx -= 10;
+                               that.socketEarlyContent(that.socketEarlyBegIdx,0);
+                               break;
+                       }
+                   }
+               };
+             $('#socket_early_pagnation').bootstrapPaginator(options);
+            }
           }else{
             alert(res.data.Msg);
           }
@@ -537,25 +573,11 @@ export default {
         });
     },
 
-    //下一条
-    nextNews(){
-      this.Begidx += 1;
-
-      this.News();
-    },
-
-    //上一条
-    prevNews(){
-      this.Begidx -= 1;
-
-      this.News();
-    },
-
     //股市早报
-    News(){
+    socketEarlyContent(){
       let params={
-        begidx:this.Begidx,
-        counts:1,
+        begidx:this.socketEarlyBegIdx,
+        counts:10,
         type:this.socketReportType
       };
 
@@ -563,16 +585,6 @@ export default {
 
       api.getNews(params).then(function(res){
           if(res.data.Code ==3){
-              if(parseInt(res.data.Data.Total)-that.Begidx == 1){
-                that.next = false;
-                that.prev = true;
-              }else if(that.Begidx == 0){
-                that.next = true;
-                that.prev = false;
-              }else{
-                that.next = true;
-                that.prev = true;
-              }
               that.economicNews = res.data.Data.Detail;
           }else{
             alert(res.data.Msg);
@@ -911,7 +923,9 @@ export default {
               }else{
                   that.nodata = false;
                   let templateObj = res.data.Data.Detail;
-                  console.log('讲师观点table',res.data);
+
+                  let TotalNum = res.data.Data.Totals;
+
                   //清空初始化中的数据
                   that.templateInfos=[];
                   for(let i =0; i<templateObj.length;i++){
@@ -1136,21 +1150,21 @@ export default {
       margin-bottom:10px;
   }
 
-  #productsTable{
+  .productsTable{
     min-height:500px;
   }
 
-  #productsTable th,#productsTable td{
+  .productsTable th,.productsTable td{
         padding:10px 0;
         border:1px solid #ececec;
         color:#333;
     }
 
-    #productsTable tr:hover{
+    .productsTable tr:hover{
         background-color:#f7f7f7;
     }
 
-   #productsTable tr:nth-child(odd){
+   .productsTable tr:nth-child(odd){
         background-color:#f7f7f7;
    }
 

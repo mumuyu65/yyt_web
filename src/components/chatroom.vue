@@ -77,6 +77,9 @@
                     <button class="btn btn-send" @click="sendContent()">
                         <span>发送</span>
                     </button>
+                    <button class="btn btn-send" @click="sendLargeContent()">
+                        <span>飞屏</span>
+                    </button>
                 </li>
             </ul>
         </div>
@@ -763,6 +766,49 @@ export default {
            if(window.localStorage.getItem("clf-user")){
                 if(this.chatContent){
                     this.sendText(this.chatContent);
+
+                    let tempLevel = this.userLevels.length;
+
+                    if(this.user.Flag == -1){
+                        let chat_content={
+                            userlog:this.userLevels[10].role_css,
+                            name:this.user.Nick,
+                            text:this.analysis(this.chatContent),
+                            date:this.dateStamp(new Date())
+                        };
+
+                          this.chatInner.push(chat_content);
+
+                          this.scrollTop();
+
+                          this.chatContent = '';
+                    }else{
+                         let chat_content={
+                            userlog:this.userLevels[this.user.Level].role_css,
+                            name:this.user.Nick,
+                            text:this.analysis(this.chatContent),
+                            date:this.dateStamp(new Date())
+                        };
+
+                          this.chatInner.push(chat_content);
+
+                          this.scrollTop();
+
+                          this.chatContent = '';
+                    }
+                }else{
+                    alert("输入的内容不能为空！");
+                }
+           }else{
+              $("#loginModal").modal("show");
+           }
+        },
+
+        //发送内容
+        sendLargeContent (){
+           if(window.localStorage.getItem("clf-user")){
+                if(this.chatContent){
+                    this.sendText(this.chatContent+'#*');
 
                     let tempLevel = this.userLevels.length;
 
