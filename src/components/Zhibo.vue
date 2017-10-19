@@ -12,7 +12,7 @@
             <span class="zhiboRoom" style="font-size:16px;">{{selected.title}}
             <span class="caret"></span></span>
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="z-index:1010;">
             <li role="presentation" v-for="live in optionsLive">
                 <a role="menuitem" class="zhiboRoom" tabindex="-1" href="javascript:void(0)" @click="changeLiveResouce(live)" style="font-size:16px;">{{live.title}}</a>
             </li>
@@ -35,18 +35,18 @@
               </thead>
               <tbody>
                   <tr>
-                      <td>原油</td>
-                      <td>麦上</td>
-                      <td>222</td>
-                      <td>110</td>
-                      <td>115</td>
-                      <td>100</td>
-                      <td>建仓单</td>
+                      <td>{{teacherView.category}}</td>
+                      <td>{{teacherView.wheat_type}}</td>
+                      <td>{{teacherView.uid}}</td>
+                      <td>{{teacherView.open_price}}</td>
+                      <td>{{teacherView.win_price}}</td>
+                      <td>{{teacherView.loss_price}}</td>
+                      <td>{{teacherView.result}}</td>
                       <td>
-                          小羽老师
+                          {{teacherView.owner}}
                       </td>
                       <td>
-                        <button class="btn download_file">买入</button>
+                        <button class="btn download_file">{{teacherView.order_type}}</button>
                       </td>
                   </tr>
                   <tr>
@@ -54,7 +54,7 @@
                         注：投资有风险，交易需谨慎，严格控制仓位，操作建议仅供参考
                     </td>
                     <td colspan="3" class="text-right">
-                      10秒 <a href="javascript:void(0)" style="color:#fff;" @click="closeSuggestion()">关闭</a>
+                      {{countDown}}秒 <a href="javascript:void(0)" style="color:#fff;" @click="closeSuggestion()">关闭</a>
                     </td>
                   </tr>
               </tbody>
@@ -81,6 +81,9 @@ export default {
       optionsLive:[],
       selected:'',
       ObjectPlayer:'',
+      teacherView:'',
+      zhiboView:'', //分直播间查询讲师观点
+      countDown:10,
     }
   },
   computed: mapGetters({
@@ -91,6 +94,8 @@ export default {
   },
   mounted (){
     this.initData();
+
+    this.queryViewsInTime();  //定时查询讲师观点
   },
   methods:{
     //直播
@@ -155,34 +160,84 @@ export default {
         this.$store.dispatch('changeRoom',item.roomno);
 
         window.localStorage.setItem("roomNo",item.roomno);
-
       }else{
         alert("直播地址不存在！");
       }
     },
 
     closeSuggestion(){
-        $("#handleSuggestionTable").removeClass("active");
-    }
+        $("#handleSuggestionTable").addClass("active");
+    },
+
+    //定时查询讲师观点
+    teacherViewQuery(){
+      let params={
+        category:'',
+        place:this.selected.title,
+        begidx:0,
+        counts:1,
+      };
+
+      let that = this;
+
+      api.handleSuggestion(params).then(function(res){
+        if(res.data.Code ==3){
+          if(res.data.Data){
+              that.teacherView = res.data.Data[0];
+              if(window.localStorage.getItem('zhiboView')){
+                  if(JSON.parse(window.localStorage.getItem('zhiboView')).id == that.teacherView.id){
+                    $("#handleSuggestionTable").addClass("active");
+                  }else{
+                    $("#handleSuggestionTable").removeClass("active");
+
+                    that.countDown = 10;
+
+                    let Timer = setInterval(function(){
+                        that.countDown --;
+
+                        if(that.countDown<0){
+                          clearInterval(Timer);
+                        }
+
+                    },1000);
+                  }
+              }
+              window.localStorage.setItem('zhiboView',JSON.stringify(that.teacherView));
+          }else{
+             $("#handleSuggestionTable").addClass("active");
+          }
+        }
+      }).catch(function(err){
+        console.log(err);
+      });
+    },
+
+    queryViewsInTime(){
+      let that = this;
+
+      let Timer = window.setInterval(function(){
+          that.teacherViewQuery();
+      },10000);
+    },
   }
 }
 </script>
 
 <style scoped>
-  #handleSuggestionTable.active{
+  #handleSuggestionTable{
      background: rgba(255, 255, 255, 0.0980392);
      position:fixed;
      top:60px;
      left:70px;
-     z-index:8000;
+     z-index:1000;
      padding:20px;
      transition:top 2.0s;
      -moz-transition:top 2.0s;
-      -webkit-transition:top 2.0s;
-      -o-transition:top 2.0s;
+     -webkit-transition:top 2.0s;
+     -o-transition:top 2.0s;
   }
 
-  #handleSuggestionTable{
+  #handleSuggestionTable.active{
     transition:top 2.0s;
     -moz-transition:top 2.0s;
     -webkit-transition:top 2.0s;
