@@ -183,8 +183,8 @@ export default {
 
       api.handleSuggestion(params).then(function(res){
         if(res.data.Code ==3){
-          if(res.data.Data){
-              that.teacherView = res.data.Data[0];
+          if(res.data.Data.Totals>0){
+              that.teacherView = res.data.Data.Detail[0];
               if(window.localStorage.getItem('zhiboView')){
                   if(JSON.parse(window.localStorage.getItem('zhiboView')).id == that.teacherView.id){
                     $("#handleSuggestionTable").addClass("active");

@@ -906,11 +906,11 @@ export default {
 
        api.handleSuggestion(params).then(function(res){
           if(res.data.Code ==3){
-              if (res.data.Data == null) {
+              if (res.data.Data.Totals<=0) {
                   that.nodata = true;
               }else{
                   that.nodata = false;
-                  let templateObj = res.data.Data;
+                  let templateObj = res.data.Data.Detail;
                   console.log('讲师观点table',res.data);
                   //清空初始化中的数据
                   that.templateInfos=[];
