@@ -119,6 +119,7 @@ export default {
                   that.selected = JSON.parse(window.localStorage.getItem("zhiboName"));
                }else{
                   that.selected = that.optionsLive[0];
+                  window.localStorage.setItem('zhiboName',JSON.stringify(that.selected));
                }
                that.player();
           }else{

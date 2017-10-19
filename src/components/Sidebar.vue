@@ -234,7 +234,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                  <ol class="list-unstyled">
+                  <ol class="list-unstyled"  style="min-height:500px;">
                     <li v-for="report in economicNews " class="report-item">
                         <div class="media">
                             <div class="media-body">
@@ -273,7 +273,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                  <ol class="list-unstyled">
+                  <ol class="list-unstyled"  style="min-height:500px;">
                     <li v-for="report in economicEndNews " class="report-item">
                         <div class="media">
                             <div class="media-body">
@@ -319,7 +319,7 @@
                       </li>
                     </ul>
                     <!-- 展示 -->
-                    <ol class="list-unstyled" v-if="showTeacher"style="min-height:300px;">
+                    <ol class="list-unstyled" v-if="showTeacher" style="min-height:500px;">
                       <li v-for="report in classes " class="report-item">
                           <div class="media">
                               <a class="media-left">
@@ -340,7 +340,7 @@
                       </li>
                     </ol>
 
-                    <ol class="list-unstyled" v-if="!showTeacher">
+                    <ol class="list-unstyled" v-if="!showTeacher"  style="min-height:500px;">
                       <li v-for="report in all_teachers " class="report-item">
                           <div class="media">
                               <a class="media-left">
@@ -374,8 +374,41 @@
                          <h4 class="border-title"><span style="margin-left:10px;" class="login-title">讲师观点</span></h4>
                     </h4>
                 </div>
-                <div class="modal-body">
-
+                <div class="modal-body" id="productsTable">
+                  <!-- table展示区域  -->
+                  <table class="text-center" border="1" width="100%" >
+                      <thead>
+                          <th  class="text-center">创建时间</th>
+                          <th  class="text-center">类型</th>
+                          <th  class="text-center">仓位</th>
+                          <th  class="text-center">商品</th>
+                          <th  class="text-center">开仓价</th>
+                          <th  class="text-center">止损价</th>
+                          <th  class="text-center">止盈价</th>
+                          <th  class="text-center">创建人</th>
+                          <th  class="text-center">结果</th>
+                          <th  class="text-center">麦单类型</th>
+                      </thead>
+                      <tbody v-show="!nodata">
+                          <tr v-for="(item, index) in templateInfos">
+                              <td>{{item.unix | dateStamp}}</td>
+                              <td>{{item.order_type}}</td>
+                              <td>{{item.entry_price}}</td>
+                              <td>{{item.category}}</td>
+                              <td>{{item.open_price}}</td>
+                              <td>{{item.loss_price}}</td>
+                              <td>{{item.win_price}}</td>
+                              <td>{{item.owner}}</td>
+                              <td>{{item.result}}</td>
+                              <td>{{item.wheat_type}}</td>
+                          </tr>
+                      </tbody>
+                      <tfoot v-show="nodata">
+                          <tr>
+                              <td colspan="11">暂无数据</td>
+                          </tr>
+                      </tfoot>
+                  </table>
                 </div>
             </div>
         </div>
@@ -416,6 +449,9 @@ export default {
       classes:[],
       showTeacher:true,
       all_teachers:[],
+
+      templateInfos:[],   //讲师观点
+      nodata:false,
     }
   },
   mounted (){
@@ -856,7 +892,40 @@ export default {
     //操作建议
     handlesuggestion(){
       $("#handleSuggestionModal").modal("show");
+
+      let Obj = JSON.parse(window.localStorage.getItem('zhiboName'));
+
+      let params={
+        category:'',
+        place:Obj.title,
+        begidx:0,
+        counts:10,
+      };
+
+      let that = this;
+
+       api.handleSuggestion(params).then(function(res){
+          if(res.data.Code ==3){
+              if (res.data.Data == null) {
+                  that.nodata = true;
+              }else{
+                  that.nodata = false;
+                  let templateObj = res.data.Data;
+                  console.log('讲师观点table',res.data);
+                  //清空初始化中的数据
+                  that.templateInfos=[];
+                  for(let i =0; i<templateObj.length;i++){
+                       that.templateInfos.push(templateObj[i]);
+                  }
+                }
+          }else{
+              alert(res.data.Msg);
+              }
+          }).catch(function(err){
+          console.log(err);
+        });
     },
+
 
     closeArrange(){
       $("#classesModal").modal('hide');
@@ -910,8 +979,6 @@ export default {
       };
 
       let that = this;
-
-      //console.log('股市收评',params);
 
       api.getNews(params).then(function(res){
           if(res.data.Code ==3){
@@ -1068,5 +1135,23 @@ export default {
   .news-type{
       margin-bottom:10px;
   }
+
+  #productsTable{
+    min-height:500px;
+  }
+
+  #productsTable th,#productsTable td{
+        padding:10px 0;
+        border:1px solid #ececec;
+        color:#333;
+    }
+
+    #productsTable tr:hover{
+        background-color:#f7f7f7;
+    }
+
+   #productsTable tr:nth-child(odd){
+        background-color:#f7f7f7;
+   }
 
 </style>
