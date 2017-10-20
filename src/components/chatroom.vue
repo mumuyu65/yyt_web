@@ -77,9 +77,11 @@
                     <button class="btn btn-send" @click="sendContent()">
                         <span>发送</span>
                     </button>
+                    <!--
                     <button class="btn btn-send" @click="sendLargeContent()">
                         <span>飞屏</span>
                     </button>
+                    -->
                 </li>
             </ul>
         </div>

@@ -1109,7 +1109,6 @@ export default {
 
 .qrcode{
   position:relative;
-
 }
 
 .qrcode .qrcode-item{
