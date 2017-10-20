@@ -18,9 +18,10 @@
 
 (function($) {
 
+    console.log("bootstrapPaginator");
+
     "use strict"; // jshint ;_;
 
-    console.log("bootstrapPaginator");
 
     /* Paginator PUBLIC CLASS DEFINITION
      * ================================= */

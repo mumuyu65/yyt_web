@@ -254,6 +254,7 @@
                           </tr>
                       </tfoot>
                   </table>
+
                   <div id="socket_early_pagnation"></div>
                 </div>
             </div>
@@ -273,28 +274,27 @@
                          <h4 class="border-title"><span style="margin-left:10px;" class="login-title">股市收评</span></h4>
                     </h4>
                 </div>
-                <div class="modal-body">
-                  <ol class="list-unstyled"  style="min-height:500px;">
-                    <li v-for="report in economicEndNews " class="report-item">
-                        <div class="media">
-                            <div class="media-body">
-                              <ul class="list-inline">
-                                  <li style="vertical-align:middle;">
-                                    <h4 style="color:#333;">
-                                    标题：{{report.title}}
-                                    </h4>
-                                    <h4 style="color:#333;">时间：{{report.unix | dateStamp }}</h4>
-                                  </li>
-                                  <li>
-                                     <a v-bind:href="report.imgurl" target="_self" class="btn download_file"
-                                     style="color:#fff; margin-left:100px;">下载附件</a>
-                                  </li>
-                              </ul>
-                            </div>
-                            <hr />
-                        </div>
-                    </li>
-                </ol>
+                <div class="modal-body productsTable">
+                     <!-- table展示区域  -->
+                    <table class="text-center" border="1" width="100%" >
+                        <thead>
+                            <th  class="text-center">创建时间</th>
+                            <th  class="text-center">标题</th>
+                            <th  class="text-center">操作</th>
+                        </thead>
+                        <tbody v-show="!nodata">
+                            <tr v-for="report in economicEndNews ">
+                                <td>{{report.unix | dateStamp }}</td>
+                                <td>{{report.title}}</td>
+                                <td><a v-bind:href="report.imgurl" target="_self" class="btn download_file" style="color:#fff;">下载附件</a></td>
+                            </tr>
+                        </tbody>
+                        <tfoot v-show="nodata">
+                            <tr>
+                                <td colspan="11">暂无数据</td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
@@ -424,8 +424,6 @@ import API from '@/api/API'
 //实例化api
 const api = new API();
 
-import '@/assets/pagnation/bootstrap-paginator.js';
-
 export default {
   name: 'sidebar',
   data(){
@@ -527,6 +525,8 @@ export default {
         counts:10,
         type:this.socketReportType
       };
+
+
 
       let that = this;
 
@@ -1151,7 +1151,9 @@ export default {
   }
 
   .productsTable{
-    min-height:500px;
+    height:500px;
+    overflow-x:hidden;
+    overflow-y:auto;
   }
 
   .productsTable th,.productsTable td{
