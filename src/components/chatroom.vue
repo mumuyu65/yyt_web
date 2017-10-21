@@ -77,11 +77,9 @@
                     <button class="btn btn-send" @click="sendContent()">
                         <span>发送</span>
                     </button>
-                    <!--
                     <button class="btn btn-send" @click="sendLargeContent()">
                         <span>飞屏</span>
                     </button>
-                    -->
                 </li>
             </ul>
         </div>
@@ -119,6 +117,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- 飞屏效果 -->
+    <div class="flyingScreen" v-bind:class="{active:flyingScreen}">
+        <span class="flowlight" v-html="flyingScreenText"></span>
     </div>
 </div>
 </template>
@@ -178,6 +181,10 @@ export default {
             {id:3,title:'逗你玩',active:false},{id:4,title:'欢喜兔',active:false},{id:5,title:'阿呆',active:false}],
 
           templateRoomNo:'',
+
+          flyingScreen:true,
+
+          flyingScreenText:'',
         }
     },
     computed: mapGetters({
@@ -824,6 +831,17 @@ export default {
 
                           this.chatInner.push(chat_content);
 
+                          this.flyingScreenText = chat_content.text;
+
+                          this.flyingScreen = false;
+
+                          let that = this;
+
+                          let Timer = setInterval(function(){
+                                that.flyingScreen = true;
+                                clearInterval(Timer);
+                          },6000);
+
                           this.scrollTop();
 
                           this.chatContent = '';
@@ -836,6 +854,17 @@ export default {
                         };
 
                           this.chatInner.push(chat_content);
+
+                          this.flyingScreenText = chat_content.text;
+
+                          this.flyingScreen = false;
+
+                          let that = this;
+
+                          let Timer = setInterval(function(){
+                                that.flyingScreen = true;
+                                clearInterval(Timer);
+                          },6000);
 
                           this.scrollTop();
 
@@ -1108,6 +1137,49 @@ export default {
 </script>
 
 <style scoped>
+    .flyingScreen{
+        position:fixed;
+        z-index:9999;
+        top:30%;
+        left:40%;
+        background-color:transparent;
+        transition: top 5s;
+        -moz-transition: top 5s; /* Firefox 4 */
+        -webkit-transition: top 5s; /* Safari 和 Chrome */
+        -o-transition: top 5s; /* Opera */
+    }
+
+    .flyingScreen.active{
+        position:fixed;
+        z-index:9999;
+        top:-30%;
+        left:40%;
+        background-color:transparent;
+        transition: top 5s;
+        -moz-transition: top 5s; /* Firefox 4 */
+        -webkit-transition: top 5s; /* Safari 和 Chrome */
+        -o-transition: top 5s; /* Opera */
+    }
+
+    .flowlight{
+        color:transparent;
+        -webkit-text-fill-color: transparent;
+        background-image: -webkit-linear-gradient(left,#D81159, #E53A40 10%, #FFBC42 20%, #75D701 30%, #30A9DE 40%,#D81159 50%, #E53A40 60%, #FFBC42 70%, #75D701 80%, #30A9DE 90%,#D81159);
+        -webkit-background-clip: text;
+        background-size: 200% 100%;
+        animation: flowlight 5s linear infinite;
+        font-size:40px;
+    }
+
+    @keyframes flowlight {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: -100% 0;
+      }
+    }
+
     .chat .chat-face-content img{
         padding:10px;
         cursor: pointer;
