@@ -217,5 +217,10 @@ class API {
     }
 
 
+    //访问财经日历
+    calendar(param) {
+        config.data = param;
+        return axios.post('/yyt/calendar/clicks', {}, config);
+    }
 }
 export default API;

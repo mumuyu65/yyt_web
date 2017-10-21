@@ -968,6 +968,12 @@ export default {
         }
        $("#calenderModal").modal('show');
        this.calenderShow = 'router-link-active';
+
+       api.calendar().then(function(res){
+        console.log(res.data);
+       }).catch(function(err){
+        console.log(err);
+       });
     },
 
     closeCalendar(){
