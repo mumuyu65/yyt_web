@@ -819,7 +819,7 @@ export default {
         sendLargeContent (){
            if(window.localStorage.getItem("clf-user")){
                 if(this.chatContent){
-                    this.sendText(this.chatContent+'#*');
+                    this.sendText(this.chatContent+'####****');
 
                     let tempLevel = this.userLevels.length;
 
@@ -1011,6 +1011,10 @@ export default {
         analysis (value) {
 
             let arr = value.match(/\[.{1,5}\]/g);
+
+            let flowlight = value.match(/^####****$/g);
+
+            console.log(flowlight);
 
             let imgArr = value.indexOf("http");
 
