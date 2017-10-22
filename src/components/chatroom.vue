@@ -1012,9 +1012,7 @@ export default {
 
             let arr = value.match(/\[.{1,5}\]/g);
 
-            let flowlight = value.match(/^####****$/g);
-
-            console.log(flowlight);
+            let flowlight = value.indexOf('####****');
 
             let imgArr = value.indexOf("http");
 
@@ -1036,8 +1034,20 @@ export default {
                 value = '<img src="' + value + '"/>';
             }else if(gift !== -1){
                 value = '<img src="' + value + '"/>';
+            }else if(flowlight !== -1){
+                value = value.substring(0,value.length-8);
+
+                this.flyingScreenText = value;
+
+                this.flyingScreen = false;
+
+                let that = this;
+
+                let Timer = setInterval(function(){
+                     that.flyingScreen = true;
+                     clearInterval(Timer);
+                },6000);
             }
-            //console.log(value);
 
             return value;
         },
