@@ -137,6 +137,8 @@ import { mapGetters } from 'vuex'
 
 const chatUrl='http://61.147.124.143:10011';
 
+//const chatUrl='http://61.147.124.130:10011';
+
 export default {
     name: 'chatRoom',
     data () {
@@ -688,7 +690,7 @@ export default {
         //长链接
         ConnSvr (){
             var that = this;
-            that.ws = new WebSocket("ws://47.52.19.212:10025/sub");
+            that.ws = new WebSocket("ws://61.147.124.130:10025/sub");
 
             that.ws.onopen = function() {
                 console.log("conn succeed.");
