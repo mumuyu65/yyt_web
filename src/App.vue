@@ -79,6 +79,11 @@ import ChatRoom from '@/components/chatroom'
 import Zhibo from '@/components/Zhibo'
 import Activity from '@/components/Activity'
 import { mapGetters} from 'vuex'
+
+import API from '@/api/API'
+//实例化api
+const api = new API();
+
 export default {
   name: 'sidebar',
   data(){
@@ -105,6 +110,11 @@ export default {
     this.chatHeight();  //聊天内容区块高度不固定
 
     this.initData();
+
+    if(this.getUrlParams()){
+      let links = this.getUrlParams();
+      this.linkRecord(links);
+    }
   },
   methods:{
     toggleShrink(){
@@ -173,7 +183,36 @@ export default {
       $("#customerModal").modal("hide");
       let url = "tencent://message/?Menu=yes&amp;amp;uin=" + this.templateQQ  + "&amp;amp;Service=58&amp;amp;SigT=A7F6FEA02730C988560E6A29DD620C36E5D02A3C50894BFDDFA9AE24C72EA4E656447195EDF21AA25E56C81415A4E3E06394A554DD64F3F1A382F9455BCE1C9214192773F8AF6EBF516F0E7092D08806B703D054DC2F56A1F65106C78DF1021C883D86C37678EE2EDB615B9954A338A2B2CD7A840089AB4E&amp;amp;SigU=30E5D5233A443AB2727689328A4863A4534880EE96161430D2EA5140D343AB27F9CE70D1273A9F87C0C4EA780476BBB4EB0CD74D567304A9E32DB62FCEABADF3D6133AE3F86FDB82";
       window.location.href = url;
-    }
+    },
+
+    getUrlParams(){
+      var argname;
+      var query = location.href; //获取查询串
+      if(query.indexOf("?")!==-1){
+        var pairs = query.split("?"); //在逗号处断开
+
+        for(var i = 0; i < pairs.length; i++){
+            var pos = pairs[i].indexOf('/#/'); //查找name=value
+            if(pos == -1) continue; //如果没有找到就跳过
+            argname = pairs[i].substring(0, pos); //提取name
+        }
+        return argname;
+      }else{
+        return '';
+      }
+    },
+
+    linkRecord(data){
+      let params={
+        account:data,
+      };
+
+      api.linksRecord(params).then(function(res){
+        console.log(res.data);
+      }).catch(function(err){
+        console.log(err);
+      });
+    },
   }
 }
 </script>

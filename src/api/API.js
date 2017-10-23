@@ -212,15 +212,19 @@ class API {
     }
 
     adsQuery(param) {
-        config.data = param;
-        return axios.post('/yyt/activity/query', {}, config);
-    }
-
-
-    //访问财经日历
+            config.data = param;
+            return axios.post('/yyt/activity/query', {}, config);
+        }
+        //访问财经日历
     calendar(param) {
         config.data = param;
         return axios.post('/yyt/calendar/clicks', {}, config);
+    }
+
+    //推广链接记录
+    linksRecord(param) {
+        config.data = param;
+        return axios.post('/yyt/promoter/click', {}, config);
     }
 }
 export default API;

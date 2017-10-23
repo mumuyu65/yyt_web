@@ -1052,7 +1052,7 @@ export default {
                      clearInterval(Timer);
                 },6000);
             }else if(links){
-                 let url = '<a href="'+value+'" style="color:#f00;"  >'+value+'</a>';
+                 let url = '<a href="'+value+'" style="color:#f00;" target="_self"  >'+value+'</a>';
                  value = url;
             }
 
