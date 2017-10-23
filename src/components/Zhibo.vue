@@ -5,7 +5,7 @@
     <div style="position:absolute; top:0; right:20px; ">
       <h4>您的剩余观看时间: <span id="count_down"></span></h4>
     </div>
-    <div style="position:fixed; top:2px; left:110px;">
+    <div style="position:fixed; top:2px; left:140px;">
       <div class="dropdown">
         <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
           style="background-color:#fff; border-radius:20px;">

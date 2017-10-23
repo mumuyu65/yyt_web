@@ -1,7 +1,8 @@
 <template>
 <div>
    <div class="header">
-   <a href="javascript:void(0)" style="width:auto; height:100%; text-decoration:none;color:#fff; font-weight:700 ;font-size:24px; line-height:40px; padding-left:20px;">壹言堂</router-link>
+   <a href="javascript:void(0)" style="width:auto; height:100%; text-decoration:none;color:#fff; font-weight:700 ;font-size:24px; line-height:40px; padding-left:20px;">
+        <img src="../../static/images/yyt_logo.png" style="width:33px; margin-right:5px; vertical-align:middle; " />壹言堂
         <ul class="list-inline pull-right" style="line-height:40px;">
             <li style="margin-right:30px;">
                 <a href="http://47.52.19.212:9000/yyt/appfile/yyt.url" download="yyt.url">
