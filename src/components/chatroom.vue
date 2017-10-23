@@ -1014,11 +1014,15 @@ export default {
 
             let flowlight = value.indexOf('####****');
 
-            let imgArr = value.indexOf("http");
+            //let imgArr = value.indexOf("http://47.52.19.212:9000");
+
+            let imgArr = /.*47.52.19.212:9000/.test(value);
+
+            let links = /.*yyt666.com?/.test(value);
 
             let gift = value.indexOf('static');
 
-            if (arr && imgArr == -1) {
+            if (arr && !imgArr && !links) {
                 for (let i = 0; i < arr.length; i++) {
                     for (let j in this.chatFaces) {
                         if (arr[i] == this.chatFaces[j].phrase) {
@@ -1030,7 +1034,7 @@ export default {
                     }
                 }
             }
-            else if(imgArr !== -1 ){
+            else if(imgArr ){
                 value = '<img src="' + value + '"/>';
             }else if(gift !== -1){
                 value = '<img src="' + value + '"/>';
@@ -1047,6 +1051,9 @@ export default {
                      that.flyingScreen = true;
                      clearInterval(Timer);
                 },6000);
+            }else if(links){
+                 let url = '<a href="'+value+'" style="color:#f00;"  >'+value+'</a>';
+                 value = url;
             }
 
             return value;
