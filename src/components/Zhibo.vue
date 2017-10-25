@@ -1,6 +1,10 @@
 <template>
   <div style="position:relative;">
-    <div id="player" class="player"></div>
+    <!--
+    <div id="player" class="player">
+    </div>
+    -->
+    <embed quality="high" id="player" class="player" src="http://weblbs.yystatic.com/s/96392936/96392936/finscene.swf" align="middle" allowScriptAccess="never" allowFullScreen="true" mode="transparent" type="application/x-shockwave-flash"></embed>
         <!-- 倒计时 -->
     <div style="position:absolute; top:0; right:20px; ">
       <h4>您的剩余观看时间: <span id="count_down"></span></h4>
@@ -135,6 +139,7 @@ export default {
     },
 
     player(){
+      /*
       let objectPlayer = new Player.aodianPlayer({
         container: 'player', //播放器容器ID，必要参数
         rtmpUrl:this.selected.liveurl, //控制台开通的APP rtmp地址，必要参数
@@ -148,7 +153,12 @@ export default {
         isfullscreen: true, //是否双击全屏，默认为true
       });
 
-      this.ObjectPlayer = objectPlayer;
+      */
+      console.log(this.selected.liveurl);
+
+      //$("#player").attr('src',this.selected.liveurl+'');
+
+      //this.ObjectPlayer = objectPlayer;
     },
 
     //更换直播地址
