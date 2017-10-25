@@ -44,20 +44,19 @@ export default {
     initData(){
         let that = this;
         api.adsQuery().then(function(res){
-          let Data = res.data.Data[0].imgurl;
+          if(res.data.Code ==3){
+              let data_arr = res.data.Data;
 
-          let data_arr = Data.split(";");
+              for(let i =0; i<data_arr.length;i++){
+                  let item = '<div class="item" ><img src="'+data_arr[i].imgurl+'" style="width:100%; height:100%;" /></div>';
 
-          for(let i =0; i<data_arr.length-1;i++){
-              let item = '<div class="item" ><img src="'+data_arr[i]+'" style="width:100%; height:100%;" /></div>';
+                  $("#ads").append(item);
+              }
 
-              $("#ads").append(item);
+              $("#ads .item").eq(0).addClass("active");
+
+              $('#myCarousel').carousel({ interval: 4000 });
           }
-
-          $("#ads .item").eq(0).addClass("active");
-
-          $('#myCarousel').carousel({ interval: 4000 });
-
         }).catch(function(err){
           console.log(err);
         });
