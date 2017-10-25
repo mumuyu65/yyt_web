@@ -226,5 +226,11 @@ class API {
         config.data = param;
         return axios.post('/yyt/promoter/click', {}, config);
     }
+
+    //查询功能开通
+    featuresQuery(param) {
+        config.data = param;
+        return axios.post('/yyt/user/features/query', {}, config);
+    }
 }
 export default API;

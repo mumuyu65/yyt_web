@@ -455,10 +455,25 @@ export default {
       nodata:false,
 
       socketEarlyBegIdx:0,  //股市早报
+
+      userAuth:{},
+
+      visitorFlag:'',
     }
   },
   mounted (){
     this.init();
+
+    if(window.localStorage.getItem("clf-user")){
+        if(parseInt(JSON.parse(window.localStorage.getItem("clf-user")).Flag)== -1){
+            this.visitorFlag = -1;
+        }else{
+             this.userAuth = JSON.parse(window.localStorage.getItem("clf-user"));
+             this.featuresAuth(this.userAuth.SessionId,this.userAuth.Account);
+        }
+    }else{
+        this.visitorFlag = -1;
+    }
 
     this.queryPeriod();  //查询时间段
 
@@ -518,6 +533,20 @@ export default {
         });
     },
 
+    //登录用户的查看权限
+    featuresAuth(Sid,Account){
+       let params={
+          sid:Sid,
+          account:Account
+       };
+
+       api.featuresQuery(params).then(function(res){
+          console.log(res.data);
+       }).catch(function(err){
+          console.log(err);
+       });
+    },
+
     //股市早报初始数据
     socketReport(){
       let params={
@@ -525,8 +554,6 @@ export default {
         counts:10,
         type:this.socketReportType
       };
-
-
 
       let that = this;
 
@@ -593,6 +620,7 @@ export default {
           console.log(err);
         });
     },
+
     //查询时间段
     queryPeriod(){
         let that = this;
@@ -901,6 +929,11 @@ export default {
       });
     },
 
+    closeArrange(){
+      $("#classesModal").modal('hide');
+      this.classArrange = '';
+    },
+
     //操作建议
     handlesuggestion(){
       $("#handleSuggestionModal").modal("show");
@@ -940,12 +973,6 @@ export default {
         });
     },
 
-
-    closeArrange(){
-      $("#classesModal").modal('hide');
-      this.classArrange = '';
-    },
-
     //财经日历
     calendarDate(){
         let total_width = parseInt(window.innerWidth);
@@ -981,7 +1008,7 @@ export default {
       this.calenderShow='';
     },
 
-    //股市早评
+    //核心内参---股市早评
     socketSuggestion(){
       $("#socketModal").modal('show');
     },

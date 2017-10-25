@@ -275,7 +275,8 @@ export default {
 
                     api.roomNum(params).then(function(res){
                         if(res.data.Code ==3){
-                            that.templateRoom = res.data.Data.Detail;
+                            //console.log('查询房间号',res.data);
+                            that.templateRoomNo = res.data.Data[0].roomno;
                             api.userLevel().then(function(res){
                                if (res.data.Code == 3) {
                                     that.userLevels = res.data.Data;
