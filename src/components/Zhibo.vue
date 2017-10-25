@@ -156,7 +156,7 @@ export default {
       */
       console.log(this.selected.liveurl);
 
-      //$("#player").attr('src',this.selected.liveurl+'');
+      //$("#player").attr('src',this.selected.liveurl);
 
       //this.ObjectPlayer = objectPlayer;
     },
@@ -166,7 +166,8 @@ export default {
       this.selected = item;
       window.localStorage.setItem("zhiboName",JSON.stringify(item));
       if(item.liveurl.trim()){
-        this.ObjectPlayer.changePlayer(item.liveurl);
+        //this.ObjectPlayer.changePlayer(item.liveurl);
+        //$("#player").attr('src',item.liveurl);
 
         this.$store.dispatch('changeRoom',item.roomno);
 

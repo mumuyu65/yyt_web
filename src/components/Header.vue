@@ -432,10 +432,21 @@ export default {
                 that.loginSuc = false;
                 alert("退出成功!");
                 window.localStorage.removeItem("clf-user");
+
+                window.localStorage.removeItem("roomNo");
+
+                window.localStorage.removeItem("zhiboName");
+
                 window.location.reload();
+
             }else if(res.data.Code ==6){
                 alert(res.data.Msg);
                 window.localStorage.removeItem("clf-user");
+
+                window.localStorage.removeItem("roomNo");
+
+                window.localStorage.removeItem("zhiboName");
+
                 window.location.reload();
             }
         }).catch(function(err){
