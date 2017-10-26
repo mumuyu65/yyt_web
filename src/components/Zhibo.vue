@@ -4,7 +4,7 @@
     <div id="player" class="player">
     </div>
     -->
-    <embed quality="high" id="player" class="player" src="http://weblbs.yystatic.com/s/96392936/96392936/finscene.swf" align="middle" allowScriptAccess="never" allowFullScreen="true" mode="transparent" type="application/x-shockwave-flash"></embed>
+    <embed quality="high" id="player" class="player" src="http://weblbs.yystatic.com/s/96392936/96392936/finscene.swf" align="left" allowScriptAccess="never" allowFullScreen="true" mode="transparent" type="application/x-shockwave-flash"></embed>
         <!-- 倒计时 -->
     <div style="position:absolute; top:0; right:20px; ">
       <h4>您的剩余观看时间: <span id="count_down"></span></h4>
