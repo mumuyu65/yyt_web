@@ -10,12 +10,12 @@
         <div class="inner-container" >
             <div class="chat-item" v-for="item in chatInner">
               <ol class="list-inline" @click="sendTextTo(item)" style="cursor:pointer; display:block;">
-                <li style="vertical-align: middle"><h5 style="background-color:#564E4B; padding:5px;">{{item.date}}</h5></li>
+                <li style="vertical-align: middle"><h5 style="background-color:#564E4B; border-radius:5px;  padding:5px; box-shadow: 2px 2px 5px #888888;">{{item.date}}</h5></li>
                 <li style="vertical-align: middle">
                   <img v-bind:src="item.userlog" alt="">
                 </li>
-                <li><h5 style="background-color:#66CA6A; padding:3px 5px;">{{item.name}}</h5></li>
-                <li><h5 v-html="item.text" style="background:rgb(255,255,255); color:#333; padding:8px; border-radius:5px; margin:0;"></h5></li>
+                <li><h5 style="background-color:#66CA6A; padding:3px 5px; border-radius:5px;  ">{{item.name}}</h5></li>
+                <li><h5 v-html="item.text" style="background:rgb(255,255,255); color:#333; padding:5px; border-radius:5px; margin:0;"></h5></li>
               </ol>
             </div>
         </div>
