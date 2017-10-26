@@ -303,7 +303,11 @@ export default {
                     $("#loginModal").modal("hide");
                     that.userNick = res.data.Data.Nick;
                     that.Sid = res.data.Data.SessionId;
+
+
                     that.$store.dispatch('changeLogin',true);
+
+                    that.$store.dispatch('changeUser',res.data.Data);
 
                     $("#handle_suggestion").css('display',"none");
 

@@ -459,6 +459,8 @@ export default {
       userAuth:{},
 
       visitorFlag:'',
+
+      featureAuths:[],   //查看相应模块的权限
     }
   },
   mounted (){
@@ -540,11 +542,22 @@ export default {
           account:Account
        };
 
+       let that = this;
+
        api.featuresQuery(params).then(function(res){
           console.log(res.data);
+          if(res.data.Code ==3){
+             that.featureAuths = res.data.Data;
+          }
        }).catch(function(err){
           console.log(err);
        });
+    },
+
+
+    //登录后查询用户权限
+    getUser(value){
+        console.log("change user",value);
     },
 
     //股市早报初始数据
@@ -1010,6 +1023,7 @@ export default {
 
     //核心内参---股市早评
     socketSuggestion(){
+
       $("#socketModal").modal('show');
     },
 

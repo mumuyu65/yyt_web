@@ -23,6 +23,7 @@ const state = {
     liveurl: 0,
     userFlag: '', //用户角色,
     roomNo: '',
+    user: {},
 }
 
 export default new Vuex.Store({

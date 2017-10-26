@@ -10,13 +10,13 @@
         <div class="inner-container" >
             <div class="chat-item" v-for="item in chatInner">
               <ol class="list-inline" @click="sendTextTo(item)" style="cursor:pointer; display:block;">
+                <li style="vertical-align: middle"><h5 style="background-color:#564E4B; padding:5px;">{{item.date}}</h5></li>
                 <li style="vertical-align: middle">
                   <img v-bind:src="item.userlog" alt="">
                 </li>
-                <li style="vertical-align: middle"><h5>{{item.date}}</h5></li>
-                <li><h5>{{item.name}}</h5></li>
+                <li><h5 style="background-color:#66CA6A; padding:3px 5px;">{{item.name}}</h5></li>
+                <li><h5 v-html="item.text" style="background:rgb(255,255,255); color:#333; padding:8px; border-radius:5px; margin:0;"></h5></li>
               </ol>
-              <h5 v-html="item.text" style="background:rgba(255,255,255,0.1); width:80%; padding:8px; border-radius:5px; margin:0 20px 0 50px;"></h5>
             </div>
         </div>
     </div>
@@ -929,7 +929,7 @@ export default {
                         break;
                         */
                 case '3':
-                    this.showChat(date, Data.username, Data.message.outname + '退出房间', Data);
+                    //this.showChat(date, Data.username, Data.message.outname + '退出房间', Data);
                     break;
                 case '5':
                     alert("直播结束....");
