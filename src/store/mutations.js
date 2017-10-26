@@ -35,6 +35,6 @@ export default {
         },
 
         CHANGE_ROOM(state, value) {
-        state.roomNo = value;
+            state.roomNo = value;
         },
 }

@@ -461,6 +461,16 @@ export default {
       visitorFlag:'',
 
       featureAuths:[],   //查看相应模块的权限
+
+      selectLiveRoom:1,
+
+      core_date:'',
+
+      tidea_date:'',
+
+      class_date:'',
+
+      socket_date:'',
     }
   },
   mounted (){
@@ -480,10 +490,16 @@ export default {
     this.queryPeriod();  //查询时间段
 
     this.showContent(this.mainTitle[0]);
+
   },
   computed: mapGetters({
       user: 'getUser',
+      roomNo:'getRoomNo',
   }),
+  watch:{
+      user:'changeUser',
+      roomNo:'changeRoomNo',
+  },
   filters:{
     dateStamp:function(value){
         //获取一个事件戳
@@ -548,16 +564,53 @@ export default {
           console.log(res.data);
           if(res.data.Code ==3){
              that.featureAuths = res.data.Data;
+
+             that.changeLiveRoom();
           }
        }).catch(function(err){
           console.log(err);
        });
     },
 
+     changeLiveRoom(){
+        let len = this.featureAuths.length;
+
+        for(let i=0; i<len; i++){
+          if(this.selectLiveRoom == this.featureAuths[i].lmid){
+              if(this.featureAuths[i].features == 1){
+                  this.core_date = this.featureAuths[i].deadline;
+
+              }else if(this.featureAuths[i].features == 2){
+
+                 this.tidea_date = this.featureAuths[i].deadline;
+
+              }else if(this.featureAuths[i].features == 3){
+
+                 this.class_date = this.featureAuths[i].deadline;
+              }else{
+
+                 this.socket_date = this.featureAuths[i].deadline;
+              }
+          }
+        }
+     },
+
 
     //登录后查询用户权限
-    getUser(value){
-        console.log("change user",value);
+    changeUser(){
+        console.log("change user");
+
+        this.selectLiveRoom = JSON.parse(window.localStorage.getItem("zhiboName")).id;
+
+        this.featuresAuth(this.user.SessionId,this.user.Account);
+    },
+
+    changeRoomNo(){
+      console.log("change liveroom");
+
+      this.selectLiveRoom = JSON.parse(window.localStorage.getItem("zhiboName")).id;
+
+      this.featuresAuth(this.user.SessionId,this.user.Account);
     },
 
     //股市早报初始数据
