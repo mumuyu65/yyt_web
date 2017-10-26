@@ -15,7 +15,7 @@
                   <img v-bind:src="item.userlog" alt="">
                 </li>
                 <li><h5 style="background-color:#66CA6A; padding:3px 5px; border-radius:5px;  ">{{item.name}}</h5></li>
-                <li><h5 v-html="item.text" style="background:rgb(255,255,255); color:#333; padding:5px; border-radius:5px; margin:0;"></h5></li>
+                <li><h5 v-html="item.text" style="background:rgb(255,255,255); color:#333; padding:5px; border-radius:5px; margin:0;  box-shadow: 2px 2px 5px #ececec;"></h5></li>
               </ol>
             </div>
         </div>
