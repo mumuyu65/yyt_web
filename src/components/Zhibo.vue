@@ -1,11 +1,9 @@
 <template>
   <div style="position:relative;">
-    <!--
-    <div id="player" class="player">
+    <div id="player">
+
     </div>
-    -->
-    <embed quality="high" id="player" class="player" src="http://weblbs.yystatic.com/s/96392936/96392936/finscene.swf" align="left" allowScriptAccess="never" allowFullScreen="true" mode="transparent" type="application/x-shockwave-flash"></embed>
-        <!-- 倒计时 -->
+    <!-- 倒计时 -->
     <div style="position:absolute; top:0; right:20px; ">
       <h4>您的剩余观看时间: <span id="count_down"></span></h4>
     </div>
@@ -116,6 +114,13 @@ export default {
 
             that.zhiboLives =  templateLive;
 
+            for(let i =0 ;i<templateLive.length;i++){
+              let item =' <embed quality="high" style="display:none;" width="100%" height="100%" src="'+templateLive[i].liveurl+'" align="left" allowScriptAccess="never" allowFullScreen="true" mode="transparent" type="application/x-shockwave-flash"></embed>';
+              $("#player").append(item);
+            }
+
+            $("#player embed").eq(0).css("display",'block');
+
             if(templateLive){
               let url; //直播地址
                that.optionsLive = templateLive;
@@ -124,6 +129,7 @@ export default {
                }else{
                   that.selected = that.optionsLive[0];
                   window.localStorage.setItem('zhiboName',JSON.stringify(that.selected));
+
                }
                that.player();
           }else{
@@ -139,22 +145,8 @@ export default {
     },
 
     player(){
-      /*
-      let objectPlayer = new Player.aodianPlayer({
-        container: 'player', //播放器容器ID，必要参数
-        rtmpUrl:this.selected.liveurl, //控制台开通的APP rtmp地址，必要参数
-        width: '100%', //播放器宽度，可用数字、百分比等
-        height: '100%', //播放器高度，可用数字、百分比等
-        autostart: true, //是否自动播放，默认为false
-        bufferlength: '3', //视频缓冲时间，默认为3秒。hls不支持！手机端不支持
-        maxbufferlength: '2', //最大视频缓冲时间，默认为2秒。hls不支持！手机端不支持
-        stretching: '1', //设置全屏模式,1代表按比例撑满至全屏,2代表铺满全屏,3代表视频原始大小,默认值为1。hls初始设置不支持，手机端不支持
-        controlbardisplay: 'enable', //是否显示控制栏，值为：disable、enable默认为disable。
-        isfullscreen: true, //是否双击全屏，默认为true
-      });
-
-      */
       console.log(this.selected.liveurl);
+
 
       //$("#player").attr('src',this.selected.liveurl);
 
@@ -166,8 +158,10 @@ export default {
       this.selected = item;
       window.localStorage.setItem("zhiboName",JSON.stringify(item));
       if(item.liveurl.trim()){
-        //this.ObjectPlayer.changePlayer(item.liveurl);
-        //$("#player").attr('src',item.liveurl);
+        for(let i=0; i<this.zhiboLives.length;i++){
+          $("#player embed").eq(i).css("display","none");
+        }
+        $("#player embed").eq(parseInt(item.id)-1).css("display","block");
 
         this.$store.dispatch('changeRoom',item.roomno);
 
