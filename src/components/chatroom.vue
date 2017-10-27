@@ -951,7 +951,7 @@ export default {
             let len = this.userLevels.length;
             if(img.username == '系统'){
                 userLog ='../../static/images/xitong.png';
-            }else if(parseInt(img.inflag)== -1){
+            }else if(parseInt(img.userflag)== -1){
                 userLog = this.userLevels[10].role_css;
             }
             else{
