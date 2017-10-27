@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div style="position:fixed; width:575px; height:120px;right:-20px; bottom:20px;">
+    <div style="position:fixed; width:575px; height:120px;right:-20px; bottom:32px;">
         <div style="width:100%;">
             <!-- 高级助理 -->
             <ul class="list-inline" style="margin:10px 0;">
