@@ -283,9 +283,9 @@ export default {
                                     //水军账号登录
                                     if(that.user.Flag ==5){
                                         that.isNavy();
+                                    }else{
+                                        that.ConnSvr();
                                     }
-
-                                    that.ConnSvr();
                                 }
                           }).catch(function(err){
                               console.log(err);
@@ -410,8 +410,13 @@ export default {
         changeUser(){
             if(this.isLogin){
                this.user=JSON.parse(window.localStorage.getItem("clf-user"));
-               this.confirmUser();  //聊天链接
-               //console.log("会员登录1.......");
+
+               if(this.user.Flag ==5){
+                     this.isNavy();
+               }else{
+                     this.confirmUser();  //聊天链接
+               }
+              //console.log("会员登录1.......");
                clearInterval(this.timer_login);
 
                $("#count_down").parent().css("display",'none');
@@ -752,7 +757,8 @@ export default {
                         let rcvbody_28 = data.body;
                         let data_28 = JSON.parse(JSON.stringify(rcvbody_28));
                         console.log("进入房间后的反馈信息", data_28);
-                        alert(data_28.msg);
+
+                        //alert(data_28.msg);
                         if (data_28.code == 100) {
                             let roomId = data_28.data.roomid;
                             that.roomID = roomId;
@@ -1124,6 +1130,12 @@ export default {
             this.navys = [];
             this.isnavy = !this.isnavy;
 
+            this.ws.close();
+
+            this.ConnSvr();   //水军长链接
+
+            console.log('水军账号',this.user);
+
             for(let i=0; i<6;i++){
                 this.navys.push(this.userLevels[i]);
             }
@@ -1149,6 +1161,8 @@ export default {
                     _this.user.Level = _this.userlevel;
                     _this.user.Flag = 5;
                     window.localStorage.setItem('clf-user',JSON.stringify(_this.user));
+
+
                 }else{
                     alert(res.data.Msg);
                 }
