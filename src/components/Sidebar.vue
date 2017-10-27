@@ -452,6 +452,7 @@ export default {
       all_teachers:[],
 
       templateInfos:[],   //讲师观点
+
       nodata:false,
 
       socketEarlyBegIdx:0,  //股市早报
@@ -540,14 +541,12 @@ export default {
                 for(let i=0; i<templateObj.length;i++){
                   if(templateObj[i].text == '股市早报'){
                     that.socketReportType = templateObj[i].type;
-
                   }
 
                   if(templateObj[i].text =='股市收评'){
                     that.socketReportEndType = templateObj[i].type;
                   }
                 }
-
                 that.socketReport();
 
                 that.socketEndReport();
@@ -653,6 +652,23 @@ export default {
       let User = JSON.parse(window.localStorage.getItem("clf-user"));
 
       this.featuresAuth(User.SessionId,User.Account);
+
+       this.init();
+    },
+
+     //核心内参---股市早评
+    socketSuggestion(){
+      //console.log(this.core_date);
+      if(this.core_date){
+        let Today = Date.parse(new Date())/1000;
+        if(this.core_date > Today){
+           $("#socketModal").modal('show');
+        }else{
+          alert("您暂无查看该模块的权限!");
+        }
+      }else{
+        alert("游客暂不可以查看,请前往注册!");
+      }
     },
 
     //股市早报初始数据
@@ -660,8 +676,11 @@ export default {
       let params={
         begidx:this.Begidx,
         counts:10,
-        type:this.socketReportType
+        type:this.socketReportType,
+        lmid:this.selectLiveRoom,
       };
+
+      console.log(this.selectLiveRoom);
 
       let that = this;
 
@@ -713,7 +732,8 @@ export default {
       let params={
         begidx:this.socketEarlyBegIdx,
         counts:10,
-        type:this.socketReportType
+        type:this.socketReportType,
+        lmid:this.selectLiveRoom,
       };
 
       let that = this;
@@ -721,6 +741,42 @@ export default {
       api.getNews(params).then(function(res){
           if(res.data.Code ==3){
               that.economicNews = res.data.Data.Detail;
+          }else{
+            alert(res.data.Msg);
+          }
+      }).catch(function(err){
+          console.log(err);
+        });
+    },
+
+    //股市收评
+    socket_end(){
+      if(this.socket_date){
+        let Today =  Date.parse(new Date())/1000;
+        if(this.socket_date>=Today){
+           $("#socketEndModal").modal('show');
+        }else{
+          alert("您暂无查看该模块的权限!");
+        }
+      }else{
+         alert("游客暂不可以查看,请前往注册!");
+      }
+    },
+
+    socketEndReport(){
+      let params={
+        begidx:this.endBegidx,
+        counts:10,
+        type:this.socketReportEndType,
+        lmid:this.selectLiveRoom,
+      };
+
+      let that = this;
+
+      api.getNews(params).then(function(res){
+          if(res.data.Code ==3){
+              //console.log(res.data);
+              that.economicEndNews = res.data.Data.Detail;
           }else{
             alert(res.data.Msg);
           }
@@ -772,7 +828,6 @@ export default {
       this.classArrange = 'router-link-active';
       let that = this;
 
-      console
       $(".schedule ul.arrage-class li").text("");
 
       let params={
@@ -1053,7 +1108,7 @@ export default {
     handlesuggestion(){
       if(this.tidea_date){
         let Today = Date.parse(new Date())/1000;
-        if(this.tidea_date > Today){
+        if(this.tidea_date >=Today){
           $("#handleSuggestionModal").modal("show");
 
           let Obj = JSON.parse(window.localStorage.getItem('zhiboName'));
@@ -1133,52 +1188,11 @@ export default {
       this.calenderShow='';
     },
 
-    //核心内参---股市早评
-    socketSuggestion(){
-      //console.log(this.core_date);
-      if(this.core_date){
-        let Today = Date.parse(new Date())/1000;
-        if(this.core_date > Today){
-           $("#socketModal").modal('show');
-        }else{
-          alert("您暂无查看该模块的权限!");
-        }
-      }else{
-        alert("游客暂不可以查看,请前往注册!");
-      }
-    },
-
-    //股市收评
-    socket_end(){
-      $("#socketEndModal").modal('show');
-    },
-
-    socketEndReport(){
-      let params={
-        begidx:this.endBegidx,
-        counts:10,
-        type:this.socketReportEndType
-      };
-
-      let that = this;
-
-      api.getNews(params).then(function(res){
-          if(res.data.Code ==3){
-              //console.log(res.data);
-              that.economicEndNews = res.data.Data.Detail;
-          }else{
-            alert(res.data.Msg);
-          }
-      }).catch(function(err){
-          console.log(err);
-        });
-    },
-
     //学习课件
     classesSuggestion(){
       if(this.class_date){
         let Today = Date.parse(new Date())/1000;
-        if(this.class_date > Today){
+        if(this.class_date >=Today){
            $("#classesLearnModal").modal('show');
         }else{
           alert("您暂无查看该模块的权限!");
