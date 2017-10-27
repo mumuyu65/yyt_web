@@ -54,7 +54,7 @@ export default {
 
     //`timeout`选项定义了请求发出的延迟毫秒数
     //如果请求花费的时间超过延迟的时间，那么请求会被终止
-    timeout: 1000,
+    timeout: 3000,
 
     //`withCredentails`选项表明了是否是跨域请求
     withCredentials: false, // default

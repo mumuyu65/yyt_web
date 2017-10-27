@@ -456,7 +456,7 @@ export default {
 
       socketEarlyBegIdx:0,  //股市早报
 
-      userAuth:{},
+      userAuth:{},    //
 
       visitorFlag:'',
 
@@ -464,13 +464,13 @@ export default {
 
       selectLiveRoom:1,
 
-      core_date:'',
+      core_date:'',   //核心内参
 
-      tidea_date:'',
+      tidea_date:'',   //讲师观点
 
-      class_date:'',
+      class_date:'',    //学习课件
 
-      socket_date:'',
+      socket_date:'',   //股市收评
     }
   },
   mounted (){
@@ -558,10 +558,12 @@ export default {
           account:Account
        };
 
+       //console.log(params);
+
        let that = this;
 
        api.featuresQuery(params).then(function(res){
-          console.log(res.data);
+          //console.log(res.data);
           if(res.data.Code ==3){
              that.featureAuths = res.data.Data;
 
@@ -572,8 +574,10 @@ export default {
        });
     },
 
-     changeLiveRoom(){
+    changeLiveRoom(){
         let len = this.featureAuths.length;
+
+        //console.log(this.selectLiveRoom);
 
         for(let i=0; i<len; i++){
           if(this.selectLiveRoom == this.featureAuths[i].lmid){
@@ -591,10 +595,39 @@ export default {
 
                  this.socket_date = this.featureAuths[i].deadline;
               }
+          }else if(this.selectLiveRoom == this.featureAuths[i].lmid){
+              if(this.featureAuths[i].features == 1){
+                  this.core_date = this.featureAuths[i].deadline;
+
+              }else if(this.featureAuths[i].features == 2){
+
+                 this.tidea_date = this.featureAuths[i].deadline;
+
+              }else if(this.featureAuths[i].features == 3){
+
+                 this.class_date = this.featureAuths[i].deadline;
+              }else{
+
+                 this.socket_date = this.featureAuths[i].deadline;
+              }
+          }else if(this.selectLiveRoom == this.featureAuths[i].lmid){
+              if(this.featureAuths[i].features == 1){
+                  this.core_date = this.featureAuths[i].deadline;
+
+              }else if(this.featureAuths[i].features == 2){
+
+                 this.tidea_date = this.featureAuths[i].deadline;
+
+              }else if(this.featureAuths[i].features == 3){
+
+                 this.class_date = this.featureAuths[i].deadline;
+              }else{
+
+                 this.socket_date = this.featureAuths[i].deadline;
+              }
           }
         }
-     },
-
+    },
 
     //登录后查询用户权限
     changeUser(){
@@ -605,12 +638,15 @@ export default {
         this.featuresAuth(this.user.SessionId,this.user.Account);
     },
 
+    //更改直播间用户查看模块的权限
     changeRoomNo(){
       console.log("change liveroom");
 
       this.selectLiveRoom = JSON.parse(window.localStorage.getItem("zhiboName")).id;
 
-      this.featuresAuth(this.user.SessionId,this.user.Account);
+      let User = JSON.parse(window.localStorage.getItem("clf-user"));
+
+      this.featuresAuth(User.SessionId,User.Account);
     },
 
     //股市早报初始数据
@@ -1000,43 +1036,53 @@ export default {
       this.classArrange = '';
     },
 
-    //操作建议
+    //讲师观点
     handlesuggestion(){
-      $("#handleSuggestionModal").modal("show");
+      if(this.tidea_date){
+        let Today = Date.parse(new Date())/1000;
+        if(this.tidea_date > Today){
+          $("#handleSuggestionModal").modal("show");
 
-      let Obj = JSON.parse(window.localStorage.getItem('zhiboName'));
+          let Obj = JSON.parse(window.localStorage.getItem('zhiboName'));
 
-      let params={
-        category:'',
-        place:Obj.title,
-        begidx:0,
-        counts:10,
-      };
+          let params={
+            category:'',
+            place:Obj.title,
+            begidx:0,
+            counts:10,
+          };
 
-      let that = this;
+          let that = this;
 
-       api.handleSuggestion(params).then(function(res){
-          if(res.data.Code ==3){
-              if (res.data.Data.Totals<=0) {
-                  that.nodata = true;
+          api.handleSuggestion(params).then(function(res){
+              if(res.data.Code ==3){
+                  if (res.data.Data.Totals<=0) {
+                      that.nodata = true;
+                  }else{
+                      that.nodata = false;
+                      let templateObj = res.data.Data.Detail;
+
+                      let TotalNum = res.data.Data.Totals;
+
+                      //清空初始化中的数据
+                      that.templateInfos=[];
+                      for(let i =0; i<templateObj.length;i++){
+                           that.templateInfos.push(templateObj[i]);
+                      }
+                    }
               }else{
-                  that.nodata = false;
-                  let templateObj = res.data.Data.Detail;
-
-                  let TotalNum = res.data.Data.Totals;
-
-                  //清空初始化中的数据
-                  that.templateInfos=[];
-                  for(let i =0; i<templateObj.length;i++){
-                       that.templateInfos.push(templateObj[i]);
+                  alert(res.data.Msg);
                   }
-                }
-          }else{
-              alert(res.data.Msg);
-              }
-          }).catch(function(err){
-          console.log(err);
-        });
+              }).catch(function(err){
+              console.log(err);
+          });
+
+        }else{
+          alert("您暂无查看该模块的权限!");
+        }
+      }else{
+        alert("游客暂不可以查看,请前往注册!");
+      }
     },
 
     //财经日历
@@ -1076,8 +1122,17 @@ export default {
 
     //核心内参---股市早评
     socketSuggestion(){
-
-      $("#socketModal").modal('show');
+      //console.log(this.core_date);
+      if(this.core_date){
+        let Today = Date.parse(new Date())/1000;
+        if(this.core_date > Today){
+           $("#socketModal").modal('show');
+        }else{
+          alert("您暂无查看该模块的权限!");
+        }
+      }else{
+        alert("游客暂不可以查看,请前往注册!");
+      }
     },
 
     //股市收评
@@ -1108,7 +1163,16 @@ export default {
 
     //学习课件
     classesSuggestion(){
-      $("#classesLearnModal").modal('show');
+      if(this.class_date){
+        let Today = Date.parse(new Date())/1000;
+        if(this.class_date > Today){
+           $("#classesLearnModal").modal('show');
+        }else{
+          alert("您暂无查看该模块的权限!");
+        }
+      }else{
+        alert("游客暂不可以查看,请前往注册!");
+      }
     },
 
     showContent(item){
