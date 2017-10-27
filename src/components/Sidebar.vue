@@ -84,7 +84,7 @@
                           <li class="border-r">星期日</li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
-                      <ul name="point1">
+                      <ul name="point1" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -95,7 +95,7 @@
                           <li class="border-r"></li>
                       </ul>
                        <div style="clear:both; float:none;"></div>
-                      <ul name="point2">
+                      <ul name="point2" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -106,7 +106,7 @@
                           <li class="border-r"></li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
-                      <ul name="point3">
+                      <ul name="point3" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -117,7 +117,7 @@
                           <li class="border-r"></li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
-                      <ul name="point4">
+                      <ul name="point4" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -128,7 +128,7 @@
                           <li class="border-r"></li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
-                      <ul name="point5">
+                      <ul name="point5" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -139,7 +139,7 @@
                           <li class="border-r"></li>
                       </ul>
                        <div style="clear:both; float:none;"></div>
-                      <ul name="point6">
+                      <ul name="point6" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -150,7 +150,7 @@
                           <li class="border-r"></li>
                       </ul>
                        <div style="clear:both; float:none;"></div>
-                      <ul name="point7">
+                      <ul name="point7" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -161,7 +161,7 @@
                           <li class="border-r"></li>
                       </ul>
                        <div style="clear:both; float:none;"></div>
-                      <ul name="point8">
+                      <ul name="point8" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -172,7 +172,7 @@
                           <li class="border-r"></li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
-                      <ul name="point9">
+                      <ul name="point9" class="arrage-class">
                           <li></li>
                           <li></li>
                           <li></li>
@@ -183,7 +183,7 @@
                           <li class="border-r"></li>
                       </ul>
                       <div style="clear:both; float:none;"></div>
-                      <ul name="point10">
+                      <ul name="point10" class="arrage-class">
                           <li class="border-b"></li>
                           <li class="border-b"></li>
                           <li class="border-b"></li>
@@ -491,6 +491,12 @@ export default {
 
     this.showContent(this.mainTitle[0]);
 
+
+    //刷新时的直播间
+    if(window.localStorage.getItem("zhiboName")){
+       this.selectLiveRoom = JSON.parse(window.localStorage.getItem("zhiboName")).id;
+    }
+
   },
   computed: mapGetters({
       user: 'getUser',
@@ -765,7 +771,14 @@ export default {
       $("#classesModal").modal('show');
       this.classArrange = 'router-link-active';
       let that = this;
-      api.schedule().then(function(res){
+
+      console
+      $(".schedule ul.arrage-class li").text("");
+
+      let params={
+        lmid:this.selectLiveRoom,
+      };
+      api.schedule(params).then(function(res){
           if(res.data.Code ==3){
               let DataSource = [
                   {weekday:1,course:[]},
